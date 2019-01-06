@@ -22,20 +22,16 @@ func ReverseList(head *Node) *Node {
 	if head == nil {
 		return nil
 	}
-	// 处理头节点
-	newHead := head
-	head = head.next
-	newHead.next = nil
-	// 从二个节点开始
+	var newHead *Node
 	for head != nil {
-		// 在逆序节点的时候要先把后面的节点保存
-		tmp := head.next
-		// 逆序节点
+		// 备份当前节点后面的节点
+		next := head.next
+		// 当前节点的next指向newHead
 		head.next = newHead
-		// 将新的头节点后移
+		// newHead后移
 		newHead = head
-		// 将原头节点后移
-		head = tmp
+		// 当前节点后移
+		head = next
 	}
 	return newHead
 }
