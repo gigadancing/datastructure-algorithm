@@ -53,26 +53,35 @@ func ReverseListBySection(head *Node, m, n int) *Node {
 	if head == nil {
 		return nil
 	}
-	var front, behind *Node
-	tmp := head
-	for i := 1; i < n; i++ {
-		if i == m-1 {
-			front = tmp // m-1位置的节点
-		}
-		tmp = tmp.next // n位置的节点
+	// 需要逆序节点的个数
+	changeLen := n - m + 1
+	var preHead *Node = nil // m的前驱节点
+	var result = head       // 最终转换后的头节点
+
+	// 将preHead移动至m-1位置
+	for i := 1; i < m; i++ {
+		preHead = head
+		head = head.next
 	}
-	behind = tmp.next // 备份n以后的节点
-	tmp.next = nil
-	subListHead := ReverseList(front.next) // 逆序[m, n]区间的节点
-	// 找到[m, n]最后一个节点tail
-	tail := subListHead
-	for tail.next != nil {
-		tail = tail.next
+
+	modifyListTail := head // m逆序后的子链表的最后一个节点
+	var newHead *Node = nil
+	// 逆序
+	for ; head != nil && changeLen > 0; changeLen-- {
+		next := head.next
+		head.next = newHead
+		newHead = head
+		head = next
 	}
-	// 连接
-	tail.next = behind
-	front.next = subListHead
-	return head
+
+	modifyListTail.next = head
+	if preHead != nil {
+		preHead.next = newHead
+	} else {
+		result = newHead
+	}
+
+	return result
 }
 
 func main() {
