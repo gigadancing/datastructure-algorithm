@@ -1,6 +1,8 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+)
 
 //
 type Node struct {
@@ -45,17 +47,61 @@ func PrintList(head *Node) {
 	fmt.Println()
 }
 
+// 给出链表头节点，逆序指定的区间内的节点
+// 1 <= m <= n <= 链表长度
+func ReverseListBySection(head *Node, m, n int) *Node {
+	if head == nil {
+		return nil
+	}
+	var front, behind *Node
+	tmp := head
+	for i := 1; i < n; i++ {
+		if i == m-1 {
+			front = tmp // m-1位置的节点
+		}
+		tmp = tmp.next // n位置的节点
+	}
+	behind = tmp.next // 备份n以后的节点
+	tmp.next = nil
+	subListHead := ReverseList(front.next) // 逆序[m, n]区间的节点
+	// 找到[m, n]最后一个节点tail
+	tail := subListHead
+	for tail.next != nil {
+		tail = tail.next
+	}
+	// 连接
+	tail.next = behind
+	front.next = subListHead
+	return head
+}
+
 func main() {
 	node1 := NewNode(1)
 	node2 := NewNode(2)
 	node3 := NewNode(3)
 	node4 := NewNode(4)
 	node5 := NewNode(5)
+	node6 := NewNode(6)
+	node7 := NewNode(7)
+	node8 := NewNode(8)
+	node9 := NewNode(9)
 	node1.next = node2
 	node2.next = node3
 	node3.next = node4
 	node4.next = node5
+	node5.next = node6
+	node6.next = node7
+	node7.next = node8
+	node8.next = node9
+
+	fmt.Println("逆序前：")
 	PrintList(node1)
+
+	fmt.Println("逆序后：")
 	newHead := ReverseList(node1)
+	PrintList(newHead)
+
+	fmt.Println("逆序指定区间：")
+	newHead = ReverseListBySection(newHead, 2, 4)
 	PrintList(newHead)
 }
