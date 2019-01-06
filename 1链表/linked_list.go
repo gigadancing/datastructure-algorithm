@@ -83,6 +83,46 @@ func ReverseListBySection(head *Node, m, n int) *Node {
 
 	return result
 }
+func getListLen(head *Node) int {
+	var length int
+	for head != nil {
+		length++
+		head = head.next
+	}
+	return length
+}
+
+//
+func forwardLongList(head *Node, delta int) *Node {
+	for i := 0; i < delta; i++ {
+		head = head.next
+	}
+	return head
+}
+
+// 已知链表A的头节点headA，链表B的头节点headB，两链表相交，求交点对应的节点
+func GetIntersectionNode(headA, headB *Node) *Node {
+	if headA == nil || headB == nil {
+		return nil
+	}
+	//
+	lenA := getListLen(headA)
+	lenB := getListLen(headB)
+	//
+	if lenA > lenB {
+		headA = forwardLongList(headA, lenA-lenB)
+	} else {
+		headB = forwardLongList(headB, lenB-lenA)
+	}
+	for headA != nil && headB != nil {
+		if headA == headB {
+			return headA
+		}
+		headA = headA.next
+		headB = headB.next
+	}
+	return nil
+}
 
 func main() {
 	node1 := NewNode(1)
@@ -113,4 +153,5 @@ func main() {
 	fmt.Println("逆序指定区间：")
 	newHead = ReverseListBySection(newHead, 2, 4)
 	PrintList(newHead)
+
 }
