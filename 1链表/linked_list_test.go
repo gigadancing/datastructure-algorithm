@@ -81,3 +81,26 @@ func TestDetectCycle(t *testing.T) {
 	n := DetectCycle(node1)
 	fmt.Println(n.val)
 }
+
+//
+func TestPartition(t *testing.T) {
+	node1 := NewNode(1)
+	node2 := NewNode(3)
+	node3 := NewNode(5)
+	node4 := NewNode(7)
+	node5 := NewNode(9)
+	node6 := NewNode(2)
+	node7 := NewNode(4)
+	node8 := NewNode(6)
+	node9 := NewNode(8)
+	node1.next = node2
+	node2.next = node3
+	node3.next = node4
+	node4.next = node5
+	node5.next = node6
+	node6.next = node7
+	node7.next = node8
+	node8.next = node9
+	h := Partition(node1, 7)
+	PrintList(h)
+}

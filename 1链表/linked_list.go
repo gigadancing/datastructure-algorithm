@@ -126,7 +126,7 @@ func GetIntersectionNode(headA, headB *Node) *Node {
 	return nil
 }
 
-// 4. 求环起始节点
+// 4.求环起始节点
 // 已知链表可能有环，若有环返回环的起始节点，否则返回nil
 func DetectCycle(head *Node) *Node {
 	if head == nil {
@@ -166,4 +166,31 @@ func DetectCycle(head *Node) *Node {
 	}
 
 	return nil
+}
+
+// 5.链表划分
+// 已知链表头指针head与数值x，将所有小于x的节点放在大于或等于x的节点前，且保持原来的相对位置
+func Partition(head *Node, x int) *Node {
+	if head == nil {
+		return nil
+	}
+	// 临时头节点
+	var lessHead, greaterHead = NewNode(0), NewNode(0)
+	var lessPtr, greaterPtr = lessHead, greaterHead
+	for head != nil {
+		next := head.next // 备份后面的节点
+		if head.val < x {
+			lessPtr.next = head
+			lessPtr = lessPtr.next
+		} else {
+			greaterPtr.next = head
+			greaterPtr = greaterPtr.next
+		}
+		head = next
+	}
+	// 将小于x的节点和大于等于x的节点拼接起来
+	lessPtr.next = greaterHead.next
+	// 将大于x的最后一个节点的next置为nil，否则会形成环
+	greaterPtr.next = nil
+	return lessHead.next
 }
