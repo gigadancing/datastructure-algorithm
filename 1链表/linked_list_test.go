@@ -130,3 +130,33 @@ func TestCopyRandomList(t *testing.T) {
 		}
 	}
 }
+
+//
+func TestMergeTwoLists(t *testing.T) {
+	node0 := NewNode(0)
+	node1 := NewNode(1)
+	node4 := NewNode(4)
+	node5 := NewNode(5)
+	node6 := NewNode(6)
+	node7 := NewNode(7)
+	node8 := NewNode(43)
+	node9 := NewNode(59)
+	node10 := NewNode(32)
+	node11 := NewNode(21)
+	node12 := NewNode(18)
+	// 0->5->7->18
+	node0.next = node5
+	node5.next = node7
+	node7.next = node12
+	// 1->4->6->21->32->43->59
+	node1.next = node4
+	node4.next = node6
+	node6.next = node11
+	node11.next = node10
+	node10.next = node8
+	node8.next = node9
+
+	h := MergeTwoLists(node1, node0)
+	// 0->1->4->5->6->7>18->21->32->43->59
+	PrintList(h)
+}

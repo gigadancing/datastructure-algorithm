@@ -247,3 +247,41 @@ func CopyRandomList(head *RandomListNode) *RandomListNode {
 	}
 	return nodes[0]
 }
+
+// 7.合并链表
+// 已知两个已排序链表的头节点指针h1和h2，将这两个链表合并，合并后的链表仍有序，返回合并后的头节点指针
+func MergeTwoLists(h1, h2 *Node) *Node {
+	if h1 == nil && h2 != nil {
+		return h2
+	}
+	if h1 != nil && h2 == nil {
+		return h1
+	}
+	if h1 == nil && h2 == nil {
+		return nil
+	}
+	// 临时头节点
+	tmpHead := NewNode(-1)
+	// ptr指向临时头节点
+	ptr := tmpHead
+	for h1 != nil && h2 != nil {
+		if h1.val < h2.val {
+			ptr.next = h1
+			h1 = h1.next
+		} else {
+			ptr.next = h2
+			h2 = h2.next
+		}
+		ptr = ptr.next
+	}
+	// h1有剩余
+	if h1 != nil {
+		ptr.next = h1
+	}
+	// h2有剩余
+	if h2 != nil {
+		ptr.next = h2
+	}
+
+	return tmpHead.next
+}
