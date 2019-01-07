@@ -214,5 +214,36 @@ func CopyRandomList(head *RandomListNode) *RandomListNode {
 	if head == nil {
 		return nil
 	}
-	return nil
+	// 原链表地址和节点位置的映射
+	nodeMap := make(map[*RandomListNode]int)
+	// 新链每个节点的地址
+	nodes := make([]*RandomListNode, 0)
+	// 遍历原链表，构建节点地址与节点位置的映射关系
+	ptr := head
+	for i := 0; ptr != nil; i++ {
+		// 创建新节点
+		nodes = append(nodes, NewRandomListNode(ptr.val))
+		// 节点地址和位置的映射
+		nodeMap[ptr] = i
+		ptr = ptr.next
+	}
+
+	// 最后追加一个nil，防止nodes[i+1]
+	nodes = append(nodes, nil)
+
+	// 再次遍历原链表，连接next和rand指针
+	ptr = head
+	for i := 0; ptr != nil; i++ {
+		// 连接next指针
+		nodes[i].next = nodes[i+1]
+		// 连接rand指针
+		if ptr.rand != nil {
+			// 原链表中节点rand指针指向节点的位置
+			id := nodeMap[ptr.rand]
+			// 新节点的rand指向原节点对应的位置
+			nodes[i].rand = nodes[id]
+		}
+		ptr = ptr.next
+	}
+	return nodes[0]
 }

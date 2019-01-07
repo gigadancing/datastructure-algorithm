@@ -104,3 +104,20 @@ func TestPartition(t *testing.T) {
 	h := Partition(node1, 7)
 	PrintList(h)
 }
+
+//
+func TestCopyRandomList(t *testing.T) {
+	a := NewRandomListNode(5)
+	b := NewRandomListNode(3)
+	c := NewRandomListNode(6)
+
+	a.next = b
+	b.next = c
+	a.rand = c
+	b.rand = a
+	c.rand = c
+	h := CopyRandomList(a)
+	for p := h; p != nil; p = p.next {
+		fmt.Println(p.val, p.rand.val)
+	}
+}
