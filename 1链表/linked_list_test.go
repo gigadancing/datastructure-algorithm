@@ -107,17 +107,26 @@ func TestPartition(t *testing.T) {
 
 //
 func TestCopyRandomList(t *testing.T) {
-	a := NewRandomListNode(5)
-	b := NewRandomListNode(3)
-	c := NewRandomListNode(6)
+	a := NewRandomListNode(1)
+	b := NewRandomListNode(2)
+	c := NewRandomListNode(3)
+	d := NewRandomListNode(4)
+	e := NewRandomListNode(5)
 
 	a.next = b
 	b.next = c
+	c.next = d
+	d.next = e
+
 	a.rand = c
-	b.rand = a
+	b.rand = d
 	c.rand = c
+	e.rand = d
+
 	h := CopyRandomList(a)
 	for p := h; p != nil; p = p.next {
-		fmt.Println(p.val, p.rand.val)
+		if p.rand != nil {
+			fmt.Println("val:", p.val, "--rand-->", p.rand.val)
+		}
 	}
 }
