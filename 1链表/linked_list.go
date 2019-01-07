@@ -194,3 +194,25 @@ func Partition(head *Node, x int) *Node {
 	greaterPtr.next = nil
 	return lessHead.next
 }
+
+//
+type RandomListNode struct {
+	val        int
+	next, rand *RandomListNode
+}
+
+//
+func NewRandomListNode(v int) *RandomListNode {
+	return &RandomListNode{
+		val: v,
+	}
+}
+
+// 6.链表深拷贝
+// 已知一个复杂的链表，节点中有一个指向本链任意某个节点的随机指针（可以为nil），求该链的深拷贝
+func CopyRandomList(head *RandomListNode) *RandomListNode {
+	if head == nil {
+		return nil
+	}
+	return nil
+}
