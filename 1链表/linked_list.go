@@ -285,3 +285,13 @@ func MergeTwoLists(h1, h2 *Node) *Node {
 
 	return tmpHead.next
 }
+
+// 8.多个排序链表的合并
+// 已知k个已排序链表的头指针，将这k个链表合并合并后仍有序，返回合并后的头节点指针
+func MergetKLists(heads []*Node) *Node {
+	if len(heads) == 0 {
+		return nil
+	}
+
+	return nil
+}
