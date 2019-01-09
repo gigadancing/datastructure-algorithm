@@ -16,3 +16,16 @@ func TestMyStack(t *testing.T) {
 		fmt.Println(s.pop())
 	}
 }
+
+func TestNewMyQueue(t *testing.T) {
+	q := NewMyQueue()
+	q.enqueue(1)
+	q.enqueue(2)
+	q.enqueue(3)
+	q.enqueue(4)
+	q.enqueue(5)
+	for !q.empty() {
+		fmt.Printf("%v ", q.dequeue())
+	}
+	fmt.Println()
+}

@@ -1,6 +1,9 @@
 package main
 
-import "github.com/golang-collections/collections/queue"
+import (
+	"github.com/golang-collections/collections/queue"
+	"github.com/golang-collections/collections/stack"
+)
 
 // 1.用队列实现栈
 type MyStack struct {
@@ -44,4 +47,47 @@ func (ms *MyStack) top() interface{} {
 // 栈为空
 func (ms *MyStack) empty() bool {
 	return ms.data.Len() == 0
+}
+
+// 2.用栈实现队列
+type MyQueue struct {
+	data *stack.Stack
+}
+
+func NewMyQueue() *MyQueue {
+	return &MyQueue{
+		data: stack.New(),
+	}
+}
+
+// 队列为空
+func (mq *MyQueue) empty() bool {
+	return mq.data.Len() == 0
+}
+
+// 元素入队列
+func (mq *MyQueue) enqueue(value interface{}) {
+	// 临时栈
+	tmpStack := stack.New()
+
+	// 将队列内部栈内的元素入临时栈
+	for !mq.empty() {
+		tmpStack.Push(mq.dequeue())
+	}
+	// 将元素入临时栈
+	tmpStack.Push(value)
+	// 将临时栈内元素重新入队列的内部栈
+	for tmpStack.Len() != 0 {
+		mq.data.Push(tmpStack.Pop())
+	}
+}
+
+// 元素出队列
+func (mq *MyQueue) dequeue() interface{} {
+	return mq.data.Pop()
+}
+
+// 队列头元素
+func (mq *MyQueue) peek() interface{} {
+	return mq.data.Peek()
 }
