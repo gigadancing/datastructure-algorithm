@@ -10,7 +10,7 @@ type MyStack struct {
 	data *queue.Queue
 }
 
-//
+// 构造函数
 func NewMyStack() *MyStack {
 	return &MyStack{
 		data: queue.New(),
@@ -54,6 +54,7 @@ type MyQueue struct {
 	data *stack.Stack
 }
 
+// 构造函数
 func NewMyQueue() *MyQueue {
 	return &MyQueue{
 		data: stack.New(),
@@ -90,4 +91,54 @@ func (mq *MyQueue) dequeue() interface{} {
 // 队列头元素
 func (mq *MyQueue) peek() interface{} {
 	return mq.data.Peek()
+}
+
+// 3.设计一个栈，栈的操作push(x)、pop()、top()、getMin()算法复杂度为O(1)
+type MyStackWithMin struct {
+	data, min *stack.Stack // min是存放最小值的栈
+}
+
+// 构造函数
+func NewMyStackWithMin() *MyStackWithMin {
+	return &MyStackWithMin{
+		data: stack.New(),
+		min:  stack.New(),
+	}
+}
+
+// 栈为空
+func (mswm *MyStackWithMin) empty() bool {
+	return mswm.data.Len() == 0
+}
+
+// 元素入栈
+func (mswm *MyStackWithMin) push(value interface{}) {
+	// 元素入栈
+	mswm.data.Push(value)
+
+	if mswm.min.Len() == 0 { // 最小值栈为空
+		mswm.min.Push(value)
+	} else {
+		if value.(int) < mswm.min.Peek().(int) { // 压入元素比最小值小
+			mswm.min.Push(value)
+		} else {
+			mswm.min.Push(mswm.min.Peek())
+		}
+	}
+}
+
+// 返回栈最小元素
+func (mswm *MyStackWithMin) getMin() interface{} {
+	return mswm.min.Peek()
+}
+
+// 弹出栈顶元素
+func (mswm *MyStackWithMin) pop() interface{} {
+	mswm.min.Pop()
+	return mswm.data.Pop()
+}
+
+// 返回栈顶元素
+func (mswm *MyStackWithMin) top() interface{} {
+	return mswm.data.Peek()
 }

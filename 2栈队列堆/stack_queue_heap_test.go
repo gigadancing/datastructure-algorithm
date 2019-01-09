@@ -17,7 +17,7 @@ func TestMyStack(t *testing.T) {
 	}
 }
 
-func TestNewMyQueue(t *testing.T) {
+func TestMyQueue(t *testing.T) {
 	q := NewMyQueue()
 	q.enqueue(1)
 	q.enqueue(2)
@@ -28,4 +28,20 @@ func TestNewMyQueue(t *testing.T) {
 		fmt.Printf("%v ", q.dequeue())
 	}
 	fmt.Println()
+}
+
+func TestMyStackWithMin(t *testing.T) {
+	s := NewMyStackWithMin()
+
+	s.push(5)                       // 5
+	fmt.Println("min:", s.getMin()) // 5
+	s.push(-1)                      // 5 -1
+	fmt.Println("min:", s.getMin()) // -1
+	s.pop()                         // 5
+	fmt.Println("min:", s.getMin()) // 5
+	s.push(2)                       // 5 2
+	s.push(8)                       // 5 2 8
+	fmt.Println("min:", s.getMin()) // 2
+	s.pop()
+	fmt.Println("min:", s.getMin()) // 2
 }
