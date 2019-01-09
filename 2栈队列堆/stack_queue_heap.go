@@ -173,3 +173,23 @@ func CheckOrder(order *queue.Queue) bool {
 
 	return true
 }
+
+// 5.设计一个计算器，输入一个字符串存储的数学表达式，包含“(”，“)”，“+”，“-”四中符号的数学表达式
+// 输入的数学表达式字符串保证是合法的，其中可能含有空格字符。
+func compute(numStack, optStack *stack.Stack) {
+	if numStack.Len() < 2 {
+		return
+	}
+	// 取数据栈最上面的两个数
+	num2 := numStack.Peek().(int)
+	numStack.Pop()
+	num1 := numStack.Peek().(int)
+	numStack.Pop()
+	// 取操作符
+	if optStack.Peek() == '+' {
+		numStack.Push(num1 + num2)
+	} else if optStack.Peek() == '-' {
+		numStack.Push(num1 - num2)
+	}
+	optStack.Pop()
+}
