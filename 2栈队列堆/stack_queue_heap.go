@@ -6,6 +6,7 @@ import (
 )
 
 // 1.用队列实现栈
+// 思路：用一个临时队列调换顺序
 type MyStack struct {
 	data *queue.Queue
 }
@@ -50,6 +51,7 @@ func (ms *MyStack) empty() bool {
 }
 
 // 2.用栈实现队列
+// 思路：用一个临时栈调换顺序
 type MyQueue struct {
 	data *stack.Stack
 }
@@ -94,6 +96,7 @@ func (mq *MyQueue) peek() interface{} {
 }
 
 // 3.设计一个栈，栈的操作push(x)、pop()、top()、getMin()算法复杂度为O(1)
+// 思路：用一个栈存放每次压栈、出栈后的最小值
 type MyStackWithMin struct {
 	data, min *stack.Stack // min是存放最小值的栈
 }
@@ -141,4 +144,32 @@ func (mswm *MyStackWithMin) pop() interface{} {
 // 返回栈顶元素
 func (mswm *MyStackWithMin) top() interface{} {
 	return mswm.data.Peek()
+}
+
+// 4.已知1至n的数字序列，按顺序入栈，每个数字入栈后即可出栈，也可在栈中停留，
+// 等待后面的数字入栈出栈后，该数字即可出栈入栈，求该数字序列的出栈顺序是否合法。
+// 思路：用一个队列存放出栈顺序，将元素安顺序据入栈。每入一个元素，检查栈顶和队列头元素是否相等，若相等，弹出栈顶元素，弹出队列头元素；
+// 否则，继续压栈；最后，若栈为空，则说明顺序合法。
+func CheckOrder(order *queue.Queue) bool {
+	n := order.Len()
+	if n <= 1 {
+		return true
+	}
+	s := stack.New()
+	for i := 1; i <= n; i++ {
+		// 按顺序入栈
+		s.Push(i)
+		// 栈顶元素和队列头元素相等
+		for s.Len() != 0 && order.Peek() == s.Peek() {
+			// 分别弹出栈顶元素和队列头元素
+			s.Pop()
+			order.Dequeue()
+		}
+	}
+
+	if s.Len() != 0 {
+		return false
+	}
+
+	return true
 }

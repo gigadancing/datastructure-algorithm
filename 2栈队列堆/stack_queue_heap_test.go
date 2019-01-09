@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"github.com/golang-collections/collections/queue"
 	"testing"
 )
 
@@ -44,4 +45,22 @@ func TestMyStackWithMin(t *testing.T) {
 	fmt.Println("min:", s.getMin()) // 2
 	s.pop()
 	fmt.Println("min:", s.getMin()) // 2
+}
+
+func TestCheckOrder(t *testing.T) {
+	q := queue.New()
+	q.Enqueue(3)
+	q.Enqueue(2)
+	q.Enqueue(5)
+	q.Enqueue(4)
+	q.Enqueue(1)
+	fmt.Println("is valid:", CheckOrder(q))
+
+	q2 := queue.New()
+	q2.Enqueue(3)
+	q2.Enqueue(1)
+	q2.Enqueue(2)
+	q2.Enqueue(4)
+	q2.Enqueue(5)
+	fmt.Println("is valid:", CheckOrder(q2))
 }
