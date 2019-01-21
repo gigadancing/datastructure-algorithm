@@ -29,3 +29,9 @@ func TestPriorityQueue(t *testing.T) {
 		fmt.Printf("Name: %s Expiry: %d\n", item.Name, item.Expiry)
 	}
 }
+
+func TestMinHeap_FindKthLargest(t *testing.T) {
+	array := []int{3, 2, 1, 5, 6, 4}
+	kthMax := FindKthLargest(array, 2)
+	fmt.Println(kthMax)
+}
