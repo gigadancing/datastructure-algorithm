@@ -11,3 +11,9 @@ func TestFindContentChildren(t *testing.T) {
 	count := findContentChildren(s, g)
 	fmt.Println("被满足的孩子个数:", count)
 }
+
+func TestWiggleMaxLength(t *testing.T) {
+	nums := []int{1, 17, 5, 10, 13, 15, 10, 5, 16, 8}
+	length := WiggleMaxLength(nums)
+	fmt.Println(length)
+}
