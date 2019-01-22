@@ -35,3 +35,38 @@ func TestMinHeap_FindKthLargest(t *testing.T) {
 	kthMax := FindKthLargest(array, 2)
 	fmt.Println(kthMax)
 }
+
+func TestMinHeap(t *testing.T) {
+	mp := &MinHeap{}
+	heap.Init(mp)
+
+	heap.Push(mp, 3)
+	fmt.Println(mp.Top()) // 3
+
+	heap.Push(mp, 1)
+	fmt.Println(mp.Top()) // 1
+
+	heap.Push(mp, 2)
+	fmt.Println(mp.Top()) // 1
+
+	heap.Push(mp, 5)
+	fmt.Println(mp.Top()) // 1
+
+	heap.Push(mp, 6)
+	fmt.Println(mp.Top()) // 1
+
+	heap.Push(mp, 4)
+	fmt.Println(mp.Top()) // 1
+
+}
+
+func TestMyFind(t *testing.T) {
+	mf := NewMyFind()
+	mf.addNum(3)
+	mf.addNum(1)
+	mf.addNum(2)
+	mf.addNum(5)
+	mf.addNum(6)
+	mf.addNum(4)
+	fmt.Println(mf.findMedian())
+}
