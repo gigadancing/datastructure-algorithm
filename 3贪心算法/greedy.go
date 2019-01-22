@@ -99,3 +99,14 @@ func WiggleMaxLength(nums []int) int {
 	}
 	return maxLenght
 }
+
+// 3. 移除K个数字
+// 已知一个使用字符串表示非负整数num，将num中的k个数组移除，求移除k个数字后，可以获得的最小的可能的新数字。（num不会以0开头，num的长度
+// 小于1002）
+// 例如：
+// 输入：num="1432219"，k=3
+// 去掉三个数字后得到的可能很多，如1432，4322，2219，1229，1221；去掉数字4，3，9后得到1221最小。
+func RemoveKdigits(num string, k int) string {
+
+	return ""
+}

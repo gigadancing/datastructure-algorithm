@@ -17,3 +17,9 @@ func TestWiggleMaxLength(t *testing.T) {
 	length := WiggleMaxLength(nums)
 	fmt.Println(length)
 }
+
+func TestRemoveKdigits(t *testing.T) {
+	num := "1432219"
+	str := RemoveKdigits(num, 3)
+	fmt.Println(str)
+}
