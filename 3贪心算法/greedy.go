@@ -2,7 +2,9 @@ package greedy
 
 import (
 	"fmt"
+	"github.com/golang-collections/collections/stack"
 	"sort"
+	"strconv"
 )
 
 type MySlice []int
@@ -101,12 +103,48 @@ func WiggleMaxLength(nums []int) int {
 }
 
 // 3. 移除K个数字
-// 已知一个使用字符串表示非负整数num，将num中的k个数组移除，求移除k个数字后，可以获得的最小的可能的新数字。（num不会以0开头，num的长度
-// 小于1002）
+// 已知一个使用字符串表示非负整数num，将num中的k个数组移除，求移除k个数字后，可以获得的最小的可能的新数字。
+// （num不会以0开头，num的长度小于1002）
 // 例如：
 // 输入：num="1432219"，k=3
-// 去掉三个数字后得到的可能很多，如1432，4322，2219，1229，1221；去掉数字4，3，9后得到1221最小。
+// 去掉三个数字后得到的可能很多，如1432，4322，2219，1219；去掉数字4，3，9后得到1219最小。
+// 思路：
+// 要让得到的数字最小，那么优先高位最小。
 func RemoveKdigits(num string, k int) string {
+	if k == 0 {
+		return num
+	}
+	s := stack.New()
+	result := ""
+	for _, v := range num {
+		n := int(v - '0')
+		// 栈不为空，栈顶元素大于n，仍然可删
+		for s.Len() > 0 && k > 0 && s.Peek().(int) > n {
+			s.Pop()
+			k--
+		}
+		// s.Len()>0是解决如X0XXX这种情况，说明0前面有非零数字，所以要将0加入
+		// 即：当s不为空时，无论n是否为0都直接入栈；当s为空时，n>0才入栈。
+		// 这里用了逻辑运算的短路特性：
+		// s.Len()>0则n!=0不会运算；当s.Len()==0时，n!=0才运算。
+		if s.Len() > 0 || n != 0 {
+			s.Push(n) // 加入数据
+		}
+	}
 
-	return ""
+	// 如果最后K>0，仍然可删
+	if s.Len() > 0 && k > 0 {
+		s.Pop()
+		k--
+	}
+	// 将栈中的结果转成字符串存到result中
+	for s.Len() > 0 {
+		result = strconv.Itoa(s.Pop().(int)) + result
+	}
+	// 若result为空，则结果为0
+	if result == "" {
+		result = "0"
+	}
+
+	return result
 }

@@ -23,3 +23,23 @@ func TestRemoveKdigits(t *testing.T) {
 	str := RemoveKdigits(num, 3)
 	fmt.Println(str)
 }
+
+func TestRemoveKdigits2(t *testing.T) {
+	num := "1432219"
+	fmt.Println("---------", num, "---------")
+	res := RemoveKdigits(num, 3)
+	fmt.Printf("去掉3个数字的最小值:%s\n", res)
+	res = RemoveKdigits(num, 5)
+	fmt.Printf("去掉5个数字的最小值:%s\n", res)
+	res = RemoveKdigits(num, 1)
+	fmt.Printf("去掉1个数字的最小值:%s\n", res)
+
+	num = "100200"
+	fmt.Println("---------", num, "---------")
+	res = RemoveKdigits(num, 1)
+	fmt.Printf("去掉1个数字的最小值:%s\n", res)
+	res = RemoveKdigits(num, 2)
+	fmt.Printf("去掉2个数字的最小值:%s\n", res)
+	res = RemoveKdigits(num, 3)
+	fmt.Printf("去掉3个数字的最小值:%s\n", res)
+}
