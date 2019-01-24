@@ -201,7 +201,7 @@ func CanJump(nums []int) bool {
 // 1. 设置currentMaxIndex为当前可达到的最远位置。
 // 2. 设置preMaxIndex为在遍历各个位置的过程中，各个位置可达到的最远位置。
 // 3. 设置jumpMin为最少跳跃次数。
-// 4. 利用i遍历nums数组，若i超过currentMaxIndex，则jumpMin加1，currentMaxIndex=preMaxIndex
+// 4. 利用i遍历nums数组，若i到达currentMaxIndex，则jumpMin加1，currentMaxIndex=preMaxIndex
 // 5. 遍历过程中，若nums[i]+i(index[i])更大，则更新preMaxIndex=nums[i]+i
 func Jump(nums []int) int {
 	length := len(nums)
@@ -214,11 +214,12 @@ func Jump(nums []int) int {
 	// 遍历各个过程中可达到的最远位置
 	preMaxIndex := nums[0]
 	// 最小跳跃次数
-	jumpMin := 1
+	jumpMin := 0
 
 	for i := 1; i < length; i++ {
-		if i > currentMaxIndex {
+		if i == currentMaxIndex {
 			jumpMin++
+			fmt.Println(i)
 			currentMaxIndex = preMaxIndex
 		}
 		if preMaxIndex < nums[i]+i {
