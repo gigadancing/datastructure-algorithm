@@ -154,6 +154,11 @@ func RemoveKdigits(num string, k int) string {
 // 可以从数组第0个位置跳跃至数组的最后一个位置。
 // nums=[2,3,1,1,4]可以从nums[0]=2跳跃至nums[4]=4
 // nums=[3,2,1,0,4]不可以从nums[0]=3跳跃至nums[4]=4
+// 思路：
+// 1. 求从第i个位置最远可以跳至第index[i]位置。根据第i位置最远可跳nums[i]步：index[i] = nums[i] + i。
+// 2. 初始化jump为0，maxIndex为index[0]，maxIndex代表从0位置到jump位置这个过程中，最远可以达到的位置。
+// 3. 利用jump扫描index数组，直到jump达到数组尾部或jump超过maxIndex为止，扫描过程中更新maxIndex。
+// 4. 若最终jump为数组长度，则返回true，否则返回false。
 func CanJump(nums []int) bool {
 	length := len(nums)
 	if length < 2 {
@@ -185,4 +190,40 @@ func CanJump(nums []int) bool {
 	}
 
 	return false
+}
+
+// 4-b 跳跃游戏2
+// 一个数组存储了非负整型数据，数组中的第i个元素nums[i]，代表了可从数组第i个位置最多向前跳跃nums[i]步，已知数组各元素的情况下，确认
+// 可以从第0个位置跳跃至数组最后一个位置，求最少需要跳跃几次。
+// 例如：
+// nums=[2,3,1,1,4]，从第0个位置跳到第一个位置，从第一个位置跳到最后一个位置。
+// 思路：
+// 1. 设置currentMaxIndex为当前可达到的最远位置。
+// 2. 设置preMaxIndex为在遍历各个位置的过程中，各个位置可达到的最远位置。
+// 3. 设置jumpMin为最少跳跃次数。
+// 4. 利用i遍历nums数组，若i超过currentMaxIndex，则jumpMin加1，currentMaxIndex=preMaxIndex
+// 5. 遍历过程中，若nums[i]+i(index[i])更大，则更新preMaxIndex=nums[i]+i
+func Jump(nums []int) int {
+	length := len(nums)
+	if length < 2 { // 长度小于2不需跳跃
+		return 0
+	}
+
+	// 当前可达到的最远位置
+	currentMaxIndex := nums[0]
+	// 遍历各个过程中可达到的最远位置
+	preMaxIndex := nums[0]
+	// 最小跳跃次数
+	jumpMin := 1
+
+	for i := 1; i < length; i++ {
+		if i > currentMaxIndex {
+			jumpMin++
+			currentMaxIndex = preMaxIndex
+		}
+		if preMaxIndex < nums[i]+i {
+			preMaxIndex = nums[i] + 1
+		}
+	}
+	return jumpMin
 }

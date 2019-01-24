@@ -46,3 +46,9 @@ func TestCanJump(t *testing.T) {
 	fmt.Println("nums1:", c1)
 	fmt.Println("nums2:", c2)
 }
+
+func TestJump(t *testing.T) {
+	nums := []int{2, 3, 1, 1, 4}
+	count := Jump(nums)
+	fmt.Println("最小跳跃次数:", count)
+}
