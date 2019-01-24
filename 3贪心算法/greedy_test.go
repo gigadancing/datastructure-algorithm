@@ -20,12 +20,6 @@ func TestWiggleMaxLength(t *testing.T) {
 
 func TestRemoveKdigits(t *testing.T) {
 	num := "1432219"
-	str := RemoveKdigits(num, 3)
-	fmt.Println(str)
-}
-
-func TestRemoveKdigits2(t *testing.T) {
-	num := "1432219"
 	fmt.Println("---------", num, "---------")
 	res := RemoveKdigits(num, 3)
 	fmt.Printf("去掉3个数字的最小值:%s\n", res)
@@ -42,4 +36,13 @@ func TestRemoveKdigits2(t *testing.T) {
 	fmt.Printf("去掉2个数字的最小值:%s\n", res)
 	res = RemoveKdigits(num, 3)
 	fmt.Printf("去掉3个数字的最小值:%s\n", res)
+}
+
+func TestCanJump(t *testing.T) {
+	nums1 := []int{2, 3, 1, 1, 4} // true
+	nums2 := []int{3, 2, 1, 0, 4} // false
+	c1 := CanJump(nums1)
+	c2 := CanJump(nums2)
+	fmt.Println("nums1:", c1)
+	fmt.Println("nums2:", c2)
 }

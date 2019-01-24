@@ -148,3 +148,41 @@ func RemoveKdigits(num string, k int) string {
 
 	return result
 }
+
+// 4-a 跳跃游戏
+// 一个数组存储了非负整型数据，数组中的第i个元素nums[i]，代表了可从数组第i个位置最多向前跳跃nums[i]步，已知数组各元素的情况下，求是否
+// 可以从数组第0个位置跳跃至数组的最后一个位置。
+// nums=[2,3,1,1,4]可以从nums[0]=2跳跃至nums[4]=4
+// nums=[3,2,1,0,4]不可以从nums[0]=3跳跃至nums[4]=4
+func CanJump(nums []int) bool {
+	length := len(nums)
+	if length < 2 {
+		return true
+	}
+
+	// 每个位置最远可跳的位置
+	index := make([]int, length)
+	for i, v := range nums {
+		index[i] = v + i
+	}
+
+	// 初始化jump和maxIndex
+	jump := 0
+	maxIndex := index[0]
+
+	// jump跳至数组尾部或jump超越了当前可跳跃的最远位置
+	for jump < length && jump <= maxIndex {
+		// 如果可以跳更远，则更新maxIndex
+		if maxIndex < index[jump] {
+			maxIndex = index[jump]
+		}
+		jump++
+	}
+
+	// jump调至数组尾部
+	if jump == length {
+		return true
+	}
+
+	return false
+}
