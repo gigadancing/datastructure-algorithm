@@ -54,7 +54,13 @@ func TestJump(t *testing.T) {
 }
 
 func TestFindMinArrowShots(t *testing.T) {
-	points := Points{{10, 16}, {2, 8}, {1, 6}, {7, 12}}
+	points := DyadicArray{{10, 16}, {2, 8}, {1, 6}, {7, 12}}
 	counts := FindMinArrowShots(points)
 	fmt.Println(counts)
+}
+
+func TestGetMinimumStop(t *testing.T) {
+	stations := DyadicArray2{{4, 4}, {10, 3}, {11, 5}, {15, 2}}
+	stop := GetMinimumStop(25, 16, stations)
+	fmt.Println(stop)
 }

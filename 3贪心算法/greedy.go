@@ -12,9 +12,11 @@ type MySlice []int
 func (ms *MySlice) Len() int {
 	return len(*ms)
 }
+
 func (ms *MySlice) Swap(i, j int) {
 	(*ms)[i], (*ms)[j] = (*ms)[j], (*ms)[i]
 }
+
 func (ms *MySlice) Less(i, j int) bool {
 	return (*ms)[i] < (*ms)[j]
 }
@@ -229,18 +231,32 @@ func Jump(nums []int) int {
 	return jumpMin
 }
 
-type Points [][]int
+type DyadicArray [][]int
 
-func (p *Points) Len() int {
-	return len(*p)
+func (da *DyadicArray) Len() int {
+	return len(*da)
 }
 
-func (p *Points) Less(i, j int) bool {
-	return (*p)[i][0] < (*p)[j][0]
+func (da *DyadicArray) Less(i, j int) bool {
+	return (*da)[i][0] < (*da)[j][0]
 }
 
-func (p *Points) Swap(i, j int) {
-	(*p)[i], (*p)[j] = (*p)[j], (*p)[i]
+func (da *DyadicArray) Swap(i, j int) {
+	(*da)[i], (*da)[j] = (*da)[j], (*da)[i]
+}
+
+type DyadicArray2 [][]int
+
+func (da *DyadicArray2) Len() int {
+	return len(*da)
+}
+
+func (da *DyadicArray2) Less(i, j int) bool {
+	return (*da)[i][0] > (*da)[j][0]
+}
+
+func (da *DyadicArray2) Swap(i, j int) {
+	(*da)[i], (*da)[j] = (*da)[j], (*da)[i]
 }
 
 // 5 射击气球
@@ -252,7 +268,7 @@ func (p *Points) Swap(i, j int) {
 // 1. 对各个气球进行排序，按照气球的左端点从小到大排序。
 // 2. 遍历气球数组，同时维护一个设计区间，在满足可以将当前气球射穿的情况下，尽可能击穿更多的气球，更新一次射击区间（保证射击区间可以将新气球也击穿）。
 // 3. 如果新气球没有办法击穿，则需增加一名射手，即维护一个新的设计区间将气球击穿，随后继续遍历气球数组。
-func FindMinArrowShots(points Points) int {
+func FindMinArrowShots(points DyadicArray) int {
 	if len(points) == 0 {
 		return 0
 	}
@@ -277,4 +293,70 @@ func FindMinArrowShots(points Points) int {
 	}
 
 	return shootNum
+}
+
+// 最大堆
+type MaxHeap []int
+
+func (mp MaxHeap) Len() int {
+	return len(mp)
+}
+
+func (mp MaxHeap) Less(i, j int) bool {
+	return mp[i] > mp[j]
+}
+
+func (mp MaxHeap) Swap(i, j int) {
+	mp[i], mp[j] = mp[j], mp[i]
+}
+
+func (mp *MaxHeap) Pop() interface{} {
+	old := *mp
+	n := len(old)
+	x := old[n-1]
+	*mp = old[0 : n-1]
+	return x
+}
+
+func (mp *MaxHeap) Push(v interface{}) {
+	*mp = append(*mp, v.(int))
+}
+
+// 6 最优加油方法
+// 已知一条公路上，有一个起点与一个终点，这之间有n个加油站。已知这n个加油站到终点的距离d与每个加油站可以加的油量l，起点与终点的距离L及
+// 起始油箱中的油量P；假设用一个单位的油量走一个单位的距离，油箱容量没有上限，最少加几次油可以从起点到终点（如无法到达终点返回-1）。
+// L - 起点到终点的距离
+// P - 起始的油量
+// stop - [ [加油站至终点的距离, 加油站可加的油量], ... ]
+// 思路：
+// 1. 设置一个最大堆，用来存储经过的加油站的汽油量。
+// 2. 按照从起点到终点的方向，遍历各个加油站间的距离。
+// 3. 每次需要走两个加油站之间的距离d，如果发现汽油不够走距离d时，从最大堆中取出一个加油站的油量加油，知道可以足够走距离d。
+// 4. 如果把最大堆中油量都添加仍不够走距离d，说明无法到达终点。
+// 5. 将当前加油站油量添加至最大堆。
+func GetMinimumStop(L, P int, stations DyadicArray2) int {
+	fuelTank := &MaxHeap{} // 最大堆存放经过加油站可加的油量
+	stops := 0             // 加油次数
+	sort.Sort(&stations)   // 将加油站根据距终点的距离由远到近排序
+	// 遍历各个停靠点
+	for _, station := range stations {
+		dis := L - station[0] // 当前要走的距离=当前到终点的距离-下一个加油站到终点距离
+		// 油量不够走dis，加油一次
+		for fuelTank.Len() > 0 && P < dis {
+			// 取最大堆中最大的油量加油
+			P = P + fuelTank.Pop().(int)
+			stops++
+		}
+		// 油量都添加仍不够走距离d，无法到达终点
+		if fuelTank.Len() == 0 && P < dis {
+			return -1
+		}
+		// 油量够走dis，油量消耗dis
+		P = P - dis
+		// 更新最大堆
+		fuelTank.Push(station[1])
+		// 更新当前到终点的距离
+		L = station[0]
+	}
+	return stops
 }
