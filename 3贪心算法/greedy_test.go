@@ -52,3 +52,9 @@ func TestJump(t *testing.T) {
 	count := Jump(nums)
 	fmt.Println("最小跳跃次数:", count)
 }
+
+func TestFindMinArrowShots(t *testing.T) {
+	points := Points{{10, 16}, {2, 8}, {1, 6}, {7, 12}}
+	counts := FindMinArrowShots(points)
+	fmt.Println(counts)
+}

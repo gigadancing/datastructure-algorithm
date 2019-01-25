@@ -228,3 +228,53 @@ func Jump(nums []int) int {
 	}
 	return jumpMin
 }
+
+type Points [][]int
+
+func (p *Points) Len() int {
+	return len(*p)
+}
+
+func (p *Points) Less(i, j int) bool {
+	return (*p)[i][0] < (*p)[j][0]
+}
+
+func (p *Points) Swap(i, j int) {
+	(*p)[i], (*p)[j] = (*p)[j], (*p)[i]
+}
+
+// 5 射击气球
+// 已知在一个平面上有一定数量的气球，平面可以看作一个坐标系，在平面的x轴的不同位置安排弓箭手向y轴方向射箭，弓箭可以向y轴走无穷远；
+// 给定气球的宽度xstart <= x<= xend，问至少需要多少弓箭手将气球全部射爆？
+// 例如：
+// 四个气球[10,16] [2,8] [1,6] [7,12]，至少需要2个弓箭手
+// 思路：尽可能让一支箭射穿更多的气球
+// 1. 对各个气球进行排序，按照气球的左端点从小到大排序。
+// 2. 遍历气球数组，同时维护一个设计区间，在满足可以将当前气球射穿的情况下，尽可能击穿更多的气球，更新一次射击区间（保证射击区间可以将新气球也击穿）。
+// 3. 如果新气球没有办法击穿，则需增加一名射手，即维护一个新的设计区间将气球击穿，随后继续遍历气球数组。
+func FindMinArrowShots(points Points) int {
+	if len(points) == 0 {
+		return 0
+	}
+
+	sort.Sort(&points) // 对气球按左端点从小到大排序
+	shootNum := 1      // 初始化射手数量为1
+	// 初始化射击区间，即第一个气球的两端点
+	shootBegin := points[0][0]
+	shootEnd := points[0][1]
+	shootBegin = shootBegin
+	for i := 1; i < len(points); i++ {
+		if points[i][0] <= shootEnd {
+			shootBegin = points[i][0]
+			if shootEnd > points[i][1] {
+				shootEnd = points[i][1]
+			}
+		} else {
+			shootNum++
+			shootBegin = points[i][0]
+			shootEnd = points[i][1]
+		}
+	}
+
+	return shootNum
+}
