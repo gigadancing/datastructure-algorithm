@@ -40,7 +40,7 @@ func Generate(i int, nums []int, item []int, result *[][]int) {
 //    101   5    [A,C]       100 & 101 = 4     010 & 101 = 0       001 & 101 = 1
 //    110   6    [A,B]       100 & 110 = 4     010 & 110 = 2       001 & 110 = 0
 //    111   7    [A,B,C]     100 & 111 = 4     010 & 111 = 2       001 & 111 = 1
-func SubSetsBitwiseOperation(nums []int) [][]int {
+func SubsetsBitwiseOperation(nums []int) [][]int {
 	result := make([][]int, 0)      // 结果集合
 	allSets := 1 << uint(len(nums)) // 1<<n，2^n，设置全部集合的最大值+1
 	for i := 0; i < allSets; i++ {
@@ -54,5 +54,18 @@ func SubSetsBitwiseOperation(nums []int) [][]int {
 		}
 		result = append(result, item)
 	}
+	return result
+}
+
+// 1-b. 已知一数组（其中有重复元素），求这数组可以组成的所有子集（不可有重复的子集）。
+// 例如：nums=[2,1,2,2]
+// 结果为：[[],[1],[1,2],[1,2,2],[1,2,2,2],[2],[2,2],[2,2,2]]
+// 注意：[2,1,2]与[1,2,2]是重复的集合
+// 重复原因：
+// 由于集合的元素是无序的。
+// 1. 不同位置的元素组成的集合是同一个子集，顺序相同。
+// 2. 不同位置的元素组成的集合是同一个子集，顺序不同。
+func SubsetsWithDup(nums []int) [][]int {
+	result := make([][]int, 0)
 	return result
 }

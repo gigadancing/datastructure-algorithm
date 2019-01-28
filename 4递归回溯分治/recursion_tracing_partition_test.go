@@ -5,8 +5,14 @@ import (
 	"testing"
 )
 
-func TestSubSets(t *testing.T) {
+func TestSubsetsBitwiseOperation(t *testing.T) {
 	nums := []int{1, 2, 3}
-	subsets := SubSetsBitwiseOperation(nums)
+	subsets := SubsetsBitwiseOperation(nums)
+	fmt.Println(subsets)
+}
+
+func TestSubsetsWithDup(t *testing.T) {
+	nums := []int{2, 1, 2, 2}
+	subsets := SubsetsWithDup(nums)
 	fmt.Println(subsets)
 }
