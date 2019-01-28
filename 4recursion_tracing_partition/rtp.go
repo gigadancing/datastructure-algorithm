@@ -1,5 +1,11 @@
 package rtp
 
+import (
+	"datastructure-algorithm/4recursion_tracing_partition/myslice"
+	"github.com/golang-collections/collections/set"
+	"sort"
+)
+
 // 1-a. 求子集
 // 已知一组数（其中无重复元素），求这组数可以组成的所有子集。结果中不可有重复的子集。
 // 例如：nums=[1,2,3]
@@ -7,15 +13,14 @@ package rtp
 // 思路：
 // 1. 递归
 // nums = [1,2,3]，将子集[1]，[1,2]，[1,2,3]递归加入result
-func Generate(i int, nums []int, item []int, result *[][]int) {
+func SubsetsRecursion(i int, nums []int, item []int, result *[][]int) {
 	if i >= len(nums) {
 		return
 	}
 	item = append(item, nums[i])
 	*result = append(*result, item)
-	Generate(i+1, nums, item, result)
 	item = (item)[:len(item)-1]
-	Generate(i+1, nums, item, result)
+	SubsetsRecursion(i+1, nums, item, result)
 }
 
 // 2. 位运算
@@ -65,7 +70,26 @@ func SubsetsBitwiseOperation(nums []int) [][]int {
 // 由于集合的元素是无序的。
 // 1. 不同位置的元素组成的集合是同一个子集，顺序相同。
 // 2. 不同位置的元素组成的集合是同一个子集，顺序不同。
-func SubsetsWithDup(nums []int) [][]int {
+func SubsetsWithDup(nums myslice.MySlice) [][]int {
 	result := make([][]int, 0)
+	item := make(myslice.MySlice, 0)
+	resSet := set.New() // 用于去重的集合
+	sort.Sort(&nums)    // 排序
+	result = append(result, item)
+	generateItem(0, nums, result, item, resSet)
 	return result
+}
+
+func generateItem(i int, nums []int, result [][]int, item []int, resSet *set.Set) {
+	if i >= len(nums) {
+		return
+	}
+	item = append(item, nums[i])
+	if resSet.Has(item) {
+		result = append(result, item)
+		resSet.Insert(item)
+	}
+	generateItem(i+1, nums, result, item, resSet)
+	item = item[:len(item)-1]
+	generateItem(i+1, nums, result, item, resSet)
 }

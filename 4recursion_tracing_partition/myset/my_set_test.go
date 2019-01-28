@@ -1,4 +1,4 @@
-package rtp
+package myset
 
 import (
 	"fmt"
@@ -11,16 +11,16 @@ func TestSet(t *testing.T) {
 	s.Add(2)
 	s.Add(3)
 	s.Add(2)
-	fmt.Println("set data:", s.List())
+	fmt.Println("myset data:", s.List())
 	s.Clear()
 	if s.Empty() {
-		fmt.Println("after clear, set is empty")
+		fmt.Println("after clear, myset is empty")
 	}
 
 	s.Add(4)
 	s.Add(5)
 	s.Add(6)
-	fmt.Println("set data:", s.List())
+	fmt.Println("myset data:", s.List())
 	if s.Has(5) {
 		fmt.Println("5 does exist")
 	}

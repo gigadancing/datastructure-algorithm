@@ -5,6 +5,14 @@ import (
 	"testing"
 )
 
+func TestSubsetsRecursion(t *testing.T) {
+	nums := []int{1, 2, 3}
+	result := make([][]int, 0)
+	item := make([]int, 0)
+	SubsetsRecursion(0, nums, item, &result)
+	fmt.Println(result)
+}
+
 func TestSubsetsBitwiseOperation(t *testing.T) {
 	nums := []int{1, 2, 3}
 	subsets := SubsetsBitwiseOperation(nums)
