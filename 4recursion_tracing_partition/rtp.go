@@ -4,6 +4,7 @@ import (
 	"datastructure-algorithm/4recursion_tracing_partition/myslice"
 	"github.com/golang-collections/collections/set"
 	"sort"
+	"strings"
 )
 
 // 1-a. 求子集
@@ -172,4 +173,89 @@ func GenerateParenthesis(n int) []string {
 	result := make([]string, 0)
 	generate("", n, n, &result)
 	return result
+}
+
+// 例3. N皇后
+// 将N个皇后摆放在N*N的棋牌中，互相不可攻击，有多少种摆放方式，每种摆放方式具体是怎样的？
+// 使用二维数组表示一张空棋盘，假设在某位置放一个皇后，那么该位置的横、纵、斜三个方向都是皇后的攻击范围（即不能放皇后）
+//  1 0 0 1 0 0 1 0
+//  0 1 0 1 0 1 0 0
+//  0 0 1 1 1 0 0 0
+//  1 1 1 1 1 1 1 1
+//  0 0 1 1 1 0 0 0
+//  0 1 0 1 0 1 0 0
+//  1 0 0 1 0 0 1 0
+//  0 0 0 1 0 0 0 1
+//  -------------------------------------> x
+//  |
+//  |   (x-1,y-1)  (x,y-1)  (x+1,y-1)
+//  |   (x-1,  y)  (x,  y)  (x+1,  y)
+//  |   (x-1,y+1)  (x,y+1)  (x+1,y+1)
+//  |
+//  | y
+// 方向数组：
+// 上(0,-1)、下(0,1)、左(-1,0)、右(1,0)、左上(-1,-1)、左下(-1,1)、右上(1,-1)、右下(1,1)
+// dx = []int{0, 0, -1, 1, -1, -1, 1, 1}
+// dy = []int{-1, 1, 0, 0, -1, 1, -1, 1}
+// 按照这8个方向延申，若未超越边界，则将棋盘对应位置置为1。
+
+func SolveNQueens(n int) [][]string {
+	result := make([][]string, 0) // 存储最终结果的数组
+	mark := make([][]int, 0)      // 标记棋盘是否可以放置皇后的数组
+	location := make([]string, 0) // 存储某个位置的摆放结果，当完成一次递归找到结果后，将location加入result
+	for i := 0; i < n; i++ {
+		// 初始化棋盘（mark）和location
+		initArr := make([]int, n)
+		str := make([]string, n)
+		for i := 0; i < n; i++ {
+			initArr[i] = 0
+			str[i] = "."
+		}
+		mark = append(mark, initArr)
+		location = append(location, strings.Join(str, ""))
+	}
+	generateQueen(0, n, location, result, mark)
+	return result
+}
+
+// k - 代表完成了几个皇后的放置，正在放置第K皇后
+func generateQueen(k, n int, location []string, result [][]string, mark [][]int) {
+	if k == n { // 完成了第0至第n-1行皇后的放置，将记录皇后位置的location放入结果数组result中
+		result = append(result, location)
+		return
+	}
+	for i := 0; i < n; i++ {
+		if mark[k][i] == 0 { // 该位置可以放置皇后
+			tmpMark := mark // 记录回溯前mark镜像
+			// 记录当前皇后的位置
+			bytes := []byte(location[k])
+			bytes[i] = 'Q'
+			location[k] = string(bytes)
+			putDownTheQueen(k, i, mark)                   // 放置皇后
+			generateQueen(k+1, n, location, result, mark) // 递归下一行放置皇后
+			mark = tmpMark                                // 将mark重新置为回溯前的状态
+			// 将当前尝试的皇后的位置置为'.'
+			bytes = []byte(location[k])
+			bytes[i] = '.'
+			location[k] = string(bytes)
+		}
+	}
+}
+
+func putDownTheQueen(x, y int, mark [][]int) {
+	// 方向数组
+	dx := []int{0, 0, -1, 1, -1, -1, 1, 1}
+	dy := []int{-1, 1, 0, 0, -1, 1, -1, 1}
+	mark[x][y] = 1
+	n := len(mark) // 棋盘的大小
+	// 8个方向，向外延申1至n-1次
+	for i := 1; i < n; i++ {
+		for j := 0; j < 8; j++ {
+			newX := x + i*dx[j]
+			newY := y + i*dy[j]
+			if 0 <= newX && newX < n && 0 <= newY && y < n {
+				mark[newX][newY] = 1
+			}
+		}
+	}
 }

@@ -35,3 +35,8 @@ func TestGenerateParenthesis(t *testing.T) {
 	result := GenerateParenthesis(2)
 	fmt.Println(result)
 }
+
+func TestSolveNQueens(t *testing.T) {
+	result := SolveNQueens(4)
+	fmt.Println(result)
+}
