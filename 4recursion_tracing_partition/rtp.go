@@ -156,9 +156,12 @@ func generate(item string, left, right int, result *[]string) {
 		*result = append(*result, item)
 		return
 	}
+	// 若可以放左括号，先放左括号
 	if left > 0 {
 		generate(item+"(", left-1, right, result)
 	}
+	// 剪枝：满足一定条件才放右括号
+	// 剩余可放左括号数量<剩余可放右括号数量，即：已放左括号数量>已放右括号数量，说明可以放右括号
 	if left < right {
 		generate(item+")", left, right-1, result)
 	}
