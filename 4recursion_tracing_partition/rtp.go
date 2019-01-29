@@ -125,3 +125,48 @@ func generateTargetItem(i int, nums []int, result [][]int, item []int, resSet *s
 	item = item[:len(item)-1]
 	generateTargetItem(i+1, nums, result, item, resSet, sum, target)
 }
+
+// 2. 生成括号
+// 已知n组括号，开发一个程序，生成这n组括号所有合法的组合可能。
+// 例如：n=3
+// 结果为：["((()))", "(()())", "(())()", "()(())", "()()()"]
+// 不考虑"("和")"的个数的情况下，生成所有的组合
+// 字符串长度为2n，每个位置有2种选择，故共有2^2n=4^n种组合
+func generateCombination(item string, n int, result *[]string) {
+	// 当字符串长度是括号组数2倍时，递归结束
+	if len(item) == 2*n {
+		*result = append(*result, item)
+		return
+	}
+	generateCombination(item+"(", n, result) // 添加"("，继续递归
+	generateCombination(item+")", n, result) // 添加")"，继续递归
+}
+
+// 合法：
+// 1. 在所有的可能中，左右括号的数量不会超过n（n组括号，即n个左括号，n个右括号）。
+// 2. 放一个左括号才能放一个右括号，即右括号不可先于左括号放置。
+// 递归限制条件：
+// 1. 左右括号的数量最多n个。
+// 2. 若左括号的数量<=右括号的数量，则不可进行放置右括号的递归。
+// item - 当前生成的字符串
+// left - 当前还可放左括号的数量
+// right - 当前还可放右括号的数量
+func generate(item string, left, right int, result *[]string) {
+	if left == 0 && right == 0 {
+		*result = append(*result, item)
+		return
+	}
+	if left > 0 {
+		generate(item+"(", left-1, right, result)
+	}
+	if left < right {
+		generate(item+")", left, right-1, result)
+	}
+}
+
+//
+func GenerateParenthesis(n int) []string {
+	result := make([]string, 0)
+	generate("", n, n, &result)
+	return result
+}

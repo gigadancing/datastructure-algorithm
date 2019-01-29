@@ -27,6 +27,11 @@ func TestSubsetsWithDup(t *testing.T) {
 
 func TestCombinationSum(t *testing.T) {
 	nums := []int{10, 1, 2, 7, 6, 1, 5}
-	result := CombinationSum(nums)
+	result := CombinationSum(nums, 8)
+	fmt.Println(result)
+}
+
+func TestGenerateParenthesis(t *testing.T) {
+	result := GenerateParenthesis(2)
 	fmt.Println(result)
 }
