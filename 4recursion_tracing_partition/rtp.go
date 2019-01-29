@@ -85,11 +85,43 @@ func generateItem(i int, nums []int, result [][]int, item []int, resSet *set.Set
 		return
 	}
 	item = append(item, nums[i])
-	if resSet.Has(item) {
-		result = append(result, item)
-		resSet.Insert(item)
+	if !resSet.Has(item) { // set中无item
+		result = append(result, item) // 将item加入结果数组
+		resSet.Insert(item)           // 将item放入去重集合
 	}
 	generateItem(i+1, nums, result, item, resSet)
 	item = item[:len(item)-1]
 	generateItem(i+1, nums, result, item, resSet)
+}
+
+// 1-c. 组合数之和
+// 已知一组数（其中有重复元素），求这组数可以组成的所有子集，子集中各元素之和为target的子集，结果中无重复的子集。
+// 例如：nums=[10,1,2,7,6,1,5]，target=8
+// 结果为：[[1,7],[1,2,5],[2,6],[1,1,6]]
+func CombinationSum(nums myslice.MySlice, target int) [][]int {
+	result := make([][]int, 0)
+	item := make([]int, 0)
+	resSet := set.New()
+	sort.Sort(&nums)
+	generateTargetItem(0, nums, result, item, resSet, 0, target)
+	return result
+}
+
+func generateTargetItem(i int, nums []int, result [][]int, item []int, resSet *set.Set, sum int, target int) {
+	// 当元素已经选完或sum的值超过target
+	if i >= len(nums) || sum > target {
+		return
+	}
+	sum += nums[i]
+	item = append(item, nums[i])
+	// item中元素和为target且item未在集合中
+	if target == sum && !resSet.Has(item) {
+		result = append(result, item)
+		resSet.Insert(item)
+	}
+	generateTargetItem(i+1, nums, result, item, resSet, sum, target)
+	// 回溯后，sum将nums[i]减去并从item中删除
+	sum -= nums[i]
+	item = item[:len(item)-1]
+	generateTargetItem(i+1, nums, result, item, resSet, sum, target)
 }

@@ -24,3 +24,9 @@ func TestSubsetsWithDup(t *testing.T) {
 	subsets := SubsetsWithDup(nums)
 	fmt.Println(subsets)
 }
+
+func TestCombinationSum(t *testing.T) {
+	nums := []int{10, 1, 2, 7, 6, 1, 5}
+	result := CombinationSum(nums)
+	fmt.Println(result)
+}
