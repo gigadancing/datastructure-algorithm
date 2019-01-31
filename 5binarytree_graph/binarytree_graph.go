@@ -120,17 +120,17 @@ func Flatten(root *TreeNode) {
 		return
 	}
 	var last *TreeNode
-	preorderTraverse(root, last)
+	preorderTraverse(root, &last)
 	return
 }
 
-func preorderTraverse(node, last *TreeNode) {
+func preorderTraverse(node *TreeNode, last **TreeNode) {
 	if node == nil {
 		return
 	}
 
 	if node.left == nil && node.right == nil { // 叶节点
-		last = node
+		*last = node
 		return
 	}
 
@@ -145,17 +145,17 @@ func preorderTraverse(node, last *TreeNode) {
 	)
 
 	if left != nil { // 若有左子树，将左子树转换为单链表
-		preorderTraverse(left, leftLast)
+		preorderTraverse(left, &leftLast)
 		node.left = nil
 		node.right = left
-		last = leftLast
+		*last = leftLast
 	}
 
 	if right != nil { // 若有右子树，将左子树转换为单链表
-		preorderTraverse(right, rightLast)
+		preorderTraverse(right, &rightLast)
 		if leftLast != nil {
 			leftLast.right = right
 		}
-		last = rightLast
+		*last = rightLast
 	}
 }
