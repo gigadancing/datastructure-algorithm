@@ -75,15 +75,15 @@ func LowestCommonAncestor(root, p, q *TreeNode) *TreeNode {
 		return nil
 	}
 	var ancestor *TreeNode
-	path := make([]*TreeNode, 0)           // 存放搜索路径的临时栈
-	pPath := make([]*TreeNode, 0)          // p的路径
-	qPath := make([]*TreeNode, 0)          // q的路径
-	finish := 0                            // 结束标志
-	search(root, p, pPath, &pPath, finish) // 搜索p
-	path = path[:0]                        // 清空path
-	finish = 0                             // 重置结束标志
-	search(root, q, qPath, &qPath, finish) // 搜索q
-	pathLen := 0                           // 较短路径长度
+	path := make([]*TreeNode, 0)          // 存放搜索路径的临时栈
+	pPath := make([]*TreeNode, 0)         // p的路径
+	qPath := make([]*TreeNode, 0)         // q的路径
+	finish := 0                           // 结束标志
+	search(root, p, path, &pPath, finish) // 搜索p
+	path = path[:0]                       // 清空path
+	finish = 0                            // 重置结束标志
+	search(root, q, path, &qPath, finish) // 搜索q
+	pathLen := 0                          // 较短路径长度
 	if len(pPath) < len(qPath) {
 		pathLen = len(pPath)
 	} else {
