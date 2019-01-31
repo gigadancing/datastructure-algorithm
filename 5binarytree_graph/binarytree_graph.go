@@ -108,5 +108,6 @@ func search(current, target *TreeNode, path []*TreeNode, result *[]*TreeNode, fi
 	}
 	search(current.left, target, path, result, finish)  // 搜索当前节点的左孩子
 	search(current.right, target, path, result, finish) // 搜索当前节点的右孩子
-	path = path[:len(path)-1]                           // 将当前节点从路径中删除
+	// 值传递不用删除，函数返回后自动就删除了
+	//path = path[:len(path)-1]                           // 将当前节点从路径中删除
 }

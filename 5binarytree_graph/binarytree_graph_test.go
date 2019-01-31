@@ -58,4 +58,6 @@ func TestLowestCommonAncestor(t *testing.T) {
 	fmt.Printf("%d和%d的公共祖先是:%d\n", f.val, g.val, ancestor.val)
 	ancestor = LowestCommonAncestor(a, b, g)
 	fmt.Printf("%d和%d的公共祖先是:%d\n", b.val, g.val, ancestor.val)
+	ancestor = LowestCommonAncestor(a, e, f)
+	fmt.Printf("%d和%d的公共祖先是:%d\n", e.val, f.val, ancestor.val)
 }
