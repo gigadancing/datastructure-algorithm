@@ -21,3 +21,15 @@ func TestMergeSort(t *testing.T) {
 	res := MergeSort(nums)
 	fmt.Println(res)
 }
+
+func TestCountSmaller(t *testing.T) {
+	nums := []int{5, 2, 6, 1}
+	res := CountSmaller(nums)
+	fmt.Println(res) //[2,1,1,0]
+	nums = []int{6, 6, 6, 1, 1, 1}
+	res = CountSmaller(nums)
+	fmt.Println(res) //[3,3,3,0,0,0]
+	nums = []int{5, -7, 9, 1, 3, 5, -2, 1}
+	res = CountSmaller(nums)
+	fmt.Println(res) //[5,0,5,1,2,2,0,0]
+}
