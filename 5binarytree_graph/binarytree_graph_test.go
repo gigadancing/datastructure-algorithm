@@ -61,3 +61,30 @@ func TestLowestCommonAncestor(t *testing.T) {
 	ancestor = LowestCommonAncestor(a, e, f)
 	fmt.Printf("%d和%d的公共祖先是:%d\n", e.val, f.val, ancestor.val)
 }
+
+func TestFlatten(t *testing.T) {
+	a := NewTreeNode(3)
+	b := NewTreeNode(5)
+	c := NewTreeNode(1)
+	d := NewTreeNode(6)
+	e := NewTreeNode(2)
+	f := NewTreeNode(0)
+	g := NewTreeNode(8)
+	h := NewTreeNode(7)
+	i := NewTreeNode(4)
+	a.left = b
+	a.right = c
+	b.left = d
+	b.right = e
+	c.left = f
+	c.right = g
+	e.left = h
+	e.right = i
+	Flatten(a)
+
+	for a != nil {
+		fmt.Printf("%d ", a.val)
+		a = a.right
+	}
+	fmt.Println()
+}

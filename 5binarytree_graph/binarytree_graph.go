@@ -111,3 +111,51 @@ func search(current, target *TreeNode, path []*TreeNode, result *[]*TreeNode, fi
 	// 值传递不用删除，函数返回后自动就删除了
 	//path = path[:len(path)-1]                           // 将当前节点从路径中删除
 }
+
+// 例3. 二叉树转链表
+// 给定一棵二叉树，将该二叉树就地（in-place）转为单链表。单链表中的节点顺序为二叉树的前序遍历顺序。
+// 用节点的right来连接下一个节点，left为空。
+func Flatten(root *TreeNode) {
+	if root == nil {
+		return
+	}
+	var last *TreeNode
+	preorderTraverse(root, last)
+	return
+}
+
+func preorderTraverse(node, last *TreeNode) {
+	if node == nil {
+		return
+	}
+
+	if node.left == nil && node.right == nil { // 叶节点
+		last = node
+		return
+	}
+
+	// 备份左右子树
+	left := node.left
+	right := node.right
+
+	// 左右子树的最后一个节点
+	var (
+		leftLast  *TreeNode
+		rightLast *TreeNode
+	)
+
+	if left != nil { // 若有左子树，将左子树转换为单链表
+		preorderTraverse(left, leftLast)
+		node.left = nil
+		node.right = left
+		last = leftLast
+	}
+
+	if right != nil { // 若有右子树，将左子树转换为单链表
+		preorderTraverse(right, rightLast)
+		if leftLast != nil {
+			leftLast.right = right
+		}
+		last = rightLast
+	}
+}
