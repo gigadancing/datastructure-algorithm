@@ -202,8 +202,8 @@ func RightSideView(node *TreeNode) []*TreeNode {
 
 	for q.Length() != 0 {
 		front := q.Peek().(*Pair) // 队列最前面的Pair
-		depth := front.Layer      // 搜索的节点
-		n := front.Node           // 搜索的层数
+		depth := front.Layer      // 搜索的层数
+		n := front.Node           // 搜索的节点
 		q.Remove()                // 队列弹出一个Pair
 
 		if len(views) == depth { // views的元素个数和层数相等，更新对应的层数为下标的元素；否则，加入元素
