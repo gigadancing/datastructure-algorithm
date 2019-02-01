@@ -1,6 +1,8 @@
 package bg
 
-import "github.com/eapache/queue"
+import (
+	"github.com/eapache/queue"
+)
 
 // 树节点
 type TreeNode struct {
@@ -210,6 +212,36 @@ func RightSideView(node *TreeNode) []*TreeNode {
 			views = append(views, n)
 		} else {
 			views[depth] = n
+		}
+
+		if n.left != nil {
+			q.Add(NewPair(n.left, depth+1))
+		}
+
+		if n.right != nil {
+			q.Add(NewPair(n.right, depth+1))
+		}
+	}
+
+	return views
+}
+
+// 从左侧观察
+func LeftSideView(node *TreeNode) []*TreeNode {
+	if node == nil {
+		return nil
+	}
+	views := make([]*TreeNode, 0)
+	q := queue.New()
+	q.Add(NewPair(node, 0))
+
+	for q.Length() != 0 {
+		head := q.Peek().(*Pair)
+		n := head.Node
+		depth := head.Layer
+		q.Remove()
+		if depth == len(views) {
+			views = append(views, n)
 		}
 
 		if n.left != nil {

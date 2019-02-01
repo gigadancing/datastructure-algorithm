@@ -102,7 +102,29 @@ func TestRightsideView(t *testing.T) {
 	c.right = d
 	e.left = f
 	result := RightSideView(a)
+	fmt.Printf("[ ")
 	for _, node := range result {
-		fmt.Println((*node).val)
+		fmt.Printf("%d ", (*node).val)
 	}
+	fmt.Printf("]\n")
+}
+
+func TestLeftsideView(t *testing.T) {
+	a := NewTreeNode(1)
+	b := NewTreeNode(2)
+	c := NewTreeNode(3)
+	d := NewTreeNode(4)
+	e := NewTreeNode(5)
+	f := NewTreeNode(6)
+	a.left = b
+	a.right = c
+	b.right = e
+	c.right = d
+	e.left = f
+	result := LeftSideView(a)
+	fmt.Printf("[ ")
+	for _, node := range result {
+		fmt.Printf("%d ", (*node).val)
+	}
+	fmt.Printf("]\n")
 }
