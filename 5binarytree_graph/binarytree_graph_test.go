@@ -89,7 +89,7 @@ func TestFlatten(t *testing.T) {
 	fmt.Println()
 }
 
-func TestRightsideView(t *testing.T) {
+func TestRightSideView(t *testing.T) {
 	a := NewTreeNode(1)
 	b := NewTreeNode(2)
 	c := NewTreeNode(3)
