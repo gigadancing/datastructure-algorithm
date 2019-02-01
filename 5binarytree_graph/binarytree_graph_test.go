@@ -88,3 +88,21 @@ func TestFlatten(t *testing.T) {
 	}
 	fmt.Println()
 }
+
+func TestRightsideView(t *testing.T) {
+	a := NewTreeNode(1)
+	b := NewTreeNode(2)
+	c := NewTreeNode(3)
+	d := NewTreeNode(4)
+	e := NewTreeNode(5)
+	f := NewTreeNode(6)
+	a.left = b
+	a.right = c
+	b.right = e
+	c.right = d
+	e.left = f
+	result := RightSideView(a)
+	for _, node := range result {
+		fmt.Println((*node).val)
+	}
+}

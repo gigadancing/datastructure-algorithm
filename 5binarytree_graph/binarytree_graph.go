@@ -1,15 +1,33 @@
 package bg
 
+import "github.com/eapache/queue"
+
+// 树节点
 type TreeNode struct {
 	val         int
 	left, right *TreeNode
 }
 
+// 节点构造函数
 func NewTreeNode(val int) *TreeNode {
 	return &TreeNode{
 		val:   val,
 		left:  nil,
 		right: nil,
+	}
+}
+
+// 将节点和层数绑定的Pair
+type Pair struct {
+	Node  *TreeNode // 树节点
+	Layer int       // 层数
+}
+
+// Pair构造函数
+func NewPair(node *TreeNode, layer int) *Pair {
+	return &Pair{
+		Node:  node,
+		Layer: layer,
 	}
 }
 
@@ -158,4 +176,50 @@ func preorderTraverse(node *TreeNode, last **TreeNode) {
 		}
 		*last = rightLast
 	}
+}
+
+// 例4. 给定一棵二叉树，假设从该二叉树的右侧观察它，将观察到的节点从上到下输出。
+//          1
+//         / \
+//        2   3
+//         \   \
+//          5   4
+//         /
+//        6
+// 结果为：[1,3,4,6]
+// 思路：
+// 对树进行广度优先搜索，将每一层最后一个节点加入结果集合。
+// 将节点与层数绑定为pair，压入队列时，将节点和层数同时压入队列，并记录每一层出现的最后一个节点。
+func RightSideView(node *TreeNode) []*TreeNode {
+	if node == nil {
+		return nil
+	}
+
+	views := make([]*TreeNode, 0) // 观察结果
+	q := queue.New()              // 临时队列
+
+	q.Add(NewPair(node, 0))
+
+	for q.Length() != 0 {
+		front := q.Peek().(*Pair) // 队列最前面的Pair
+		depth := front.Layer      // 搜索的节点
+		n := front.Node           // 搜索的层数
+		q.Remove()                // 队列弹出一个Pair
+
+		if len(views) == depth { // views的元素个数和层数相等，更新对应的层数为下标的元素；否则，加入元素
+			views = append(views, n)
+		} else {
+			views[depth] = n
+		}
+
+		if n.left != nil {
+			q.Add(NewPair(n.left, depth+1))
+		}
+
+		if n.right != nil {
+			q.Add(NewPair(n.right, depth+1))
+		}
+	}
+
+	return views
 }
