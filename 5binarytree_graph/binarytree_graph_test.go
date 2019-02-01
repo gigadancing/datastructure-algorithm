@@ -109,7 +109,7 @@ func TestRightsideView(t *testing.T) {
 	fmt.Printf("]\n")
 }
 
-func TestLeftsideView(t *testing.T) {
+func TestLeftSideView(t *testing.T) {
 	a := NewTreeNode(1)
 	b := NewTreeNode(2)
 	c := NewTreeNode(3)
