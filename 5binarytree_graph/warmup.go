@@ -67,3 +67,64 @@ func BfsRecursion(node *TreeNode, q *queue.Queue, result *[]*TreeNode) {
 	BfsRecursion(front.left, q, result)
 	BfsRecursion(front.right, q, result)
 }
+
+const (
+	MAXN = 5
+)
+
+// 图的构造与表示
+// 1. 邻接矩阵
+// 行代表顶点
+// 列代表该顶点与其他顶点的关系
+func AdjacencyMatrix() {
+	graph := [MAXN][MAXN]int{} // 邻接矩阵
+	graph[0][2] = 1
+	graph[0][4] = 1
+	graph[1][0] = 1
+	graph[1][2] = 1
+	graph[2][3] = 1
+	graph[3][4] = 1
+	graph[4][3] = 1
+	for i := 0; i < MAXN; i++ {
+		for j := 0; j < MAXN; j++ {
+			fmt.Printf("%d ", graph[i][j])
+		}
+		fmt.Printf("\n")
+	}
+}
+
+// 邻接表图节点
+type GraphNode struct {
+	label     int          // 顶点值
+	neighbors []*GraphNode // 相邻节点指针数组
+}
+
+func NewGraphNode(x int) *GraphNode {
+	return &GraphNode{
+		label: x,
+	}
+}
+
+// 2. 邻接表
+func AdjacencyList() {
+	graph := [MAXN]*GraphNode{}
+	for i := 0; i < MAXN; i++ {
+		graph[i] = NewGraphNode(i)
+	}
+	graph[0].neighbors = append(graph[0].neighbors, graph[2])
+	graph[0].neighbors = append(graph[0].neighbors, graph[4])
+	graph[1].neighbors = append(graph[1].neighbors, graph[0])
+	graph[1].neighbors = append(graph[1].neighbors, graph[2])
+	graph[2].neighbors = append(graph[2].neighbors, graph[3])
+	graph[3].neighbors = append(graph[3].neighbors, graph[4])
+	graph[4].neighbors = append(graph[4].neighbors, graph[3])
+
+	for i := 0; i < MAXN; i++ {
+		fmt.Printf("Label(%d):", i)
+		for j := 0; j < len(graph[i].neighbors); j++ {
+			fmt.Printf(" %d ", graph[i].neighbors[j].label)
+		}
+		fmt.Printf("\n")
+	}
+
+}

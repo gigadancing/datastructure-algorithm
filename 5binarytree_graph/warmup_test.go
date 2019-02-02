@@ -100,3 +100,8 @@ func TestBfsRecursion(t *testing.T) {
 	}
 	fmt.Printf("]\n")
 }
+
+func TestGraph(t *testing.T) {
+	AdjacencyMatrix()
+	AdjacencyList()
+}
