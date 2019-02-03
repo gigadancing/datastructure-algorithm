@@ -105,3 +105,25 @@ func TestGraph(t *testing.T) {
 	AdjacencyMatrix()
 	AdjacencyList()
 }
+
+func TestDfsGraph(t *testing.T) {
+	graph := [5]*GraphNode{}
+	for i := 0; i < 5; i++ {
+		graph[i] = NewGraphNode(i)
+	}
+	graph[0].neighbors = append(graph[0].neighbors, graph[4])
+	graph[0].neighbors = append(graph[0].neighbors, graph[2])
+	graph[1].neighbors = append(graph[1].neighbors, graph[0])
+	graph[1].neighbors = append(graph[1].neighbors, graph[2])
+	graph[2].neighbors = append(graph[2].neighbors, graph[3])
+	graph[3].neighbors = append(graph[3].neighbors, graph[4])
+	graph[4].neighbors = append(graph[4].neighbors, graph[3])
+	visit := make([]int, MAXN)
+	for i := 0; i < MAXN; i++ {
+		if visit[i] == 0 {
+			fmt.Printf("From label(%d) : ", graph[i].label)
+			DfsGraph(graph[i], visit)
+			fmt.Printf("\n")
+		}
+	}
+}

@@ -126,5 +126,17 @@ func AdjacencyList() {
 		}
 		fmt.Printf("\n")
 	}
+}
 
+// 图的深度优先遍历
+// 从图中某个顶点v出发，首先访问该顶点，然后依次从它的各个未被访问的邻接点出发深度优先搜索遍历图，直至图中所有和v有路径相通且未被访问的
+// 节点都被访问到。若此时尚有其他顶点未被访问到，则选另一个未被访问的节点作起始点，重复上述过程，直至图中所有顶点都被访问到为止。
+func DfsGraph(node *GraphNode, visit []int) {
+	visit[node.label] = 1
+	fmt.Printf("%d ", node.label)
+	for i := 0; i < len(node.neighbors); i++ {
+		if visit[node.neighbors[i].label] == 0 {
+			DfsGraph(node.neighbors[i], visit)
+		}
+	}
 }
