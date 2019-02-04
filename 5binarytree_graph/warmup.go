@@ -140,3 +140,24 @@ func DfsGraph(node *GraphNode, visit []int) {
 		}
 	}
 }
+
+// 图的广度优先遍历
+// 从某哥顶点v出发，在访问了v之后依次访问v的各个未曾访问过的邻接点，然后分别从这些邻接顶点出发依次访问它们的邻接点，并使得先被访问的顶点
+// 的邻接先于后被访问的顶点邻接点，直至图中所有已被访问的顶点的邻接点都被访问到。如果此时图中尚有顶点未被访问，则需要选一个未曾被访问的顶
+// 点作为新的起始点，重复上述过程，直至图中所有顶点都被访问到为止。
+func BfsGraph(node *GraphNode, visit []int) {
+	q := queue.New()
+	q.Add(node)
+	visit[node.label] = 1
+	for q.Length() != 0 {
+		front := q.Peek().(*GraphNode)
+		q.Remove()
+		fmt.Printf("%d ", front.label)
+		for i := 0; i < len(front.neighbors); i++ {
+			if visit[front.neighbors[i].label] == 0 {
+				q.Add(front.neighbors[i])
+				visit[front.neighbors[i].label] = 1
+			}
+		}
+	}
+}
