@@ -255,3 +255,114 @@ func LeftSideView(node *TreeNode) []*TreeNode {
 
 	return views
 }
+
+type CoursePair struct {
+	Course int
+	Depend int
+}
+
+func NewCoursePair(course, depend int) *CoursePair {
+	return &CoursePair{
+		Course: course,
+		Depend: depend,
+	}
+}
+
+// 例5. 课程安排
+// 已知有n个课程，标记从0到n-1，课程之间是有依赖关系的。例如希望完成A课程，可能需要先完成B课程。已知n个课程的依赖关系，求是否可以将n个
+// 课程全部完成。
+// 课程依赖关系<课程1,课程2>代表课程1依赖课程2，如：
+// [[1,0]]，返回true
+// [[1,0],[0,1]]，返回false
+// n个课程它们之间有m个依赖关系，可以看成顶点个数为n，边个数为m的有向图。故若为有向无环图，则可以完成全部课程，否则不能。
+// 问题转换成构建图判断是否有环。
+// 1. 深度优先搜索：如果正在搜索某一顶点（还未推出该顶点的递归深度搜索），又回到了该顶点证明有环。
+// 2. 广度优先搜索（拓扑排序）：只将入度为0的节点添加至队列，当完成一个顶点的搜索（从队列中弹出），它指向的所有的顶点的入度都减1；若此时某个顶点的
+// 入度为0则添加至队列。若完成广搜后所有顶点的入度都为0，则无环，否则有环。
+func CanFinish(numCourses int, prerequisites []*CoursePair) bool {
+	graph := make([]*GraphNode, 0)   // 邻接表
+	visit := make([]int, numCourses) // 节点访问状态，-1代表没有访问过，0代表正在访问，1代表已经访问过
+	// 创建图顶点并置访问状态为-1
+	for i := 0; i < numCourses; i++ {
+		graph = append(graph, NewGraphNode(i))
+		visit[i] = -1
+	}
+	// 创建图
+	for i := 0; i < len(prerequisites); i++ {
+		// depend指向course
+		begin := graph[prerequisites[i].Depend]
+		end := graph[prerequisites[i].Course]
+		begin.neighbors = append(begin.neighbors, end)
+	}
+
+	for i := 0; i < numCourses; i++ {
+		// 若节点未访问过，则进行DFS；如果遇到环，则无法完成。
+		if visit[i] == -1 && !DfsCourseGraph(graph[i], visit) {
+			return false
+		}
+
+	}
+	return true
+}
+
+// 返回值
+// true - 无环
+// false - 有环
+func DfsCourseGraph(node *GraphNode, visit []int) bool {
+	visit[node.label] = 0 // 状态置为0
+	for i := 0; i < len(node.neighbors); i++ {
+		if visit[node.neighbors[i].label] == -1 { // 未被访问
+			if !DfsCourseGraph(node.neighbors[i], visit) {
+				return false
+			}
+		} else if visit[node.neighbors[i].label] == 0 { // 正在访问，说明有环，返回false
+			return false
+		}
+	}
+	visit[node.label] = 1 // 状态置为1
+	return true
+}
+
+// 广度优先搜索
+func CanFinish2(numCourses int, prerequisites []*CoursePair) bool {
+	graph := make([]*GraphNode, 0)
+	degree := make([]int, 0)
+
+	for i := 0; i < numCourses; i++ {
+		degree = append(degree, 0)
+		graph = append(graph, NewGraphNode(i))
+	}
+
+	for i := 0; i < len(prerequisites); i++ {
+		begin := graph[prerequisites[i].Depend]
+		end := graph[prerequisites[i].Course]
+		begin.neighbors = append(begin.neighbors, end)
+		degree[prerequisites[i].Course]++
+	}
+
+	q := queue.New()
+	for i := 0; i < numCourses; i++ {
+		if degree[i] == 0 {
+			q.Add(graph[i])
+		}
+	}
+
+	for q.Length() != 0 {
+		front := q.Peek().(*GraphNode)
+		q.Remove()
+		for i := 0; i < len(front.neighbors); i++ {
+			degree[front.neighbors[i].label]--
+			if degree[front.neighbors[i].label] == 0 {
+				q.Add(front.neighbors[i])
+			}
+		}
+	}
+
+	for _, d := range degree {
+		if d != 0 { // 入度不为0
+			return false
+		}
+	}
+
+	return true
+}

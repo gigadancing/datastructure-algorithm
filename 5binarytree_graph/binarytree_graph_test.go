@@ -128,3 +128,11 @@ func TestLeftSideView(t *testing.T) {
 	}
 	fmt.Printf("]\n")
 }
+
+func TestCanFinish(t *testing.T) {
+
+}
+
+func TestCanFinish2(t *testing.T) {
+
+}
