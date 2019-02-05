@@ -1,37 +1,28 @@
 package bst
 
-// 二分查找递归
-// 返回值：
-// true - 找到
-// false - 未找到
-func BinarySearchRecursion(sortedArray []int, begin, end, target int) bool {
-	if len(sortedArray) == 0 || begin > end {
-		return false
-	}
-	mid := (begin + end) / 2
-	if target == sortedArray[mid] {
-		return true
-	} else if target < sortedArray[mid] {
-		return BinarySearchRecursion(sortedArray, begin, mid-1, target)
-	} else {
-		return BinarySearchRecursion(sortedArray, mid+1, end, target)
-	}
-}
-
-func BinarySearch(sortedArray []int, target int) bool {
+// 例1. 插入位置
+// 给定一个排序数组nums（无重复元素）与目标值target，如果target在nums里出现，则返回target所在下标，如果target在nums里未出现，则返回
+// target应该插入位置的数组下标，使得将target插入数组nums后，数组仍有序。
+func SearchInsert(nums []int, target int) int {
+	index := -1
 	begin := 0
-	end := len(sortedArray) - 1
+	end := len(nums) - 1
 
-	for begin <= end {
+	for index == -1 {
 		mid := (begin + end) / 2
-		if target == sortedArray[mid] {
-			return true
-		} else if target < sortedArray[mid] {
+		if target == nums[mid] {
+			index = mid
+		} else if target < nums[mid] {
+			if mid == 0 || target > nums[mid-1] {
+				index = mid
+			}
 			end = mid - 1
 		} else {
+			if mid == len(nums)-1 || target < nums[mid-1] {
+				index = mid + 1
+			}
 			begin = mid + 1
 		}
 	}
-
-	return false
+	return index
 }
