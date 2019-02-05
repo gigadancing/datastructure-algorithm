@@ -17,3 +17,21 @@ func BinarySearchRecursion(sortedArray []int, begin, end, target int) bool {
 		return BinarySearchRecursion(sortedArray, mid+1, end, target)
 	}
 }
+
+func BinarySearch(sortedArray []int, target int) bool {
+	begin := 0
+	end := len(sortedArray) - 1
+
+	for begin <= end {
+		mid := (begin + end) / 2
+		if target == sortedArray[mid] {
+			return true
+		} else if target < sortedArray[mid] {
+			end = mid - 1
+		} else {
+			begin = mid + 1
+		}
+	}
+
+	return false
+}
