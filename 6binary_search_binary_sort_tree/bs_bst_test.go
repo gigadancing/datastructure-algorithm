@@ -13,3 +13,11 @@ func TestSearchInsert(t *testing.T) {
 		fmt.Println(t, "-->", index)
 	}
 }
+
+func TestSearchRange(t *testing.T) {
+	nums := []int{5, 7, 7, 8, 8, 8, 8, 10}
+	for i := 0; i < 12; i++ {
+		res := SearchRange(nums, i)
+		fmt.Printf("%d:[%d,%d]\n", i, res[0], res[1])
+	}
+}
