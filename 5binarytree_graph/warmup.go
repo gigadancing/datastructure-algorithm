@@ -13,9 +13,9 @@ func PreorderPrint(node *TreeNode, layer int) {
 	for i := 0; i < layer; i++ {
 		fmt.Printf("----")
 	}
-	fmt.Println(node.val)
-	PreorderPrint(node.left, layer+1)
-	PreorderPrint(node.right, layer+1)
+	fmt.Println(node.Val)
+	PreorderPrint(node.Left, layer+1)
+	PreorderPrint(node.Right, layer+1)
 }
 
 // 遍历二叉树，记录从根节点到叶节点的所有路径
@@ -24,11 +24,11 @@ func Traverse(node *TreeNode, path []*TreeNode, result *[][]*TreeNode) {
 		return
 	}
 	path = append(path, node)                  // 将当前节点加入路径
-	if node.left == nil && node.right == nil { // 叶节点
+	if node.Left == nil && node.Right == nil { // 叶节点
 		*result = append(*result, path)
 	}
-	Traverse(node.left, path, result)
-	Traverse(node.right, path, result)
+	Traverse(node.Left, path, result)
+	Traverse(node.Right, path, result)
 }
 
 // 广度优先搜索
@@ -43,11 +43,11 @@ func Bfs(node *TreeNode) []*TreeNode {
 		front := q.Peek().(*TreeNode)
 		result = append(result, front)
 		q.Remove()
-		if front.left != nil {
-			q.Add(front.left)
+		if front.Left != nil {
+			q.Add(front.Left)
 		}
-		if front.right != nil {
-			q.Add(front.right)
+		if front.Right != nil {
+			q.Add(front.Right)
 		}
 	}
 	return result
@@ -64,8 +64,8 @@ func BfsRecursion(node *TreeNode, q *queue.Queue, result *[]*TreeNode) {
 	}
 	front := q.Remove().(*TreeNode)
 	*result = append(*result, front)
-	BfsRecursion(front.left, q, result)
-	BfsRecursion(front.right, q, result)
+	BfsRecursion(front.Left, q, result)
+	BfsRecursion(front.Right, q, result)
 }
 
 const (

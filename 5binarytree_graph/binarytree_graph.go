@@ -6,16 +6,16 @@ import (
 
 // 树节点
 type TreeNode struct {
-	val         int
-	left, right *TreeNode
+	Val         int
+	Left, Right *TreeNode
 }
 
 // 节点构造函数
 func NewTreeNode(val int) *TreeNode {
 	return &TreeNode{
-		val:   val,
-		left:  nil,
-		right: nil,
+		Val:   val,
+		Left:  nil,
+		Right: nil,
 	}
 }
 
@@ -64,15 +64,15 @@ func preorder(node *TreeNode, pathValue, sum int, path []int, result *[][]int) {
 	if node == nil {
 		return
 	}
-	pathValue += node.val         // 更新路径和
-	path = append(path, node.val) // 将当前节点加入路径
+	pathValue += node.Val         // 更新路径和
+	path = append(path, node.Val) // 将当前节点加入路径
 	// 到达叶节点且路径和为sum，将路径加入到result
-	if pathValue == sum && node.left == nil && node.right == nil {
+	if pathValue == sum && node.Left == nil && node.Right == nil {
 		*result = append(*result, path)
 	}
-	preorder(node.left, pathValue, sum, path, result)
-	preorder(node.right, pathValue, sum, path, result)
-	pathValue -= node.val
+	preorder(node.Left, pathValue, sum, path, result)
+	preorder(node.Right, pathValue, sum, path, result)
+	pathValue -= node.Val
 	path = path[:len(path)-1] // 将当前节点从路径中删除
 	return
 }
@@ -126,8 +126,8 @@ func search(current, target *TreeNode, path []*TreeNode, result *[]*TreeNode, fi
 		finish = 1
 		*result = append(*result, path...)
 	}
-	search(current.left, target, path, result, finish)  // 搜索当前节点的左孩子
-	search(current.right, target, path, result, finish) // 搜索当前节点的右孩子
+	search(current.Left, target, path, result, finish)  // 搜索当前节点的左孩子
+	search(current.Right, target, path, result, finish) // 搜索当前节点的右孩子
 	// 值传递不用删除，函数返回后自动就删除了
 	//path = path[:len(path)-1]                           // 将当前节点从路径中删除
 }
@@ -149,14 +149,14 @@ func preorderTraverse(node *TreeNode, last **TreeNode) {
 		return
 	}
 
-	if node.left == nil && node.right == nil { // 叶节点
+	if node.Left == nil && node.Right == nil { // 叶节点
 		*last = node
 		return
 	}
 
 	// 备份左右子树
-	left := node.left
-	right := node.right
+	left := node.Left
+	right := node.Right
 
 	// 左右子树的最后一个节点
 	var (
@@ -166,15 +166,15 @@ func preorderTraverse(node *TreeNode, last **TreeNode) {
 
 	if left != nil { // 若有左子树，将左子树转换为单链表
 		preorderTraverse(left, &leftLast)
-		node.left = nil
-		node.right = left
+		node.Left = nil
+		node.Right = left
 		*last = leftLast
 	}
 
 	if right != nil { // 若有右子树，将左子树转换为单链表
 		preorderTraverse(right, &rightLast)
 		if leftLast != nil {
-			leftLast.right = right
+			leftLast.Right = right
 		}
 		*last = rightLast
 	}
@@ -214,12 +214,12 @@ func RightSideView(node *TreeNode) []*TreeNode {
 			views[depth] = n
 		}
 
-		if n.left != nil {
-			q.Add(NewPair(n.left, depth+1))
+		if n.Left != nil {
+			q.Add(NewPair(n.Left, depth+1))
 		}
 
-		if n.right != nil {
-			q.Add(NewPair(n.right, depth+1))
+		if n.Right != nil {
+			q.Add(NewPair(n.Right, depth+1))
 		}
 	}
 
@@ -244,12 +244,12 @@ func LeftSideView(node *TreeNode) []*TreeNode {
 			views = append(views, n)
 		}
 
-		if n.left != nil {
-			q.Add(NewPair(n.left, depth+1))
+		if n.Left != nil {
+			q.Add(NewPair(n.Left, depth+1))
 		}
 
-		if n.right != nil {
-			q.Add(NewPair(n.right, depth+1))
+		if n.Right != nil {
+			q.Add(NewPair(n.Right, depth+1))
 		}
 	}
 
