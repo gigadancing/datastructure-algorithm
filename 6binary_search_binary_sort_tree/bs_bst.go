@@ -81,3 +81,49 @@ func RightBound(nums []int, target int) int {
 	}
 	return -1
 }
+
+// 例3. 旋转数组
+// 给定一个排序数组nums（nums中有无重复元素），且nums可能以某个未知的下标旋转，给定目标值target，求target是否在nums中出现，若出现返回
+// 所在下标，未出现返回-1。
+// 例如：
+// 原数组：nums=[1,3,6,7,9,12,15,20]
+// 可能的旋转结果：
+// [3,6,7,9,12,15,20,1]  [12,15,20,1,3,6,7,9]
+// [6,7,9,12,15,20,1,3]  [15,20,1,3,6,7,9,12]
+// [7,9,12,15,20,1,3,6]  [20,1,3,6,7,9,12,15]
+// [9,12,15,20,1,3,6,7]
+func Search(nums []int, target int) int {
+	begin := 0
+	end := len(nums) - 1
+	for begin <= end {
+		mid := (begin + end) / 2
+		if target == nums[mid] {
+			return mid
+		} else if target < nums[mid] {
+			if nums[begin] < nums[mid] {
+				if target >= nums[begin] {
+					end = mid - 1
+				} else {
+					begin = mid + 1
+				}
+			} else if nums[begin] > nums[mid] {
+				end = mid - 1
+			} else {
+				begin = mid + 1
+			}
+		} else {
+			if nums[begin] < nums[mid] {
+				begin = mid + 1
+			} else if nums[begin] > nums[mid] {
+				if target >= nums[begin] {
+					end = mid - 1
+				} else {
+					begin = mid + 1
+				}
+			} else {
+				begin = mid + 1
+			}
+		}
+	}
+	return -1
+}

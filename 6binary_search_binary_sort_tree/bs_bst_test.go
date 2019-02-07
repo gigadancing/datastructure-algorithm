@@ -21,3 +21,10 @@ func TestSearchRange(t *testing.T) {
 		fmt.Printf("%d:[%d,%d]\n", i, res[0], res[1])
 	}
 }
+
+func TestSearch(t *testing.T) {
+	nums := []int{9, 12, 15, 20, 1, 3, 6, 7}
+	for i := 0; i < 22; i++ {
+		fmt.Printf("%d:%d\n", i, Search(nums, i))
+	}
+}
