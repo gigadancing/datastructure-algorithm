@@ -1,6 +1,7 @@
 package bst
 
 import (
+	"datastructure-algorithm/5binarytree_graph"
 	"fmt"
 	"testing"
 )
@@ -27,4 +28,39 @@ func TestSearch(t *testing.T) {
 	for i := 0; i < 22; i++ {
 		fmt.Printf("%d:%d\n", i, Search(nums, i))
 	}
+}
+
+func TestBstPreorder(t *testing.T) {
+	a := bg.NewTreeNode(8)
+	b := bg.NewTreeNode(3)
+	c := bg.NewTreeNode(10)
+	d := bg.NewTreeNode(1)
+	e := bg.NewTreeNode(6)
+	f := bg.NewTreeNode(15)
+	a.Left = b
+	a.Right = c
+	b.Left = d
+	b.Right = e
+	c.Right = f
+	str := ""
+	BstPreorder(a, &str)
+	fmt.Println(str)
+}
+
+func TestSerializeAndDeserialize(t *testing.T) {
+	a := bg.NewTreeNode(8)
+	b := bg.NewTreeNode(3)
+	c := bg.NewTreeNode(10)
+	d := bg.NewTreeNode(1)
+	e := bg.NewTreeNode(6)
+	f := bg.NewTreeNode(15)
+	a.Left = b
+	a.Right = c
+	b.Left = d
+	b.Right = e
+	c.Right = f
+	res := Serialize(a)
+	fmt.Println(res)
+	root := Deserialize(res)
+	bg.PreorderPrint(root, 0)
 }

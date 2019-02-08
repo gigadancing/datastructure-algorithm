@@ -1,5 +1,11 @@
 package bst
 
+import (
+	"datastructure-algorithm/5binarytree_graph"
+	"strconv"
+	"strings"
+)
+
 // 例1. 插入位置
 // 给定一个排序数组nums（无重复元素）与目标值target，如果target在nums里出现，则返回target所在下标，如果target在nums里未出现，则返回
 // target应该插入位置的数组下标，使得将target插入数组nums后，数组仍有序。
@@ -126,4 +132,42 @@ func Search(nums []int, target int) int {
 		}
 	}
 	return -1
+}
+
+// 例4.编码与解码
+// 给定一棵二叉排序树，实现对该二叉排序树编码与解码功能。编码即将二叉排序树转为字符串，解码即将字符串转为二叉排序树。不限制使用何种编码
+// 方法，只需保证当对二叉排序树调用编码功能后再调用解码功能将其复原。
+func Serialize(node *bg.TreeNode) string {
+	if node == nil {
+		return ""
+	}
+	data := ""
+	BstPreorder(node, &data)
+	return data
+}
+
+func Deserialize(data string) *bg.TreeNode {
+	res := strings.Split(data, "#")
+	if len(res) == 0 {
+		return nil
+	}
+	val, _ := strconv.Atoi(res[0])
+	root := bg.NewTreeNode(val)
+	for i := 1; i < len(res); i++ {
+		if res[i] != "" {
+			integer, _ := strconv.Atoi(res[i])
+			BstInsert(root, bg.NewTreeNode(integer))
+		}
+	}
+	return root
+}
+
+func BstPreorder(node *bg.TreeNode, data *string) {
+	if node == nil {
+		return
+	}
+	strVal := strconv.Itoa(node.Val) // 将节点值转为字符串
+	*data += strVal + "#"
+	BstPreorder(node.Left, data)
+	BstPreorder(node.Right, data)
 }
