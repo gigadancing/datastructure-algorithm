@@ -64,3 +64,9 @@ func TestSerializeAndDeserialize(t *testing.T) {
 	root := Deserialize(res)
 	bg.PreorderPrint(root, 0)
 }
+
+func TestCountSmaller(t *testing.T) {
+	nums := []int{5, -7, 9, 1, 3, 5, -2, 1}
+	res := CountSmaller(nums)
+	fmt.Println(res)
+}

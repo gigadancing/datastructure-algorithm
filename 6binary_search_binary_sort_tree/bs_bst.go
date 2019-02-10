@@ -172,16 +172,61 @@ func BstPreorder(node *bg.TreeNode, data *string) {
 	BstPreorder(node.Right, data)
 }
 
+type BSTNode struct {
+	Val         int
+	Count       int // 左子树节点个数
+	Left, Right *BSTNode
+}
+
+func NewBSTNode(value int) *BSTNode {
+	return &BSTNode{
+		Val: value,
+	}
+}
+
 // 例5. 逆序数
 // 已知数组nums，求新数组count，count[i]代表了在nums[i]右侧且比nums[i]小的元素个数。
 // 例如：
 // nums=[5,2,6,1],count=[2,1,1,0]
 // nums=[6,6,6,1,1,1],count=[3,3,3,0,0,0]
 // nums=[5,-7,9,1,3,5,-2,1],count=[5,0,5,1,2,2,0,0]
-func BstCountSmaller(nums []int) []int {
+func CountSmaller(nums []int) []int {
 	if len(nums) == 0 {
 		return nil
 	}
-	count := make([]int, 0)
-	return count
+	counts := make([]int, 0)     // 从后向前插入过程中比当前小的节点个数
+	nodes := make([]*BSTNode, 0) // 二叉排序树节点
+	// 逆序创建二叉排序树节点
+	for i := len(nums) - 1; i >= 0; i-- {
+		nodes = append(nodes, NewBSTNode(nums[i]))
+	}
+	counts = append(counts, 0) // 第一个的个数为0
+	for i := 1; i < len(nodes); i++ {
+		smallCount := 0
+		InsertForInversionNumber(nodes[0], nodes[i], &smallCount)
+		counts = append(counts, smallCount)
+	}
+	// 将counts逆序，还原为原来的顺序
+	for i, j := 0, len(counts)-1; i < j; i, j = i+1, j-1 {
+		counts[i], counts[j] = counts[j], counts[i]
+	}
+	return counts
+}
+
+func InsertForInversionNumber(node, insertedNode *BSTNode, smallerCount *int) {
+	if insertedNode.Val <= node.Val {
+		node.Count++
+		if node.Left != nil {
+			InsertForInversionNumber(node.Left, insertedNode, smallerCount)
+		} else {
+			node.Left = insertedNode
+		}
+	} else {
+		*smallerCount++
+		if node.Right != nil {
+			InsertForInversionNumber(node.Right, insertedNode, smallerCount)
+		} else {
+			node.Right = insertedNode
+		}
+	}
 }
