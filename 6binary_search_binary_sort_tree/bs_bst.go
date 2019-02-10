@@ -171,3 +171,17 @@ func BstPreorder(node *bg.TreeNode, data *string) {
 	BstPreorder(node.Left, data)
 	BstPreorder(node.Right, data)
 }
+
+// 例5. 逆序数
+// 已知数组nums，求新数组count，count[i]代表了在nums[i]右侧且比nums[i]小的元素个数。
+// 例如：
+// nums=[5,2,6,1],count=[2,1,1,0]
+// nums=[6,6,6,1,1,1],count=[3,3,3,0,0,0]
+// nums=[5,-7,9,1,3,5,-2,1],count=[5,0,5,1,2,2,0,0]
+func BstCountSmaller(nums []int) []int {
+	if len(nums) == 0 {
+		return nil
+	}
+	count := make([]int, 0)
+	return count
+}
