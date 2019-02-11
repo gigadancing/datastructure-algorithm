@@ -2,6 +2,7 @@ package bst
 
 import (
 	"datastructure-algorithm/5binarytree_graph"
+	"fmt"
 	"strconv"
 	"strings"
 )
@@ -184,6 +185,18 @@ func NewBSTNode(value int) *BSTNode {
 	}
 }
 
+func PreorderPrint(node *BSTNode, layer int) {
+	if node == nil {
+		return
+	}
+	for i := 0; i < layer; i++ {
+		fmt.Printf("---")
+	}
+	fmt.Printf("%d(%d)\n", node.Val, node.Count)
+	PreorderPrint(node.Left, layer+1)
+	PreorderPrint(node.Right, layer+1)
+}
+
 // 例5. 逆序数
 // 已知数组nums，求新数组count，count[i]代表了在nums[i]右侧且比nums[i]小的元素个数。
 // 例如：
@@ -222,7 +235,7 @@ func InsertForInversionNumber(node, insertedNode *BSTNode, smallerCount *int) {
 			node.Left = insertedNode
 		}
 	} else {
-		*smallerCount++
+		*smallerCount += node.Count + 1 // 插入节点的值比当前节点的值大时，smallCount加上当前节点的count再加1，1表示当前节点
 		if node.Right != nil {
 			InsertForInversionNumber(node.Right, insertedNode, smallerCount)
 		} else {
