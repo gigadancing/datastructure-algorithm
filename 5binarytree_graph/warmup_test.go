@@ -15,12 +15,12 @@ func TestNewTreeNode(t *testing.T) {
 	d := NewTreeNode(4)
 	e := NewTreeNode(5)
 	f := NewTreeNode(6)
-	root.left = a
-	root.right = b
-	a.left = c
-	a.right = d
-	b.left = e
-	b.right = f
+	root.Left = a
+	root.Right = b
+	a.Left = c
+	a.Right = d
+	b.Left = e
+	b.Right = f
 	PreorderPrint(root, 0)
 }
 
@@ -36,23 +36,23 @@ func TestTraverse(t *testing.T) {
 	h := NewTreeNode(8)
 	i := NewTreeNode(9)
 	j := NewTreeNode(10)
-	root.left = a
-	root.right = b
-	a.left = c
-	a.right = d
-	b.left = e
-	b.right = f
-	d.left = g
-	e.right = h
-	f.left = i
-	f.right = j
+	root.Left = a
+	root.Right = b
+	a.Left = c
+	a.Right = d
+	b.Left = e
+	b.Right = f
+	d.Left = g
+	e.Right = h
+	f.Left = i
+	f.Right = j
 	path := make([]*TreeNode, 0)
 	result := make([][]*TreeNode, 0)
 	Traverse(root, path, &result)
 	for _, nodes := range result {
 		fmt.Printf("[ ")
 		for _, node := range nodes {
-			fmt.Printf("%d ", node.val)
+			fmt.Printf("%d ", node.Val)
 		}
 		fmt.Printf("]\n")
 	}
@@ -65,16 +65,16 @@ func TestBFS(t *testing.T) {
 	d := NewTreeNode(3)
 	e := NewTreeNode(4)
 	f := NewTreeNode(6)
-	a.left = b
-	a.right = c
-	b.left = d
-	b.right = e
-	c.right = f
+	a.Left = b
+	a.Right = c
+	b.Left = d
+	b.Right = e
+	c.Right = f
 
 	result := Bfs(a)
 	fmt.Printf("[ ")
 	for _, n := range result {
-		fmt.Printf("%d ", (*n).val)
+		fmt.Printf("%d ", (*n).Val)
 	}
 	fmt.Printf("]\n")
 }
@@ -86,17 +86,17 @@ func TestBfsRecursion(t *testing.T) {
 	d := NewTreeNode(3)
 	e := NewTreeNode(4)
 	f := NewTreeNode(6)
-	a.left = b
-	a.right = c
-	b.left = d
-	b.right = e
-	c.right = f
+	a.Left = b
+	a.Right = c
+	b.Left = d
+	b.Right = e
+	c.Right = f
 	result := make([]*TreeNode, 0)
 	q := queue.New()
 	BfsRecursion(a, q, &result)
 	fmt.Printf("[ ")
 	for _, n := range result {
-		fmt.Printf("%d ", (*n).val)
+		fmt.Printf("%d ", (*n).Val)
 	}
 	fmt.Printf("]\n")
 }

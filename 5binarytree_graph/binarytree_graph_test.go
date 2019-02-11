@@ -16,15 +16,15 @@ func TestPathSum(t *testing.T) {
 	h := NewTreeNode(2)
 	i := NewTreeNode(5)
 	j := NewTreeNode(1)
-	a.left = b
-	a.right = c
-	b.left = d
-	d.left = g
-	d.right = h
-	c.left = e
-	c.right = f
-	f.left = i
-	f.right = j
+	a.Left = b
+	a.Right = c
+	b.Left = d
+	d.Left = g
+	d.Right = h
+	c.Left = e
+	c.Right = f
+	f.Left = i
+	f.Right = j
 
 	result := PathSum(a, 22)
 	fmt.Println(result)
@@ -40,26 +40,26 @@ func TestLowestCommonAncestor(t *testing.T) {
 	g := NewTreeNode(8)
 	h := NewTreeNode(7)
 	i := NewTreeNode(4)
-	a.left = b
-	a.right = c
-	b.left = d
-	b.right = e
-	c.left = f
-	c.right = g
-	e.left = h
-	e.right = i
+	a.Left = b
+	a.Right = c
+	b.Left = d
+	b.Right = e
+	c.Left = f
+	c.Right = g
+	e.Left = h
+	e.Right = i
 	ancestor := LowestCommonAncestor(a, d, i)
-	fmt.Printf("%d和%d的公共祖先是:%d\n", d.val, i.val, ancestor.val)
+	fmt.Printf("%d和%d的公共祖先是:%d\n", d.Val, i.Val, ancestor.Val)
 	ancestor = LowestCommonAncestor(a, h, i)
-	fmt.Printf("%d和%d的公共祖先是:%d\n", h.val, i.val, ancestor.val)
+	fmt.Printf("%d和%d的公共祖先是:%d\n", h.Val, i.Val, ancestor.Val)
 	ancestor = LowestCommonAncestor(a, b, f)
-	fmt.Printf("%d和%d的公共祖先是:%d\n", b.val, f.val, ancestor.val)
+	fmt.Printf("%d和%d的公共祖先是:%d\n", b.Val, f.Val, ancestor.Val)
 	ancestor = LowestCommonAncestor(a, f, g)
-	fmt.Printf("%d和%d的公共祖先是:%d\n", f.val, g.val, ancestor.val)
+	fmt.Printf("%d和%d的公共祖先是:%d\n", f.Val, g.Val, ancestor.Val)
 	ancestor = LowestCommonAncestor(a, b, g)
-	fmt.Printf("%d和%d的公共祖先是:%d\n", b.val, g.val, ancestor.val)
+	fmt.Printf("%d和%d的公共祖先是:%d\n", b.Val, g.Val, ancestor.Val)
 	ancestor = LowestCommonAncestor(a, e, f)
-	fmt.Printf("%d和%d的公共祖先是:%d\n", e.val, f.val, ancestor.val)
+	fmt.Printf("%d和%d的公共祖先是:%d\n", e.Val, f.Val, ancestor.Val)
 }
 
 func TestFlatten(t *testing.T) {
@@ -72,19 +72,19 @@ func TestFlatten(t *testing.T) {
 	g := NewTreeNode(8)
 	h := NewTreeNode(7)
 	i := NewTreeNode(4)
-	a.left = b
-	a.right = c
-	b.left = d
-	b.right = e
-	c.left = f
-	c.right = g
-	e.left = h
-	e.right = i
+	a.Left = b
+	a.Right = c
+	b.Left = d
+	b.Right = e
+	c.Left = f
+	c.Right = g
+	e.Left = h
+	e.Right = i
 	Flatten(a)
 
 	for a != nil {
-		fmt.Printf("%d ", a.val)
-		a = a.right
+		fmt.Printf("%d ", a.Val)
+		a = a.Right
 	}
 	fmt.Println()
 }
@@ -96,15 +96,15 @@ func TestRightSideView(t *testing.T) {
 	d := NewTreeNode(4)
 	e := NewTreeNode(5)
 	f := NewTreeNode(6)
-	a.left = b
-	a.right = c
-	b.right = e
-	c.right = d
-	e.left = f
+	a.Left = b
+	a.Right = c
+	b.Right = e
+	c.Right = d
+	e.Left = f
 	result := RightSideView(a)
 	fmt.Printf("[ ")
 	for _, node := range result {
-		fmt.Printf("%d ", (*node).val)
+		fmt.Printf("%d ", (*node).Val)
 	}
 	fmt.Printf("]\n")
 }
@@ -116,15 +116,15 @@ func TestLeftSideView(t *testing.T) {
 	d := NewTreeNode(4)
 	e := NewTreeNode(5)
 	f := NewTreeNode(6)
-	a.left = b
-	a.right = c
-	b.right = e
-	c.right = d
-	e.left = f
+	a.Left = b
+	a.Right = c
+	b.Right = e
+	c.Right = d
+	e.Left = f
 	result := LeftSideView(a)
 	fmt.Printf("[ ")
 	for _, node := range result {
-		fmt.Printf("%d ", (*node).val)
+		fmt.Printf("%d ", (*node).Val)
 	}
 	fmt.Printf("]\n")
 }
