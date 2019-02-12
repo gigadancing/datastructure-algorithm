@@ -44,3 +44,27 @@ func TestLongestPalindrome(t *testing.T) {
 	n = LongestPalindrome(s)
 	fmt.Println(n)
 }
+
+func TestWordPattern(t *testing.T) {
+	pattern := "abba"
+	str := "dog cat cat dog"
+	matched := WordPattern(pattern, str)
+	fmt.Println(matched)
+	pattern = "abba"
+	str = "dog cat cat fish"
+	matched = WordPattern(pattern, str)
+	fmt.Println(matched)
+	pattern = "abcd"
+	str = "dog cat cat fish"
+	matched = WordPattern(pattern, str)
+	fmt.Println(matched)
+	pattern = "abbc"
+	str = "dog cat cat fish"
+	matched = WordPattern(pattern, str)
+	fmt.Println(matched)
+	pattern = "ab"
+	str = "dog cat cat fish"
+	matched = WordPattern(pattern, str)
+	fmt.Println(matched)
+
+}
