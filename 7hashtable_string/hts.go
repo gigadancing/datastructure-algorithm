@@ -102,3 +102,13 @@ func WordPattern(pattern, str string) bool {
 
 	return true
 }
+
+// 例3. 同字符词语分组
+// 已知一组字符串，将所有anagram（由颠倒字母顺序而构成的字）放到一起输出。
+// 例如：["eat","tea","tan","ate","nat","bat"]
+// 返回：[["eat","tea","ate"], ["tan","nat"], ["bat"]]
+func GroupAnagram(str []string) [][]string {
+	res := make([][]string, 0)
+
+	return res
+}
