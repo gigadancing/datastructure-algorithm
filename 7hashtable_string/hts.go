@@ -38,3 +38,5 @@ func Search(hashTable []*ListNode, tableLen, value int) bool {
 	}
 	return false
 }
+
+// 哈希表的表长一般为质数，使取余的结果非常分散，不易重复
