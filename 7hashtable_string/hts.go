@@ -40,3 +40,25 @@ func Search(hashTable []*ListNode, tableLen, value int) bool {
 }
 
 // 哈希表的表长一般为质数，使取余的结果非常分散，不易重复
+
+// 例1. 最长回文串
+// 已知一个只包含大小写字符的字符串，求用该字符串中的字符可以生成的最长回文字符串长度。
+// 例如：s="abccccddaa"，可以生成的最长回文串长度为9，如"dccaaaccd"、"adccbccda"、"acdcacdca"等都是正确的。
+func LongestPalindrome(s string) int {
+	bytes := [128]byte{0}
+	maxLength := 0 // 回文字符串中偶数部分
+	flag := 0      // 是否有中心点
+	for _, v := range s {
+		bytes[v-'0']++
+	}
+	for i := 0; i < 128; i++ {
+		if bytes[i]%2 == 0 {
+			maxLength += int(bytes[i])
+		} else {
+			maxLength += int(bytes[i]) - 1
+			flag = 1
+		}
+	}
+
+	return maxLength + flag
+}

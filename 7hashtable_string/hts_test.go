@@ -32,3 +32,15 @@ func TestHashTable(t *testing.T) {
 	}
 
 }
+
+func TestLongestPalindrome(t *testing.T) {
+	s := "abccccddaawwwww"
+	n := LongestPalindrome(s)
+	fmt.Println(n)
+	s = "aaabbb"
+	n = LongestPalindrome(s)
+	fmt.Println(n)
+	s = "iijj"
+	n = LongestPalindrome(s)
+	fmt.Println(n)
+}
