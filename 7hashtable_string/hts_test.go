@@ -68,3 +68,16 @@ func TestWordPattern(t *testing.T) {
 	fmt.Println(matched)
 
 }
+
+func TestGroupAnagram(t *testing.T) {
+	words := []string{"eat", "tea", "tan", "ate", "nat", "bat"}
+	res := GroupAnagram(words)
+	fmt.Println("len(res)=", len(res))
+	fmt.Println(res)
+	for _, arr := range res {
+		for _, w := range arr {
+			fmt.Printf("%v ", w)
+		}
+		fmt.Printf("\n")
+	}
+}

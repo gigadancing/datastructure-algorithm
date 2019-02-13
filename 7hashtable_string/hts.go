@@ -1,6 +1,9 @@
 package hts
 
-import "strings"
+import (
+	"sort"
+	"strings"
+)
 
 // 链表节点
 type ListNode struct {
@@ -103,6 +106,20 @@ func WordPattern(pattern, str string) bool {
 	return true
 }
 
+type WORD []byte
+
+func (w *WORD) Len() int {
+	return len(*w)
+}
+
+func (w *WORD) Less(i, j int) bool {
+	return (*w)[i] < (*w)[j]
+}
+
+func (w *WORD) Swap(i, j int) {
+	(*w)[i], (*w)[j] = (*w)[j], (*w)[i]
+}
+
 // 例3. 同字符词语分组
 // 已知一组字符串，将所有anagram（由颠倒字母顺序而构成的字）放到一起输出。
 // 例如：["eat","tea","tan","ate","nat","bat"]
@@ -110,8 +127,22 @@ func WordPattern(pattern, str string) bool {
 // 即：字符串里的字符相同，就该分到一组
 // 思考：
 // 如何建立哈希表，怎样设计哈希表的key和value，就可将字符内容相同的字符串映射到一起？
-func GroupAnagram(str []string) [][]string {
+func GroupAnagram(words []string) [][]string {
 	res := make([][]string, 0)
-
+	anagram := make(map[string][]string, 0)
+	for _, word := range words {
+		w := WORD(word)
+		sort.Sort(&w)
+		if _, ok := anagram[string(w)]; ok {
+			anagram[string(w)] = append(anagram[string(w)], word)
+		} else {
+			arr := make([]string, 0)
+			arr = append(arr, word)
+			anagram[string(w)] = arr
+		}
+	}
+	for _, v := range anagram {
+		res = append(res, v)
+	}
 	return res
 }
