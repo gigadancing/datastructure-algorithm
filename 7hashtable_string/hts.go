@@ -75,7 +75,7 @@ func LongestPalindrome(s string) int {
 // pattern="abba", str="dog dog dog dog", 不匹配
 // 分析：
 // 1. 当拆解出一个单词时，若该单词已出现，则当前单词对应的pattern字符必为该单词曾经对应的pattern字符。
-// 2. 当拆解出一个单词时，若该单词未曾出现，
+// 2. 当拆解出一个单词时，若该单词未曾出现。
 // 3. 单词的个数与pattern字符串中的字符数量相同。
 func WordPattern(pattern, str string) bool {
 	words := strings.Split(str, " ") // 拆分单词字符串
@@ -107,6 +107,9 @@ func WordPattern(pattern, str string) bool {
 // 已知一组字符串，将所有anagram（由颠倒字母顺序而构成的字）放到一起输出。
 // 例如：["eat","tea","tan","ate","nat","bat"]
 // 返回：[["eat","tea","ate"], ["tan","nat"], ["bat"]]
+// 即：字符串里的字符相同，就该分到一组
+// 思考：
+// 如何建立哈希表，怎样设计哈希表的key和value，就可将字符内容相同的字符串映射到一起？
 func GroupAnagram(str []string) [][]string {
 	res := make([][]string, 0)
 
