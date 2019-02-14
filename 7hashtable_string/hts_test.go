@@ -87,3 +87,15 @@ func TestGroupAnagram(t *testing.T) {
 		fmt.Printf("\n")
 	}
 }
+
+func TestLengthOfLongestSubstring(t *testing.T) {
+	s := "abcabcbb"
+	maxLen := LengthOfLongestSubstring(s)
+	fmt.Println(maxLen)
+	s = "bbbbb"
+	maxLen = LengthOfLongestSubstring(s)
+	fmt.Println(maxLen)
+	s = "pwwkew"
+	maxLen = LengthOfLongestSubstring(s)
+	fmt.Println(maxLen)
+}

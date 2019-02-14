@@ -174,3 +174,36 @@ func GroupAnagram2(words []string) [][]string {
 	}
 	return res
 }
+
+// 例4. 无重复字符的最长字串
+// 已知一个字符串，求用该字符串的无重复字符的最长字串的长度。
+// 例如：
+// s="abcabcbb"->"abc",3
+// s="bbbbb"->"b",1
+// s="pwwkew"->"wke",3 注意"pwke"是子序列而非字串
+func LengthOfLongestSubstring(str string) int {
+	maxLen := 0
+	substr := ""
+	charMap := [128]byte{}
+	begin := 0
+	for i, ch := range str {
+		charMap[ch]++
+		if charMap[ch] == 1 { // 字符只出现了一次，说明未重复
+			substr += string(ch)
+			if maxLen < len(substr) {
+				maxLen = len(substr)
+			}
+		} else {
+			for begin < i && charMap[ch] > 1 {
+				charMap[str[begin]]--
+				begin++
+			}
+			substr = "" // 更新substr
+			for j := begin; j <= i; j++ {
+				substr += string(str[j])
+			}
+		}
+	}
+
+	return maxLen
+}
