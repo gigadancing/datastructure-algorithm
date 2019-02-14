@@ -99,3 +99,12 @@ func TestLengthOfLongestSubstring(t *testing.T) {
 	maxLen = LengthOfLongestSubstring(s)
 	fmt.Println(maxLen)
 }
+
+func TestFindRepeatedDnaSequences(t *testing.T) {
+	s := "AAAAACCCCCAAAAACCCCCCAAAAAGGGTTT"
+	res := FindRepeatedDnaSequences(s)
+	fmt.Println(res)
+	s = "AAAAAAAAAAAA"
+	res = FindRepeatedDnaSequences(s)
+	fmt.Println(res)
+}

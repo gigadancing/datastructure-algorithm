@@ -207,3 +207,31 @@ func LengthOfLongestSubstring(str string) int {
 
 	return maxLen
 }
+
+// 例5. 重复DNA序列
+// 将DNA序列看作是只包含['A','G','C','T']4个字符的字符串，给一个DNA字符串，找到所有长度为10的且出现超过一次的子串。
+// 例如：
+// s = "AAAAACCCCCAAAAACCCCCCAAAAAGGGTTT"
+// return ["AAAAACCCCC","CCCCCAAAAA"]
+// s = "AAAAAAAAAAAA"
+// return ["AAAAAAAAAA"]
+func FindRepeatedDnaSequences(str string) []string {
+	res := make([]string, 0)
+	substrMap := make(map[string]int, 0)
+	for i := 0; i < len(str) && i+10 < len(str); i++ {
+		substr := str[i : i+10]
+		if _, ok := substrMap[substr]; ok {
+			substrMap[substr]++
+		} else {
+			substrMap[substr] = 1
+		}
+	}
+
+	for k, v := range substrMap {
+		if v > 1 {
+			res = append(res, k)
+		}
+	}
+
+	return res
+}
