@@ -108,3 +108,13 @@ func TestFindRepeatedDnaSequences(t *testing.T) {
 	res = FindRepeatedDnaSequences(s)
 	fmt.Println(res)
 }
+
+func TestMinWindow(t *testing.T) {
+	s := "ADOBECODEBANC"
+	tt := "ABC"
+	minStr := MinWindow(s, tt)
+	fmt.Println(minStr)
+	tt = "ABCD"
+	minStr = MinWindow(s, tt)
+	fmt.Println(minStr)
+}

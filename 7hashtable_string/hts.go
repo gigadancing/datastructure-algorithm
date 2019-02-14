@@ -235,3 +235,59 @@ func FindRepeatedDnaSequences(str string) []string {
 
 	return res
 }
+
+// 例6. 最小窗口子串
+// 已知字符串S与字符串T，求在S中最小窗口（区间），使得这个区间中包含字符串T中的所有字符。
+// 例如：
+// s="ADOBECODEBANC";T="ABC"
+// 包含T的子区间中，有"ADOBEC","CODEBA","BANC"等，最小窗口区间是"BANC"
+func MinWindow(s, t string) string {
+	minStr := "" // 最小窗口字符串
+	begin := 0   // 最小窗口起始位置
+	current, target := [128]byte{}, [128]byte{}
+	m := make([]byte, 0)
+
+	for _, ch := range t { // 遍历t建立映射关系target
+		target[ch]++
+	}
+	for v := range target { // 遍历target，将其中出现的字符加入到数组m中
+		if v > 0 {
+			m = append(m, byte(v))
+		}
+	}
+
+	for i, ch := range s {
+		current[ch]++
+
+		for begin < i {
+			c := s[begin]
+			if target[c] == 0 {
+				begin++
+			} else if current[c] > target[c] {
+				current[c]--
+				begin++
+			} else {
+				break
+			}
+		}
+
+		if isWindowOk(current, target, m) { // 检查此时窗口是否包含target
+			newWindowLen := i - begin + 1                   // 当前字符串长度
+			if minStr == "" || len(minStr) > newWindowLen { // 结果为空字符串或当前字符串更短时，更新字符串
+				minStr = s[begin : i+1]
+			}
+		}
+	}
+
+	return minStr
+}
+
+// 检查s是否包含t
+func isWindowOk(s, t [128]byte, m []byte) bool {
+	for _, b := range m {
+		if s[b] < t[b] {
+			return false
+		}
+	}
+	return true
+}
