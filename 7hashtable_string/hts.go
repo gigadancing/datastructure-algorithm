@@ -136,9 +136,37 @@ func GroupAnagram(words []string) [][]string {
 		if _, ok := anagram[string(w)]; ok {
 			anagram[string(w)] = append(anagram[string(w)], word)
 		} else {
-			arr := make([]string, 0)
-			arr = append(arr, word)
-			anagram[string(w)] = arr
+			value := make([]string, 0)
+			value = append(value, word)
+			anagram[string(w)] = value
+		}
+	}
+	for _, v := range anagram {
+		res = append(res, v)
+	}
+	return res
+}
+
+func generateKey(str string) [26]byte {
+	key := [26]byte{}
+	for _, ch := range str {
+		key[ch-'a'] = 1
+	}
+	return key
+}
+
+func GroupAnagram2(words []string) [][]string {
+	res := make([][]string, 0)
+	anagram := make(map[[26]byte][]string, 0)
+
+	for _, word := range words {
+		key := generateKey(word)
+		if _, ok := anagram[key]; ok {
+			anagram[key] = append(anagram[key], word)
+		} else {
+			value := make([]string, 0)
+			value = append(value, word)
+			anagram[key] = value
 		}
 	}
 	for _, v := range anagram {
