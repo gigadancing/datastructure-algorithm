@@ -136,3 +136,15 @@ func BFS(mark *[][]int, grid [][]int, x, y int) {
 		}
 	}
 }
+
+// 例2-a. 词语阶梯
+// 已知两个单词（分别是起始单词和结束单词），一个单词词典，根据转换规则计算从起始单词到结束单词的最短转换步数。
+// 转换规则如下：
+// 1. 在转换时，只能转换单词中的1个字符
+// 2. 转换得到的新单词，必须在单词词典中
+// 例如：beginWord="hit",endWord="cog",wordList=["hot","dot","dog","lot","log","cog"]
+// 最短转换方式："hit"->"hot"->"dot"->"dog"->"cog"，结果为5
+func LadderLength(beginWord, endWord string, wordList [][]string) int {
+
+	return 0
+}
