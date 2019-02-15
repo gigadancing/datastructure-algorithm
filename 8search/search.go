@@ -9,8 +9,25 @@ package _search
 // 1 1 0 0 0    0 0 1 0 0
 // 0 0 0 0 0    0 0 0 1 1
 // 0 0 0 0 0    0 0 0 0 0
-func NumIslands(grid [][]byte) int {
+func NumIslandsDFS(grid [][]int) [][]int {
+	mark := make([][]int, 0)
+	for _, row := range grid { // 根据grid构造同样的大小地图，全部标记为0
+		r := make([]int, 0)
+		for i := 0; i < len(row); i++ {
+			r = append(r, 0)
+		}
+		mark = append(mark, r)
+	}
 
+	for i := 0; i < len(grid); i++ {
+		for j := 0; j < len(grid[i]); j++ {
+			if grid[i][j] == 1 {
+				DFS(&mark, grid, j, i)
+			}
+		}
+	}
+
+	return mark
 }
 
 // DFS
@@ -27,3 +44,21 @@ func NumIslands(grid [][]byte) int {
 //   |              (x, y+1)
 //   |
 //   | y
+func DFS(mark *[][]int, grid [][]int, x, y int) {
+	(*mark)[y][x] = 1
+	// 方向数组
+	dx := []int{0, 0, -1, 1}
+	dy := []int{-1, 1, 0, 0}
+
+	for i := 0; i < 4; i++ {
+		newX := x + dx[i]
+		newY := y + dy[i]
+		if newY < 0 || newY >= len(*mark) || newX < 0 || newX >= len((*mark)[newY]) { // 超过地图边界
+			continue
+		}
+
+		if (*mark)[newY][newX] == 0 && grid[newY][newX] == 1 { // 新位置未被探索且新位置为1时，继续搜索
+			DFS(mark, grid, newX, newY)
+		}
+	}
+}
