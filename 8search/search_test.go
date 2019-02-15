@@ -15,3 +15,14 @@ func TestNumIslandsDFS(t *testing.T) {
 	mark := NumIslandsDFS(grid)
 	fmt.Println(mark)
 }
+
+func TestNumIslandsBFS(t *testing.T) {
+	grid := [][]int{
+		{1, 1, 1, 0, 0},
+		{1, 1, 0, 0, 0},
+		{0, 0, 1, 0, 0},
+		{0, 0, 0, 1, 1},
+		{0, 0, 0, 0, 0}}
+	mark := NumIslandsBFS(grid)
+	fmt.Println(mark)
+}
