@@ -102,7 +102,7 @@ func NumIslandsBFS(grid [][]int) [][]int {
 	for i := 0; i < len(grid); i++ {
 		for j := 0; j < len(grid[i]); j++ {
 			if grid[i][j] == 1 {
-				BFS(&mark, grid, j, i)
+				BFS(&mark, grid, i, j)
 			}
 		}
 	}
@@ -113,7 +113,7 @@ func BFS(mark *[][]int, grid [][]int, x, y int) {
 	// 方向数组
 	dx := []int{-1, 1, 0, 0}
 	dy := []int{0, 0, -1, 1}
-	(*mark)[y][x] = 1 // 当前位置标记为已搜索
+	(*mark)[x][y] = 1 // 当前位置标记为已搜索
 	q := queue.New()
 	q.Add(NewPair(x, y)) // 当前位置加入队列
 
