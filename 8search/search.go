@@ -144,7 +144,87 @@ func BFS(mark *[][]int, grid [][]int, x, y int) {
 // 2. 转换得到的新单词，必须在单词词典中
 // 例如：beginWord="hit",endWord="cog",wordList=["hot","dot","dog","lot","log","cog"]
 // 最短转换方式："hit"->"hot"->"dot"->"dog"->"cog"，结果为5
-func LadderLength(beginWord, endWord string, wordList [][]string) int {
+// 思考：
+// 单词与单词之间的转换，可以理解为一张图，图的顶点为单词，若两担此之间可以互相转换，则这两个单词所代表的顶点间有一条边。即求图中从一个顶
+// 点到另一个顶点的所有路径中，最少包含多少个节点，即为广度优先搜索。
+//              dot --- dog
+//            /  |       |  \
+// hit --- hot   |       |   cog
+//            \  |       |  /
+//              lot --- log
+// 思路：
+// 给定图的起始顶点beginWord，终点endWord，图graph，从beginWord开始广度优先搜索图graph，搜索过程中记录到达步数。
+// 1. 设置搜索队列Q，队列节点为Pair<顶点，步数>；设置集合visit，记录搜索过的顶点；将<beginWord,1>添加至队列。
+// 2. 只要队列不空，取出队列的头元素
+//    (1) 若去出的队列头元素为endWord，返回达到前节点的步数
+//    (2) 否则拓展该节点，将该节点相邻的且未在visit中的节点与步数同时添加至队列Q，并将所拓展的节点加入visit
+// 3. 做最终无法搜索到endWord返回0
+func LadderLength(beginWord, endWord string, wordList []string) int {
+	grap := constructGrap(beginWord, wordList)        // 构造无向图
+	q := queue.New()                                  // 搜索队列
+	q.Add(NewGraphNodePair(beginWord, 1))             // 将起始节点加入搜索队列
+	visit := make(map[string]*GraphNodePair, 0)       // visit记录已经搜索过的节点
+	visit[beginWord] = NewGraphNodePair(beginWord, 1) // 将起始节点加入visit
+
+	for q.Length() > 0 {
+		head := q.Peek().(*GraphNodePair)
+		steps := head.Steps
+		q.Remove()
+		if head.Word == endWord {
+			return steps
+		}
+		for _, w := range grap[head.Word] {
+			if _, ok := visit[w]; !ok {
+				q.Add(NewGraphNodePair(w, steps+1))
+				visit[w] = NewGraphNodePair(w, steps+1)
+			}
+		}
+	}
 
 	return 0
+}
+
+//
+type GraphNodePair struct {
+	Word  string
+	Steps int
+}
+
+//
+func NewGraphNodePair(word string, steps int) *GraphNodePair {
+	return &GraphNodePair{
+		Word:  word,
+		Steps: steps,
+	}
+}
+
+//
+func constructGrap(beginWord string, wordList []string) map[string][]string {
+	graph := make(map[string][]string, 0)
+	wordList = append(wordList, beginWord)
+	for _, w := range wordList {
+		graph[w] = make([]string, 0)
+	}
+	for i := 0; i < len(wordList); i++ {
+		for j := i + 1; j < len(wordList); j++ {
+			if connect(wordList[i], wordList[j]) { // 只有一个字符不同，可以连接
+				// 由于是无向图，两个方向都要连接
+				graph[wordList[i]] = append(graph[wordList[i]], wordList[j])
+				graph[wordList[j]] = append(graph[wordList[j]], wordList[i])
+			}
+		}
+	}
+
+	return graph
+}
+
+//
+func connect(word1, word2 string) bool {
+	cnt := 0 // 记录word1与word2不相等字符的个数
+	for i := 0; i < len(word1); i++ {
+		if word1[i] != word2[i] {
+			cnt++
+		}
+	}
+	return cnt == 1 // 只有一个字符不同才能连接
 }

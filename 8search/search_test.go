@@ -26,3 +26,14 @@ func TestNumIslandsBFS(t *testing.T) {
 	mark := NumIslandsBFS(grid)
 	fmt.Println(mark)
 }
+
+func TestLadderLength(t *testing.T) {
+	beginWord := "hit"
+	endWord := "cog"
+	wordList := []string{"hot", "dot", "dog", "lot", "log", "cog"}
+	steps := LadderLength(beginWord, endWord, wordList)
+	fmt.Println(steps)
+	wordList2 := []string{"hot", "lot", "low", "cow", "cog", "dog", "dot"}
+	steps = LadderLength(beginWord, endWord, wordList2)
+	fmt.Println(steps)
+}
