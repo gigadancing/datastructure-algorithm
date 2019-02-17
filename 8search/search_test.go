@@ -37,3 +37,13 @@ func TestLadderLength(t *testing.T) {
 	steps = LadderLength(beginWord, endWord, wordList2)
 	fmt.Println(steps)
 }
+
+func TestFindLadders(t *testing.T) {
+	beginWord := "hit"
+	endWord := "cog"
+	wordList := []string{"hot", "dot", "dog", "lot", "log", "cog"}
+	ladders := FindLadders(beginWord, endWord, wordList)
+	for _, ladder := range ladders {
+		fmt.Println(ladder)
+	}
+}

@@ -1,6 +1,9 @@
 package _search
 
-import "github.com/eapache/queue"
+import (
+	"fmt"
+	"github.com/eapache/queue"
+)
 
 // 例1. 岛屿数量
 // 用一个二维数组代表一张地图，这张地图由字符'0'与字符'1'组成，其中'0'字符代表水域，'1'字符代表小岛土地，小岛'1'被水'0'所包围，当小岛
@@ -160,7 +163,7 @@ func BFS(mark *[][]int, grid [][]int, x, y int) {
 //    (2) 否则拓展该节点，将该节点相邻的且未在visit中的节点与步数同时添加至队列Q，并将所拓展的节点加入visit
 // 3. 做最终无法搜索到endWord返回0
 func LadderLength(beginWord, endWord string, wordList []string) int {
-	grap := constructGrap(beginWord, wordList)        // 构造无向图
+	grap := constructGraph(beginWord, wordList)       // 构造无向图
 	q := queue.New()                                  // 搜索队列
 	q.Add(NewGraphNodePair(beginWord, 1))             // 将起始节点加入搜索队列
 	visit := make(map[string]*GraphNodePair, 0)       // visit记录已经搜索过的节点
@@ -199,7 +202,7 @@ func NewGraphNodePair(word string, steps int) *GraphNodePair {
 }
 
 //
-func constructGrap(beginWord string, wordList []string) map[string][]string {
+func constructGraph(beginWord string, wordList []string) map[string][]string {
 	graph := make(map[string][]string, 0)
 	wordList = append(wordList, beginWord)
 	for _, w := range wordList {
@@ -227,4 +230,113 @@ func connect(word1, word2 string) bool {
 		}
 	}
 	return cnt == 1 // 只有一个字符不同才能连接
+}
+
+// 例2-b. 已知两个单词（分别是起始单词与结束单词），一个单词词典，根据转换规则计算所有的从起始单词到结束单词的最短转换路径。
+// 转换规则如下：
+// 1. 在转换时，只能转换单词中的一个字符
+// 2. 转换得到的新单词必须在单词词典中
+// 例如：
+// beginWord="hit";endWord="cog";wordList=["hot","dot","dog","lot","log","cog"]
+// 最短转化路径为：["hit","hot","dot","dog","cog"],["hit","hot","lot","log","cog"]
+func FindLadders(beginWord, endWord string, wordList []string) [][]string {
+	ladders := make([][]string, 0)
+	graph := constructGraph2(beginWord, wordList)
+	//q := make([]*Qitem, 0)
+	//endWordPos := make([]int, 0)
+	//BfsGraph(beginWord, endWord, &graph, &q, &endWordPos)
+	//fmt.Println("------:",endWordPos)
+	//for _, pos := range endWordPos {
+	//	path := make([]string, 0)
+	//	for pos != -1 {
+	//		path = append(path, q[pos].Word)
+	//		pos = q[pos].ParentPos
+	//	}
+	//	lad := make([]string, 0)
+	//	for i := len(path)-1; i >=0; i-- {
+	//		lad = append(lad, path[i])
+	//	}
+	//	ladders = append(ladders, lad)
+	//}
+
+	for k, v := range graph {
+		fmt.Printf("[%v]=%v\n", k, v)
+	}
+
+	return ladders
+}
+
+//
+type Qitem struct {
+	Word      string
+	ParentPos int
+	Steps     int
+}
+
+//
+func NewQitem(word string, parentPos int, steps int) *Qitem {
+	return &Qitem{
+		Word:      word,
+		ParentPos: parentPos,
+		Steps:     steps,
+	}
+}
+
+//
+func BfsGraph(beginWord, endWord string, graph *map[string][]string, q *[]*Qitem, endWordPos *[]int) {
+	visit := make(map[string]int, 0) // <word,steps>
+	visit[beginWord] = 1
+	*q = append(*q, NewQitem(beginWord, -1, 1)) //起始节点的前驱为-1
+	front := 0                                  // 指向队列头
+	minSteps := 0                               // 到达endWord的最小步数
+
+	for front != len(*q) { // front超过了队列尾部
+		word := (*q)[front].Word
+		steps := (*q)[front].Steps
+
+		if minSteps != 0 && steps > minSteps { // steps>minSteps代表所有到达终点的路径都已搜索完
+			break
+		}
+
+		if word == endWord { // 搜索到结果
+			minSteps = steps // 记录到达的最小步数
+			*endWordPos = append(*endWordPos, front)
+		}
+
+		for _, w := range (*graph)[word] {
+			if _, ok := visit[w]; !ok || visit[w] == steps+1 { // 节点未被搜索或另一条路径更短
+				*q = append(*q, NewQitem(w, front, steps+1))
+				visit[w] = steps + 1
+			}
+		}
+
+		front++
+	}
+}
+
+//
+func constructGraph2(beginWord string, wordList []string) map[string][]string {
+	graph := make(map[string][]string, 0)
+	hasBeginWord := false
+	for _, w := range wordList { // wordList中可能有beginWord，直接加入可能出现重复，故先判断wordList中是否有beginWord
+		if beginWord == w {
+			hasBeginWord = true
+		}
+		graph[w] = make([]string, 0)
+	}
+
+	for i := 0; i < len(wordList); i++ {
+		for j := 0; j < len(wordList); j++ {
+			if connect(wordList[i], wordList[j]) {
+				graph[wordList[i]] = append(graph[wordList[i]], wordList[j])
+				graph[wordList[j]] = append(graph[wordList[j]], wordList[i])
+			}
+		}
+		if hasBeginWord == false && connect(beginWord, wordList[i]) {
+			graph[beginWord] = append(graph[beginWord], wordList[i])
+			graph[wordList[i]] = append(graph[wordList[i]], beginWord)
+		}
+	}
+
+	return graph
 }
