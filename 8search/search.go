@@ -1,7 +1,6 @@
 package _search
 
 import (
-	"fmt"
 	"github.com/eapache/queue"
 )
 
@@ -240,27 +239,25 @@ func connect(word1, word2 string) bool {
 // beginWord="hit";endWord="cog";wordList=["hot","dot","dog","lot","log","cog"]
 // 最短转化路径为：["hit","hot","dot","dog","cog"],["hit","hot","lot","log","cog"]
 func FindLadders(beginWord, endWord string, wordList []string) [][]string {
-	ladders := make([][]string, 0)
+	ladders := make([][]string, 0) // 结果
 	graph := constructGraph2(beginWord, wordList)
-	//q := make([]*Qitem, 0)
-	//endWordPos := make([]int, 0)
-	//BfsGraph(beginWord, endWord, &graph, &q, &endWordPos)
-	//fmt.Println("------:",endWordPos)
-	//for _, pos := range endWordPos {
-	//	path := make([]string, 0)
-	//	for pos != -1 {
-	//		path = append(path, q[pos].Word)
-	//		pos = q[pos].ParentPos
-	//	}
-	//	lad := make([]string, 0)
-	//	for i := len(path)-1; i >=0; i-- {
-	//		lad = append(lad, path[i])
-	//	}
-	//	ladders = append(ladders, lad)
-	//}
+	q := make([]*Qitem, 0)
+	endWordPos := make([]int, 0)
 
-	for k, v := range graph {
-		fmt.Printf("[%v]=%v\n", k, v)
+	BfsGraph(beginWord, endWord, &graph, &q, &endWordPos)
+
+	for _, pos := range endWordPos {
+		path := make([]string, 0)
+		for pos != -1 { // 从endWord到beginWord将路径上所有节点加入path
+			path = append(path, q[pos].Word)
+			pos = q[pos].ParentPos
+		}
+
+		lad := make([]string, 0)
+		for i := len(path) - 1; i >= 0; i-- { // 倒序输出到lad
+			lad = append(lad, path[i])
+		}
+		ladders = append(ladders, lad) // lad加入结果
 	}
 
 	return ladders
