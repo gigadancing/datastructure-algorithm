@@ -326,7 +326,7 @@ func constructGraph2(beginWord string, wordList []string) map[string][]string {
 	}
 
 	for i := 0; i < len(wordList); i++ {
-		for j := 0; j < len(wordList); j++ {
+		for j := i + 1; j < len(wordList); j++ {
 			if connect(wordList[i], wordList[j]) {
 				graph[wordList[i]] = append(graph[wordList[i]], wordList[j])
 				graph[wordList[j]] = append(graph[wordList[j]], wordList[i])
