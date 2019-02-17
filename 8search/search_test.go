@@ -47,3 +47,18 @@ func TestFindLadders(t *testing.T) {
 		fmt.Println(ladder)
 	}
 }
+
+func TestMakeSquare(t *testing.T) {
+	nums := []int{1, 1, 2, 2, 2}
+	ok := MakeSquare(nums)
+	fmt.Println(ok)
+	nums = []int{3, 3, 4, 4, 4}
+	ok = MakeSquare(nums)
+	fmt.Println(ok)
+	nums = []int{1, 1, 2, 4, 3, 2, 3}
+	ok = MakeSquare(nums)
+	fmt.Println(ok)
+	nums = []int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 5, 4, 3, 2, 1}
+	ok = MakeSquare(nums)
+	fmt.Println(ok)
+}

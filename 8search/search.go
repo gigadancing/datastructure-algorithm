@@ -2,6 +2,7 @@ package _search
 
 import (
 	"github.com/eapache/queue"
+	"sort"
 )
 
 // 例1. 岛屿数量
@@ -337,3 +338,55 @@ func constructGraph2(beginWord string, wordList []string) map[string][]string {
 
 	return graph
 }
+
+// 例3. 火柴棍摆正方形
+// 已知一个数组，保存了n个（n<=15）火柴棍，问可否使用这n个火柴棍摆成一个正方形？
+// [1,1,2,2,2]:true
+// [3,3,4,4,4]:false
+// [1,1,2,4,3,2,3]:true
+// [1,2,3,4,5,6,7,8,9,10,5,4,3,2,1]
+// 优化与剪枝：
+// 1. n个火柴的总和对4取余须为0，否则返回假
+// 2. 火柴按照从大到小的顺序排序，先尝试大的减少回溯可能
+// 3. 每次放置时，每条边不可放置超过综合的1/4长度的火柴
+func MakeSquare(nums []int) bool {
+	if len(nums) < 4 {
+		return false
+	}
+	// 对nums元素求和，若模4余数不为零，返回假
+	sum := 0
+	for _, n := range nums {
+		sum += n
+	}
+	if sum%4 != 0 {
+		return false
+	}
+	// 从大到小达排序
+	data := IntSlice(nums[0:])
+	sort.Sort(data)
+	bucket := [4]int{}
+	return generate(0, nums, sum/4, &bucket)
+}
+
+func generate(i int, nums []int, target int, bucket *[4]int) bool {
+	if i >= len(nums) { // 所有火柴放完
+		return bucket[0] == target && bucket[1] == target && bucket[2] == target && bucket[3] == target
+	}
+	for j := 0; j < 4; j++ {
+		if bucket[j]+nums[i] > target {
+			continue
+		}
+		bucket[j] += nums[i]
+		if generate(i+1, nums, target, bucket) {
+			return true
+		}
+		bucket[j] -= nums[i]
+	}
+	return false
+}
+
+type IntSlice []int
+
+func (p IntSlice) Len() int           { return len(p) }
+func (p IntSlice) Less(i, j int) bool { return p[i] > p[j] }
+func (p IntSlice) Swap(i, j int)      { p[i], p[j] = p[j], p[i] }
