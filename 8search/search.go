@@ -2,7 +2,6 @@ package _search
 
 import (
 	"container/heap"
-	"fmt"
 	"github.com/eapache/queue"
 	"sort"
 )
@@ -473,7 +472,6 @@ func TrapRainWater(heightMap [][]int) int {
 			}
 			if h > heightMap[newX][newY] { // 当前点的高度高于拓展点
 				waterVolume += h - heightMap[newX][newY]
-				fmt.Printf("h=%d,height=%d,water=%d\n", h, heightMap[newX][newY], waterVolume)
 				heightMap[newX][newY] = h
 			}
 			heap.Push(&q, NewQueueItem(newX, newY, heightMap[newX][newY]))
