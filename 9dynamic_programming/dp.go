@@ -23,3 +23,39 @@ func ClimbStairsDP(n int) int {
 	}
 	return dp[n-1]
 }
+
+// 例2. 打家劫舍
+// 在一条直线上，有n个房屋，每个房屋中有数量不等的财宝，有一个盗贼希望从房屋中盗取财宝，由于房屋中有报警器，如果同时从两个相邻的房屋中盗取
+// 财宝就会触发报警器。问在不处罚报警器的前提下，最多可以获取多少财宝。
+// 例如：
+// [5,2,6,3,1,7]，最多为5+6+7=18
+func Rob(nums []int) int {
+	if len(nums) == 0 {
+		return 0
+	}
+	if len(nums) == 1 {
+		return nums[0]
+	}
+	if len(nums) == 2 {
+		if nums[0] > nums[1] {
+			return nums[0]
+		} else {
+			return nums[1]
+		}
+	}
+
+	dp := make([]int, len(nums))
+	dp[0] = nums[0]
+	dp[1] = max(nums[0], nums[1])
+	for i := 2; i < len(nums); i++ {
+		dp[i] = max(dp[i-1], dp[i-2]+nums[i])
+	}
+	return dp[len(nums)-1]
+}
+
+func max(x, y int) int {
+	if x > y {
+		return x
+	}
+	return y
+}
