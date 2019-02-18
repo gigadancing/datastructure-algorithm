@@ -1,6 +1,8 @@
 package _search
 
 import (
+	"container/heap"
+	"fmt"
 	"github.com/eapache/queue"
 	"sort"
 )
@@ -344,7 +346,7 @@ func constructGraph2(beginWord string, wordList []string) map[string][]string {
 // [1,1,2,2,2]:true
 // [3,3,4,4,4]:false
 // [1,1,2,4,3,2,3]:true
-// [1,2,3,4,5,6,7,8,9,10,5,4,3,2,1]
+// [1,2,3,4,5,6,7,8,9,10,5,4,3,2,1]:false
 // 优化与剪枝：
 // 1. n个火柴的总和对4取余须为0，否则返回假
 // 2. 火柴按照从大到小的顺序排序，先尝试大的减少回溯可能
@@ -390,3 +392,134 @@ type IntSlice []int
 func (p IntSlice) Len() int           { return len(p) }
 func (p IntSlice) Less(i, j int) bool { return p[i] > p[j] }
 func (p IntSlice) Swap(i, j int)      { p[i], p[j] = p[j], p[i] }
+
+// 例4. 收集雨水
+// 已知一个m*n的二维数组，数组存储正整数，代表一个个单元的高度（立方体），将这些立方体想象成水槽，问如果下雨这些立方体会有多少积水。
+// 分析：
+// 1. 能积水的地面一定不在四周，积水多少与周围最矮的立方体相关。
+// 2. 围住中间积水的边界位置不一定在四周，所以“找出四周（边界）上最低的点”求差不可行。
+// 思路：
+// 1. 搜索队列使用优先级队列（堆），越低的点优先级越高（最小堆），越优先进行搜索。
+// 2. 以矩形四周的点作为起始点进行广度优先搜索（这些点要最初加入队列）。
+// 3. 使用一个二维数组对进入队列的点进行标记，之后搜索到该点时，不再加入队列。
+// 4. 只要队列不空，取出队头元素进行搜索，按四个方向进行拓展，拓展过程中忽略超出边界和已加入队列的点。
+// 5. 当对某点(x,y)进行拓展时（h为(x,y)位置的高度，即heightMap[x][y]）得到的新点为(newx,newy)，高度为heightMap[newx][newy]，如果
+//    h > heightMap[newx][newy]：
+//        结果 += h - heightMap[newx][newy]
+//        将heightMap[newx][newy]赋值为h，即升高该位置的水面
+//        将(newx,newy)和heightMap[newx][newy]加入队列
+func TrapRainWater(heightMap [][]int) int {
+	if len(heightMap) < 3 || len(heightMap[0]) < 3 {
+		return 0
+	}
+	q := make(QueueItemSlice, 0)
+	rows := len(heightMap)    // 行数
+	cols := len(heightMap[0]) // 列数
+	mark := make([][]int, 0)  // 空白地图
+
+	// 初始化地图
+	for i := 0; i < rows; i++ {
+		c := make([]int, 0)
+		for j := 0; j < cols; j++ {
+			c = append(c, 0)
+		}
+
+		mark = append(mark, c)
+	}
+
+	//   |---|----------------|---|
+	//   | 1 |  4   3   1   3 | 2 |     1  1  1  1  1  1
+	//   |   |----------------|   |
+	//   | 3 |  2   1   3   2 | 4 |     1  0  0  0  0  1
+	//   |   |                |   |
+	//   | 4 |  1   3   1   5 | 3 |     1  0  0  0  0  1
+	//   |   |----------------|   |
+	//   | 2 |  3   3   4   3 | 1 |     1  1  1  1  1  1
+	//   |---|----------------|---|
+
+	// 将地图0列和最后一列标记为1
+	for i := 0; i < rows; i++ {
+		heap.Push(&q, NewQueueItem(i, 0, heightMap[i][0]))
+		mark[i][0] = 1
+		heap.Push(&q, NewQueueItem(i, cols-1, heightMap[i][cols-1]))
+		mark[i][cols-1] = 1
+	}
+
+	// 将地图第0行最后一行的剩余部分标记为1
+	for i := 1; i < cols-1; i++ {
+		heap.Push(&q, NewQueueItem(0, i, heightMap[0][i]))
+		mark[0][i] = 1
+		heap.Push(&q, NewQueueItem(rows-1, i, heightMap[rows-1][i]))
+		mark[rows-1][i] = 1
+	}
+
+	// 方向数组
+	dx := []int{-1, 1, 0, 0}
+	dy := []int{0, 0, -1, 1}
+	waterVolume := 0 // 积水量
+
+	for q.Len() > 0 {
+		elem := heap.Pop(&q).(*QueueItem)
+		x := elem.X
+		y := elem.Y
+		h := elem.Height
+
+		for i := 0; i < 4; i++ { // 向四个方向拓展
+			newX := x + dx[i]
+			newY := y + dy[i]
+			// 当拓展点超出边界或已搜索过，跳过该点
+			if newX < 0 || newX >= rows || newY < 0 || newY >= cols || mark[newX][newY] == 1 {
+				continue
+			}
+			if h > heightMap[newX][newY] { // 当前点的高度高于拓展点
+				waterVolume += h - heightMap[newX][newY]
+				fmt.Printf("h=%d,height=%d,water=%d\n", h, heightMap[newX][newY], waterVolume)
+				heightMap[newX][newY] = h
+			}
+			heap.Push(&q, NewQueueItem(newX, newY, heightMap[newX][newY]))
+			mark[newX][newY] = 1
+		}
+	}
+
+	return waterVolume
+}
+
+//
+type QueueItem struct {
+	X, Y   int
+	Height int
+}
+
+//
+func NewQueueItem(x, y, h int) *QueueItem {
+	return &QueueItem{
+		X:      x,
+		Y:      y,
+		Height: h,
+	}
+}
+
+// 优先队列（小顶堆）
+type QueueItemSlice []*QueueItem
+
+func (q *QueueItemSlice) Less(i, j int) bool {
+	return (*q)[i].Height < (*q)[j].Height
+}
+
+func (q *QueueItemSlice) Len() int {
+	return len(*q)
+}
+
+func (q *QueueItemSlice) Swap(i, j int) {
+	(*q)[i], (*q)[j] = (*q)[j], (*q)[i]
+}
+
+func (q *QueueItemSlice) Push(item interface{}) {
+	*q = append(*q, item.(*QueueItem))
+}
+
+func (q *QueueItemSlice) Pop() interface{} {
+	item := (*q)[len(*q)-1]
+	*q = (*q)[:len(*q)-1]
+	return item
+}
