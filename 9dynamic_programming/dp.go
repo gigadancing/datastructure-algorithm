@@ -55,3 +55,32 @@ func max(x, y int) int {
 	}
 	return y
 }
+
+// 例3. 最大子段和
+// 给定一个数组，求这个数组的连续子数组中，最大的那一段的和。
+// 例如：
+// [-2,1,-3,4,-1,2,1,-5,4]，连续子数组如：
+// [-2,1]、[1,-3,4,-1]、[4,-1,2,1]，...，最大的是[4,-1,2,1]，和为6
+// 思路：
+// 求n个数的数组的最大子段和，转换为分别求以第1个、第2个...第i个...第n个数字结尾的最大子段和，再找出n个结果中最大的即为结果。
+func MaxSubArray(nums []int) int {
+	if len(nums) == 0 {
+		return 0
+	}
+	if len(nums) == 1 {
+		return nums[0]
+	}
+
+	dp := make([]int, len(nums))
+	dp[0] = 0
+	maxSum := dp[0]
+
+	for i := 1; i < len(nums); i++ {
+		dp[i] = max(dp[i-1]+nums[i], nums[i])
+		if maxSum < dp[i] {
+			maxSum = dp[i]
+		}
+	}
+
+	return maxSum
+}

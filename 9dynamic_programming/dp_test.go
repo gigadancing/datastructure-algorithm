@@ -20,3 +20,9 @@ func TestRob(t *testing.T) {
 	res := Rob(nums)
 	fmt.Println(res)
 }
+
+func TestMaxSubArray(t *testing.T) {
+	nums := []int{-2, 1, -3, 4, -1, 2, 1, -5, 4}
+	sum := MaxSubArray(nums)
+	fmt.Println(sum)
+}
