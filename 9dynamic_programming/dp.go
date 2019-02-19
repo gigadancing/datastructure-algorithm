@@ -84,3 +84,43 @@ func MaxSubArray(nums []int) int {
 
 	return maxSum
 }
+
+// 例4. 找零钱
+// 已知不同面值的钞票，如何用最少数量的钞票组成某个金额，求使用钞票的最少数量。如果任意数量的已知面额钞票都无法组成该金额，则返回-1。
+// 例如：
+// 钞票面值：[1,2,5]，金额11=5+5+1，需要3张
+// 钞票面值：[2]，金额3，无法组成，返回-1
+// 钞票面值：[1,2,5,7,10]，金额14=7+7，需要2张
+// 贪心思想（每次使用最大的面值）可否？
+// 例如：
+// [1,2,5,10]，14，10+2+2=14，ok
+// [1,2,5,7,10],14,10+2+2=14, error，（最优解为7+7=14）
+// 因此，贪心思想不可行。
+// 思路：
+// dp[i]代表金额i的最优解（组成金额i的最少钞票数量）
+// 数组dp存储从金额1到金额M的最优解
+// 由于金额i可由：
+// 金额i-coins[0]与coins[0]
+// 金额i-coins[1]与coins[1]
+// 金额i-coins[2]与coins[2]
+// 金额i-coins[3]与coins[3]
+// ...
+// 故状态i可由状态i-coins[0]、i-coins[1]、i-coins[2]、i-coins[3]...转换得到
+// 即dp[i] = min(dp[i-coins[0]], dp[i-coins[1]], dp[i-coins[2]], dp[i-coins[3]], ...) + 1
+func CoinChange(coins []int, amount int) int {
+	dp := make([]int, amount+1)
+	for i := 0; i <= amount; i++ {
+		dp[i] = -1 // 初始化所有的金额的最优解为-1
+	}
+	dp[0] = 0 // 金额0的最优解为0
+	for i := 1; i <= amount; i++ {
+		for j := 0; j < len(coins); j++ { // 循环各个面值，找到dp[i]的最优解
+			if i-coins[j] >= 0 && dp[i-coins[j]] != -1 { // 递推条件
+				if dp[i] == -1 || dp[i] > dp[i-coins[j]] {
+					dp[i] = dp[i-coins[j]] + 1 // 递推公式
+				}
+			}
+		}
+	}
+	return dp[amount]
+}

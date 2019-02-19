@@ -26,3 +26,9 @@ func TestMaxSubArray(t *testing.T) {
 	sum := MaxSubArray(nums)
 	fmt.Println(sum)
 }
+
+func TestCoinChange(t *testing.T) {
+	coins := []int{1, 2, 5, 7, 10}
+	res := CoinChange(coins, 14)
+	fmt.Println(res)
+}
