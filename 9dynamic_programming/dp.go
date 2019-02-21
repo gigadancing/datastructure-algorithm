@@ -124,3 +124,37 @@ func CoinChange(coins []int, amount int) int {
 	}
 	return dp[amount]
 }
+
+// 例5. 三角形
+// 给定一个二维数组，其保存了一个数字三角想，求从数字三角形顶端到底端最小的路径之和，每次可以向下走相邻的两个位置。
+// [2]
+// [3 4]
+// [6 5 7]
+// [4 1 8 3]
+func MinimumTotal(triangle [][]int) int {
+	// 初始化和triangle大小相同的数组
+	dp := make([][]int, len(triangle))
+	for i := 0; i < len(triangle); i++ {
+		arr := make([]int, len(triangle[i]))
+		dp[i] = arr
+	}
+
+	for i := len(triangle) - 1; i >= 0; i-- {
+		for j := 0; j < len(triangle[i]); j++ {
+			if i+1 < len(triangle) && j+1 < len(triangle[i+1]) {
+				dp[i][j] += min(dp[i+1][j], dp[i+1][j+1]) + triangle[i][j]
+			} else {
+				dp[i][j] = triangle[i][j]
+			}
+		}
+	}
+
+	return dp[0][0]
+}
+
+func min(x, y int) int {
+	if x < y {
+		return x
+	}
+	return y
+}

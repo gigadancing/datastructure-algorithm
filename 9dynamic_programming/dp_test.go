@@ -32,3 +32,9 @@ func TestCoinChange(t *testing.T) {
 	res := CoinChange(coins, 14)
 	fmt.Println(res)
 }
+
+func TestMinimumTotal(t *testing.T) {
+	triangle := [][]int{{2}, {3, 4}, {6, 5, 7}, {4, 1, 8, 3}}
+	min := MinimumTotal(triangle)
+	fmt.Println(min)
+}
