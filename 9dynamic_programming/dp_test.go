@@ -38,3 +38,9 @@ func TestMinimumTotal(t *testing.T) {
 	min := MinimumTotal(triangle)
 	fmt.Println(min)
 }
+
+func TestLengthOfLIS(t *testing.T) {
+	nums := []int{1, 3, 2, 3, 1, 4}
+	length := LengthOfLIS(nums)
+	fmt.Println(length)
+}
