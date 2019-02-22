@@ -289,7 +289,7 @@ func CalculateMinimumHP(dungeon [][]int) int {
 	for row := rows - 2; row >= 0; row-- {
 		for col := cols - 2; col >= 0; col-- {
 			below := max(1, dp[row+1][col]-dungeon[row][col]) // 从下面推
-			right := max(1, dp[row][col+1]-dungeon[row][col]) // 从从面推
+			right := max(1, dp[row][col+1]-dungeon[row][col]) // 从右面推
 			dp[row][col] = min(below, right)
 		}
 	}
