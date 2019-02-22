@@ -228,3 +228,30 @@ func LengthOfLIS2(nums []int) int {
 
 	return pos + 1 // pos是从0开始的，故元素个数为pos+1
 }
+
+// 例7. 最小路径和
+// 已知一个二维数组，里面存储了非负整数，找到从左上角到右下角的一条路径，使得路径上的和最小（移动过程中只能向下或向右）。
+func MinPathSum(grid [][]int) int {
+	rows := len(grid)           // 行数
+	cols := len(grid[0])        // 列数
+	dp := make([][]int, rows)   // 二维数组
+	for i := 0; i < cols; i++ { // 初始化二维数组dp
+		dp[i] = make([]int, cols)
+	}
+	dp[0][0] = grid[0][0]
+
+	for i := 1; i < cols; i++ { // 第一行中的位置，只能从左边到达，先将求出dp中第一行
+		dp[0][i] = grid[0][i] + dp[0][i-1]
+	}
+	for i := 1; i < rows; i++ { // 第一列中的位置，只能从上边到达，先将求出dp中第一列
+		dp[i][0] = grid[i][0] + dp[i-1][0]
+	}
+
+	for i := 1; i < rows; i++ {
+		for j := 1; j < cols; j++ {
+			dp[i][j] = grid[i][j] + min(dp[i][j-1], dp[i-1][j])
+		}
+	}
+
+	return dp[rows-1][cols-1]
+}

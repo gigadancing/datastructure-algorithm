@@ -50,3 +50,9 @@ func TestLengthOfLIS2(t *testing.T) {
 	length := LengthOfLIS2(nums)
 	fmt.Println(length)
 }
+
+func TestMinPathSum(t *testing.T) {
+	grid := [][]int{{1, 3, 1}, {1, 5, 1}, {4, 2, 1}}
+	min := MinPathSum(grid)
+	fmt.Println(min)
+}
