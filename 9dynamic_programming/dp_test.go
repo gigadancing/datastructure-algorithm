@@ -56,3 +56,9 @@ func TestMinPathSum(t *testing.T) {
 	min := MinPathSum(grid)
 	fmt.Println(min)
 }
+
+func TestCalculateMinimumHP(t *testing.T) {
+	dungeon := [][]int{{-2, -3, 3}, {-5, -10, 1}, {10, 30, -5}}
+	minHP := CalculateMinimumHP(dungeon)
+	fmt.Println(minHP)
+}

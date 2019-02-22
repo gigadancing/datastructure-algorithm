@@ -231,11 +231,15 @@ func LengthOfLIS2(nums []int) int {
 
 // 例7. 最小路径和
 // 已知一个二维数组，里面存储了非负整数，找到从左上角到右下角的一条路径，使得路径上的和最小（移动过程中只能向下或向右）。
+// 1  3  1
+// 1  5  1
+// 4  2  1
+// 故最短路径为[1,3,1,1,1]，和为7。
 func MinPathSum(grid [][]int) int {
 	rows := len(grid)           // 行数
 	cols := len(grid[0])        // 列数
 	dp := make([][]int, rows)   // 二维数组
-	for i := 0; i < cols; i++ { // 初始化二维数组dp
+	for i := 0; i < rows; i++ { // 初始化二维数组dp
 		dp[i] = make([]int, cols)
 	}
 	dp[0][0] = grid[0][0]
@@ -254,4 +258,41 @@ func MinPathSum(grid [][]int) int {
 	}
 
 	return dp[rows-1][cols-1]
+}
+
+// 例8. 地牢游戏
+// 已知一个二维数组，左上角代表骑士位置，右下角代表公主位置。二维数组中存储整数，正数给骑士增加生命值，负数给骑士减少生命值，问骑士至少
+// 是多少生命值，才可保证骑士在行走的过程中至少保持生命值为1。（骑士只能向下或向右行走）
+// -2  -3   3
+// -5  -10  1
+// 10  30  -5
+// 从右小角向左上角递推，dp[i][j]代表从上一个位置(i,j-1)或(i-1,j)走到该位置骑士保持生命值为1，需要的最少生命值
+func CalculateMinimumHP(dungeon [][]int) int {
+	rows := len(dungeon)
+	cols := len(dungeon[0])
+	dp := make([][]int, rows)
+	for i := 0; i < rows; i++ {
+		dp[i] = make([]int, cols)
+	}
+	dp[rows-1][cols-1] = max(1, 1-dungeon[rows-1][cols-1])
+
+	// 递推最后一行
+	for col := cols - 2; col >= 0; col-- {
+		dp[rows-1][col] = max(1, dp[rows-1][col+1]-dungeon[rows-1][col])
+	}
+
+	// 递推最后一列
+	for row := rows - 2; row >= 0; row-- {
+		dp[row][cols-1] = max(1, dp[row+1][cols-1]-dungeon[row][cols-1])
+	}
+
+	for row := rows - 2; row >= 0; row-- {
+		for col := cols - 2; col >= 0; col-- {
+			below := max(1, dp[row+1][col]-dungeon[row][col]) // 从下面推
+			right := max(1, dp[row][col+1]-dungeon[row][col]) // 从从面推
+			dp[row][col] = min(below, right)
+		}
+	}
+
+	return dp[0][0]
 }
