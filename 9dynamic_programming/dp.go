@@ -199,3 +199,32 @@ func LengthOfLIS(nums []int) int {
 
 	return maxLen
 }
+
+// 设置一个栈，stack[i]代表长度为i+1的上升子序列最后一个元素的最小可能的取值，即若要组成一个i+2长度的上升子序列，需要一个大于stack[i]
+// 的元素。最终栈的大小即为最长上升子序列的长度。
+// 算法：
+// 1. 设置一个栈，将nums[0]入栈
+// 2. 从1到n-1遍历数组：
+//    若nums[i]>栈顶：将nums[i]入栈
+//    否则：从栈底遍历至栈顶，若栈元素大于等于nums[i]：用nums[i]替换该元素
+// 3. 返回栈中元素个数
+func LengthOfLIS2(nums []int) int {
+	s := make([]int, len(nums))
+	s[0] = nums[0]
+	pos := 0
+	for i := 1; i < len(nums); i++ {
+		if nums[i] > s[pos] {
+			s[pos+1] = nums[i]
+			pos++
+		} else {
+			for j := 0; j <= pos; j++ {
+				if s[j] >= nums[i] {
+					s[j] = nums[i]
+					break
+				}
+			}
+		}
+	}
+
+	return pos + 1 // pos是从0开始的，故元素个数为pos+1
+}

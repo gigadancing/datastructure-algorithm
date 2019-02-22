@@ -44,3 +44,9 @@ func TestLengthOfLIS(t *testing.T) {
 	length := LengthOfLIS(nums)
 	fmt.Println(length)
 }
+
+func TestLengthOfLIS2(t *testing.T) {
+	nums := []int{1, 3, 2, 3, 1, 4}
+	length := LengthOfLIS2(nums)
+	fmt.Println(length)
+}
