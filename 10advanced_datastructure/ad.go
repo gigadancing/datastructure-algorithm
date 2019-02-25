@@ -56,3 +56,54 @@ func GetAllWord(node *TrieNode, word *[]byte, wordList *[]string) {
 		}
 	}
 }
+
+// 字典树
+type TrieTree struct {
+	root *TrieNode
+}
+
+//
+func NewTrieTree() *TrieTree {
+	return &TrieTree{
+		root: NewTrieNode(),
+	}
+}
+
+// 插入
+func (t *TrieTree) Insert(word string) {
+	node := t.root
+	for _, char := range word {
+		pos := byte(char) - 'a'
+		if node.child[pos] == nil {
+			node.child[pos] = NewTrieNode()
+		}
+		node = node.child[pos]
+	}
+	node.isEnd = true
+}
+
+// 查找
+func (t *TrieTree) Search(word string) bool {
+	node := t.root
+	for _, char := range word {
+		pos := byte(char) - 'a'
+		if node.child[pos] == nil {
+			return false
+		}
+		node = node.child[pos]
+	}
+	return node.isEnd
+}
+
+// 以某个前缀开始
+func (t *TrieTree) StartsWith(prefix string) bool {
+	node := t.root
+	for _, char := range prefix {
+		pos := byte(char) - 'a'
+		if node.child[pos] == nil {
+			return false
+		}
+		node = node.child[pos]
+	}
+	return true
+}
