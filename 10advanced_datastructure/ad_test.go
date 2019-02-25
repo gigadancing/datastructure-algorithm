@@ -79,3 +79,22 @@ func TestGetAllWord(t *testing.T) {
 	GetAllWord(&root, &word, &wordList)
 	fmt.Println(wordList)
 }
+
+func TestTrieTree(t *testing.T) {
+	trie := NewTrieTree()
+	trie.Insert("abc")
+	trie.Insert("abcd")
+	trie.Insert("abd")
+	trie.Insert("b")
+	trie.Insert("acd")
+	trie.Insert("efg")
+	word := make([]byte, 0)
+	wordList := make([]string, 0)
+	GetAllWord(trie.root, &word, &wordList)
+	fmt.Println(wordList)
+
+	fmt.Println(trie.Search("xxxx"))
+	fmt.Println(trie.Search("abcd"))
+	fmt.Println(trie.Search("b"))
+	fmt.Println(trie.Search("abc"))
+}
