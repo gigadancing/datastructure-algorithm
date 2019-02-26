@@ -107,3 +107,32 @@ func (t *TrieTree) StartsWith(prefix string) bool {
 	}
 	return true
 }
+
+// 例2. 添加与查找单词
+// 设计一个数据结构，支持如下两种操作：
+// 1）添加单词，addWord(word)
+// 2）查找单词，bool search(word)
+// 添加单词只包含小写字符'a'-'z'
+// 搜索单词时，可以按照普通的方式搜索单词（原始单词）或正则表达式方式搜索单词；搜索单词时只包含小写字符'a'-'z'或'.'，'.'代表任意一个
+// 小写字符
+// 例如：
+// addWord("bad")
+// addWord("dad")
+// addWord("mad")
+// search("pad") -> false
+// search("bad") -> true
+// search(".ad") -> true
+// search("b..") -> true
+type WordDictionary struct {
+	tree *TrieTree
+}
+
+func (wd *WordDictionary) addWord(word string) {
+	wd.tree.Insert(word)
+}
+
+// 带回溯的深搜
+func (wd *WordDictionary) search(word string) bool {
+
+	return true
+}
