@@ -1,6 +1,8 @@
 package ad
 
-import "fmt"
+import (
+	"fmt"
+)
 
 const N = 26
 
@@ -185,4 +187,88 @@ func searchTrie(node *TrieNode, word string, pos int) bool {
 func FindCircleNum(grid [][]int) int {
 
 	return 0
+}
+
+// 数组实现并查集，复杂度为O(n)
+type DisjoinSet2 struct {
+	id []int
+}
+
+// 构造函数
+func NewDisjoinSet2(n int) *DisjoinSet2 {
+	id := make([]int, 0)
+	for i := 0; i < n; i++ { // 每个元素单独构成一个集合，编号i的元素属于集合i
+		id = append(id, i)
+	}
+	return &DisjoinSet2{
+		id: id,
+	}
+}
+
+// 查询元素p属于哪个集合
+func (ds *DisjoinSet2) find(p int) int {
+	return ds.id[p]
+}
+
+// 合并元素p和q
+func (ds *DisjoinSet2) union(p, q int) {
+	pid := ds.find(p)
+	qid := ds.find(q)
+	if pid == qid { // 两元素属于同一集合
+		return
+	}
+	for i := 0; i < len(ds.id); i++ {
+		if ds.id[i] == pid { // 讲所有属于pid的元素改为属于qid
+			ds.id[i] = qid
+		}
+	}
+}
+
+// 优化后的并查集
+type DisjoinSet struct {
+	count int
+	id    []int
+	size  []int
+}
+
+// 构造函数
+func NewDisjoinSet(n int) *DisjoinSet {
+	id := make([]int, 0)
+	size := make([]int, 0)
+	for i := 0; i < n; i++ {
+		id = append(id, i)
+		size = append(size, 1)
+	}
+
+	return &DisjoinSet{
+		id:    id,
+		size:  size,
+		count: n,
+	}
+}
+
+// 查询
+func (dw *DisjoinSet) find(p int) int {
+	for p != dw.id[p] {
+		dw.id[p] = dw.id[dw.id[p]]
+		p = dw.id[p]
+	}
+	return p
+}
+
+// 合并
+func (dw *DisjoinSet) union(p, q int) {
+	i := dw.find(p)
+	j := dw.find(q)
+	if i == j {
+		return
+	}
+	if dw.size[i] < dw.size[j] {
+		dw.id[i] = j
+		dw.size[j] += dw.size[i]
+	} else {
+		dw.id[j] = i
+		dw.size[i] += dw.size[j]
+	}
+	dw.count--
 }

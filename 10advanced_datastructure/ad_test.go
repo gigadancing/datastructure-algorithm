@@ -99,3 +99,14 @@ func TestTrieTree(t *testing.T) {
 	fmt.Println(trie.Search("b"))
 	fmt.Println(trie.Search("abc"))
 }
+
+func TestWordDictionary(t *testing.T) {
+	wd := NewWordDictionary()
+	wd.addWord("bad")
+	wd.addWord("dad")
+	wd.addWord("mad")
+	fmt.Println(wd.search("pad"))
+	fmt.Println(wd.search("bad"))
+	fmt.Println(wd.search(".ad"))
+	fmt.Println(wd.search("b.."))
+}
