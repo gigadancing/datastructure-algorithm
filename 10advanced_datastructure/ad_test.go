@@ -49,6 +49,7 @@ func TestGetAllWord(t *testing.T) {
 	root.child['a'-'a'] = &n1
 	root.child['b'-'a'] = &n2
 	root.child['e'-'a'] = &n3
+	n2.isEnd = true
 
 	n4 := TrieNode{}
 	n5 := TrieNode{}

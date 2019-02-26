@@ -136,3 +136,21 @@ func (wd *WordDictionary) search(word string) bool {
 
 	return true
 }
+
+// 例3. 朋友圈
+// 有N个同学，他们之间有些是朋友，有些不是。“友谊”是可以传递的，例如A与B是朋友，B与C是朋友，那么A与C也是朋友；朋友圈就是完成“友谊”传递
+// 后的一组朋友。给定N*N的矩阵代表同学间是否是朋友，如果M[i][j]=1代表第i个学生与第j个学生是朋友，否则不是。求朋友圈的个数。
+// Input:
+// [[1,1,0],
+//  [1,1,0],
+//  [0,0,1]]
+// Output:2
+// Input:
+// [[1,1,0],
+//  [1,1,1],
+//  [0,1,1]]
+// Output:1
+func FindCircleNum(grid [][]int) int {
+
+	return 0
+}
