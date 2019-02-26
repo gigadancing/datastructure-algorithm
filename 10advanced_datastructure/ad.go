@@ -184,9 +184,16 @@ func searchTrie(node *TrieNode, word string, pos int) bool {
 //  [1,1,1],
 //  [0,1,1]]
 // Output:1
-func FindCircleNum(grid [][]int) int {
-
-	return 0
+func FindCircleNum(m [][]int) int {
+	ds := NewDisjoinSet(len(m))
+	for i := 0; i < len(m); i++ {
+		for j := i + 1; j < len(m); j++ {
+			if m[i][j] != 0 {
+				ds.union(i, j)
+			}
+		}
+	}
+	return ds.count
 }
 
 // 数组实现并查集，复杂度为O(n)
@@ -248,27 +255,27 @@ func NewDisjoinSet(n int) *DisjoinSet {
 }
 
 // 查询
-func (dw *DisjoinSet) find(p int) int {
-	for p != dw.id[p] {
-		dw.id[p] = dw.id[dw.id[p]]
-		p = dw.id[p]
+func (ds *DisjoinSet) find(p int) int {
+	for p != ds.id[p] {
+		ds.id[p] = ds.id[ds.id[p]]
+		p = ds.id[p]
 	}
 	return p
 }
 
 // 合并
-func (dw *DisjoinSet) union(p, q int) {
-	i := dw.find(p)
-	j := dw.find(q)
+func (ds *DisjoinSet) union(p, q int) {
+	i := ds.find(p)
+	j := ds.find(q)
 	if i == j {
 		return
 	}
-	if dw.size[i] < dw.size[j] {
-		dw.id[i] = j
-		dw.size[j] += dw.size[i]
+	if ds.size[i] < ds.size[j] {
+		ds.id[i] = j
+		ds.size[j] += ds.size[i]
 	} else {
-		dw.id[j] = i
-		dw.size[i] += dw.size[j]
+		ds.id[j] = i
+		ds.size[i] += ds.size[j]
 	}
-	dw.count--
+	ds.count--
 }

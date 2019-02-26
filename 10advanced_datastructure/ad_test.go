@@ -110,3 +110,10 @@ func TestWordDictionary(t *testing.T) {
 	fmt.Println(wd.search(".ad"))
 	fmt.Println(wd.search("b.."))
 }
+
+func TestFindCircleNum(t *testing.T) {
+	m := [][]int{{1, 1, 0}, {1, 1, 0}, {0, 0, 1}}
+	fmt.Println(FindCircleNum(m))
+	m = [][]int{{1, 1, 0}, {1, 1, 1}, {0, 1, 1}}
+	fmt.Println(FindCircleNum(m))
+}
