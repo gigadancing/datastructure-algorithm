@@ -127,14 +127,46 @@ type WordDictionary struct {
 	tree *TrieTree
 }
 
+// 构造函数
+func NewWordDictionary() *WordDictionary {
+	return &WordDictionary{
+		tree: NewTrieTree(),
+	}
+}
+
+// 添加单词
 func (wd *WordDictionary) addWord(word string) {
 	wd.tree.Insert(word)
 }
 
-// 带回溯的深搜
+// 搜索单词
 func (wd *WordDictionary) search(word string) bool {
+	return searchTrie(wd.tree.root, word, 0)
+}
 
-	return true
+// 回溯深搜
+func searchTrie(node *TrieNode, word string, pos int) bool {
+	if pos == len(word) {
+		if node.isEnd {
+			return true
+		}
+		return false
+	}
+
+	if word[pos] == '.' {
+		for i := 0; i < N; i++ {
+			if node.child[i] != nil && searchTrie(node.child[i], word, pos+1) {
+				return true
+			}
+		}
+	} else {
+		index := word[pos] - 'a'
+		if node.child[index] != nil && searchTrie(node.child[index], word, pos+1) {
+			return true
+		}
+	}
+
+	return false
 }
 
 // 例3. 朋友圈
