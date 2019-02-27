@@ -117,3 +117,11 @@ func TestFindCircleNum(t *testing.T) {
 	m = [][]int{{1, 1, 0}, {1, 1, 1}, {0, 1, 1}}
 	fmt.Println(FindCircleNum(m))
 }
+
+func TestBuildSegmentTree(t *testing.T) {
+	nums := []int{0, 1, 2, 3, 4, 5}
+	values := make([]int, 20)
+	buildSegmentTree(&values, nums, 0, 0, len(nums)-1)
+	fmt.Println(values)
+	printSegmentTree(values, 0, 0, len(nums)-1, 0)
+}

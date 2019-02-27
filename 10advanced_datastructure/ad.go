@@ -279,3 +279,101 @@ func (ds *DisjoinSet) union(p, q int) {
 	}
 	ds.count--
 }
+
+// 例4. 区域和查询
+// 给定一个整数数组nums，求这个整数数组中下表i到下标j之间的数字和(i<=j)，a[i]+a[i+1]+...+a[j]。在求和的过程中可能需要更新数组的某个
+// 元素a[i]。
+// 例如：nums[1,3,5]
+// sumRange(0,2) -> 9
+// update(1,2)   -> [1,2,5]
+// sumRange(0,2) -> 8
+// 线段树是一种平衡二叉搜索树，它将一个线段区间划分为一些单元区间。对于线段树中的每一个非叶子节点[a,b]，它的左儿子表示区间
+// 为[a,(a+b)/2]，右儿子表示区间为[(a+b)/2,b]，最后的叶子节点数目为N，与数组下标对应。线段树一般包含建立、查询、插入、更新等操作，建立
+// 规模为N，时间复杂度为O(NlogN)，其它的操作为O(longN)。
+
+// 线段树
+type NumArray struct {
+	values   []int
+	rightEnd int
+}
+
+// 构造函数
+func NewNumArray(nums []int) *NumArray {
+	if len(nums) == 0 {
+		return nil
+	}
+	n := 4 * len(nums) // 一般线段树数组大小是原数组大小的4倍
+	values := make([]int, n)
+	buildSegmentTree(&values, nums, 0, 0, len(nums)-1)
+	return &NumArray{
+		values:   values,
+		rightEnd: len(nums) - 1,
+	}
+}
+
+// 更新
+func (na *NumArray) update(i, val int) {
+	updateSegmentTree(&na.values, 0, 0, na.rightEnd, i, val)
+}
+
+// 求区间和
+func (na *NumArray) sumRange(i, j int) int {
+	return sumRangeSegmentTree(&na.values, 0, 0, na.rightEnd, i, j)
+}
+
+// 构造线段树
+func buildSegmentTree(values *[]int, nums []int, pos, left, right int) {
+	if left == right {
+		(*values)[pos] = nums[left]
+		return
+	}
+	mid := (left + right) / 2
+	buildSegmentTree(values, nums, pos*2+1, left, mid)
+	buildSegmentTree(values, nums, pos*2+2, mid+1, right)
+	(*values)[pos] = (*values)[pos*2+1] + (*values)[pos*2+2]
+}
+
+// 打印线段树
+func printSegmentTree(values []int, pos, left, right, layer int) {
+	for i := 0; i < layer; i++ {
+		fmt.Printf("---")
+	}
+	fmt.Printf("[%d %d][%d]:%d\n", left, right, pos, values[pos])
+	if left == right {
+		return
+	}
+	mid := (left + right) / 2
+	printSegmentTree(values, pos*2+1, left, mid, layer+1)
+	printSegmentTree(values, pos*2+2, mid+1, right, layer+1)
+}
+
+// 求区间和
+// qleft,qright 查询的左右端点
+// left，right 线段树区间的左右端点
+func sumRangeSegmentTree(values *[]int, pos, left, right, qleft, qright int) int {
+	if qleft > right || qright < left {
+		return 0
+	}
+	if qleft <= left && qright >= right {
+		return (*values)[pos]
+	}
+
+	mid := (left + right) / 2
+	return sumRangeSegmentTree(values, pos*2+1, left, mid, qleft, qright) +
+		sumRangeSegmentTree(values, pos*2+2, mid+1, right, left, qright)
+}
+
+// 更新线段树
+func updateSegmentTree(values *[]int, pos, left, right, index, newValue int) {
+	if left == right && left == index {
+		(*values)[pos] = newValue
+		return
+	}
+	mid := (left + right) / 2
+	if index <= mid {
+		updateSegmentTree(values, pos*2+1, left, mid, index, newValue)
+	} else {
+		updateSegmentTree(values, pos*2+2, mid+1, right, index, newValue)
+	}
+	(*values)[pos] = (*values)[pos*2+1] + (*values)[pos*2+2]
+}
