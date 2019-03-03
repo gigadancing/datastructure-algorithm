@@ -299,10 +299,30 @@ func MergeTwoLists(h1, h2 *Node) *Node {
 //    .....
 //    最后一轮：进行K/(2^logK)次，每次处理2^logK*N(=KN)个
 //    2N*K/2+4N*k/4+8N*k/8+...+2^longKN*K/(2^logK) = NK+NK+...+Nk=O(KNlogK)
-func MergetKLists(heads []*Node) *Node {
+
+// 第二种方案实现
+func MergetKLists2(heads []*Node) *Node {
 	if len(heads) == 0 {
 		return nil
 	}
 
-	return nil
+	nodesArr := make([]*Node, 0)
+	for _, head := range heads { // 遍历K个链表
+		for head != nil { // 将每个链表的节点全部加入到数组中
+			nodesArr = append(nodesArr, head)
+			head = head.next
+		}
+	}
+
+	// 对nodesArr进行排序
+	// 实现省略
+
+	// 将所有节点连接
+	n := len(nodesArr)
+	for i := 1; i < n; i++ {
+		nodesArr[i-1].next = nodesArr[i]
+	}
+	nodesArr[n-1].next = nil
+
+	return nodesArr[0]
 }
