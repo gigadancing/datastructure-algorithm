@@ -326,3 +326,30 @@ func MergetKLists2(heads []*Node) *Node {
 
 	return nodesArr[0]
 }
+
+// 分治
+func MergeKLists(heads []*Node) *Node {
+	if len(heads) == 0 {
+		return nil
+	}
+	if len(heads) == 1 {
+		return heads[0]
+	}
+	if len(heads) == 2 {
+		return MergeTwoLists(heads[0], heads[1])
+	}
+	mid := len(heads) / 2
+	subLists1 := make([]*Node, 0)
+	subLists2 := make([]*Node, 0)
+	for i := 0; i < mid; i++ {
+		subLists1 = append(subLists1, heads[i])
+	}
+	for i := mid; i < len(heads); i++ {
+		subLists2 = append(subLists2, heads[i])
+	}
+
+	list1 := MergeKLists(subLists1)
+	list2 := MergeKLists(subLists2)
+
+	return MergeTwoLists(list1, list2)
+}
