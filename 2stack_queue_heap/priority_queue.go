@@ -174,7 +174,6 @@ func (mf *MyFind) addNum(v interface{}) {
 		} else { // 插入小顶堆
 			heap.Push(mf.minHeap, v)
 		}
-
 	} else if maxHeapLen > MinHeapLen { // 大顶堆个数大于小顶堆
 		if v.(int) < mf.maxHeap.Top().(int) {
 			// 弹出大顶堆堆顶元素插入小顶堆
