@@ -20,13 +20,10 @@ func NewMyStack() *MyStack {
 
 // 元素入栈
 func (ms *MyStack) push(value interface{}) {
-	tmpQueue := queue.New()
-	// 元素入临时队列
-	tmpQueue.Enqueue(value)
-
+	tmpQueue := queue.New() // 临时队列
+	tmpQueue.Enqueue(value) // 元素入临时队列
 	for !ms.empty() {
-		// 先将栈内部队列中元素入临时队列
-		tmpQueue.Enqueue(ms.pop())
+		tmpQueue.Enqueue(ms.pop()) // 先将栈内部队列中元素入临时队列
 	}
 
 	// 将临时队列中元素全部入栈的内部队列
