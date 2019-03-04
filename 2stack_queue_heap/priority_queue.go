@@ -131,7 +131,6 @@ func FindKthLargest(array []int, k int) int {
 			} else {
 				heap.Push(mp, v)
 			}
-
 		}
 	}
 
