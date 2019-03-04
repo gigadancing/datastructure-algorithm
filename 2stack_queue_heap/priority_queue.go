@@ -208,5 +208,4 @@ func (mf *MyFind) findMedian() interface{} {
 	} else {
 		return mf.minHeap.Pop()
 	}
-	return nil
 }
