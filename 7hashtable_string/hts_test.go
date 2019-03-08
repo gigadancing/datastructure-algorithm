@@ -90,14 +90,14 @@ func TestGroupAnagram(t *testing.T) {
 
 func TestLengthOfLongestSubstring(t *testing.T) {
 	s := "abcabcbb"
-	maxLen := LengthOfLongestSubstring(s)
-	fmt.Println(maxLen)
+	maxLen, substr := LengthOfLongestSubstring(s)
+	fmt.Println(maxLen, substr)
 	s = "bbbbb"
-	maxLen = LengthOfLongestSubstring(s)
-	fmt.Println(maxLen)
+	maxLen, substr = LengthOfLongestSubstring(s)
+	fmt.Println(maxLen, substr)
 	s = "pwwkew"
-	maxLen = LengthOfLongestSubstring(s)
-	fmt.Println(maxLen)
+	maxLen, substr = LengthOfLongestSubstring(s)
+	fmt.Println(maxLen, substr)
 }
 
 func TestFindRepeatedDnaSequences(t *testing.T) {
