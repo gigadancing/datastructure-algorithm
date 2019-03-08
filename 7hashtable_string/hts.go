@@ -200,10 +200,7 @@ func LengthOfLongestSubstring(str string) (int, string) {
 				charMap[str[begin]]--
 				begin++
 			}
-			tmpStr = "" // 更新tmpStr
-			for j := begin; j <= i; j++ {
-				tmpStr += string(str[j])
-			}
+			tmpStr = string([]byte(str)[begin : i+1]) // 更新tmpStr
 		}
 	}
 
