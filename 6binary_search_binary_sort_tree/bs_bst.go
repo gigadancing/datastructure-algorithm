@@ -203,6 +203,12 @@ func PreorderPrint(node *BSTNode, layer int) {
 // nums=[5,2,6,1],count=[2,1,1,0]
 // nums=[6,6,6,1,1,1],count=[3,3,3,0,0,0]
 // nums=[5,-7,9,1,3,5,-2,1],count=[5,0,5,1,2,2,0,0]
+// 思路：
+// 将元素按照原数组逆置后的顺序插入到二叉查找树中，如何在元素插入时，计算已有多少个元素比当前插入元素小？
+// 当插入节点的值大于当前节点的值时：
+//           比插入节点小的个数=当前节点的左子树个数+1
+// 当插入节点的值小于当前节点的值时：
+//           更新当前节点左子树个数
 func CountSmaller(nums []int) []int {
 	if len(nums) == 0 {
 		return nil
@@ -235,7 +241,7 @@ func InsertForInversionNumber(node, insertedNode *BSTNode, smallerCount *int) {
 			node.Left = insertedNode
 		}
 	} else {
-		*smallerCount += node.Count + 1 // 插入节点的值比当前节点的值大时，smallCount加上当前节点的count再加1，1表示当前节点
+		*smallerCount += node.Count + 1 // 插入节点的值比当前节点的值大时，smallCount加上当前节点的count再加1，+1表示加上当前节点
 		if node.Right != nil {
 			InsertForInversionNumber(node.Right, insertedNode, smallerCount)
 		} else {
