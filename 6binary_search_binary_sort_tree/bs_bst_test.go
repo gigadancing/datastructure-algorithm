@@ -66,7 +66,10 @@ func TestSerializeAndDeserialize(t *testing.T) {
 }
 
 func TestCountSmaller(t *testing.T) {
-	nums := []int{5, -7, 9, 1, 3, 5, -2, 1}
-	res := CountSmaller(nums)
-	fmt.Println(res)
+	nums := []int{5, 2, 6, 1}
+	fmt.Println(CountSmaller(nums))
+	nums = []int{6, 6, 6, 1, 1, 1}
+	fmt.Println(CountSmaller(nums))
+	nums = []int{5, -7, 9, 1, 3, 5, -2, 1}
+	fmt.Println(CountSmaller(nums))
 }
