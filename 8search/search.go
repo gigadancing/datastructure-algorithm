@@ -15,7 +15,7 @@ import (
 // 1 1 0 0 0    0 0 1 0 0
 // 0 0 0 0 0    0 0 0 1 1
 // 0 0 0 0 0    0 0 0 0 0
-func NumIslandsDFS(grid [][]int) [][]int {
+func NumIslandsDFS(grid [][]int) ([][]int, int) {
 	mark := make([][]int, 0)
 	for _, row := range grid { // 根据grid构造同样的大小地图，全部标记为0
 		r := make([]int, 0)
@@ -24,16 +24,17 @@ func NumIslandsDFS(grid [][]int) [][]int {
 		}
 		mark = append(mark, r)
 	}
-
+	numOfIslands := 0
 	for i := 0; i < len(grid); i++ {
 		for j := 0; j < len(grid[i]); j++ {
-			if grid[i][j] == 1 {
+			if grid[i][j] == 1 && mark[i][j] == 0 {
 				DFS(&mark, grid, j, i)
+				numOfIslands++
 			}
 		}
 	}
 
-	return mark
+	return mark, numOfIslands
 }
 
 // DFS

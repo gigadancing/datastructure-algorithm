@@ -13,8 +13,9 @@ func TestNumIslandsDFS(t *testing.T) {
 		{0, 0, 1, 0, 0},
 		{0, 0, 0, 1, 1},
 		{0, 0, 0, 0, 0}}
-	mark := NumIslandsDFS(grid)
+	mark, num := NumIslandsDFS(grid)
 	fmt.Println(mark)
+	fmt.Println(num)
 }
 
 func TestNumIslandsBFS(t *testing.T) {

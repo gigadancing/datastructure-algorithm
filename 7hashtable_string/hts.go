@@ -117,6 +117,7 @@ func (w *WORD) Less(i, j int) bool {
 }
 
 func (w *WORD) Swap(i, j int) {
+	l
 	(*w)[i], (*w)[j] = (*w)[j], (*w)[i]
 }
 
