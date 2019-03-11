@@ -95,7 +95,7 @@ func NewPair(x, y int) *Pair {
 	}
 }
 
-func NumIslandsBFS(grid [][]int) [][]int {
+func NumIslandsBFS(grid [][]int) ([][]int, int) {
 	mark := make([][]int, 0)
 	for _, row := range grid {
 		r := make([]int, 0)
@@ -104,14 +104,16 @@ func NumIslandsBFS(grid [][]int) [][]int {
 		}
 		mark = append(mark, r)
 	}
+	numOfIslands := 0
 	for i := 0; i < len(grid); i++ {
 		for j := 0; j < len(grid[i]); j++ {
-			if grid[i][j] == 1 {
+			if grid[i][j] == 1 && mark[i][j] == 0 {
 				BFS(&mark, grid, i, j)
+				numOfIslands++
 			}
 		}
 	}
-	return mark
+	return mark, numOfIslands
 }
 
 func BFS(mark *[][]int, grid [][]int, x, y int) {

@@ -25,8 +25,9 @@ func TestNumIslandsBFS(t *testing.T) {
 		{0, 0, 1, 0, 0},
 		{0, 0, 0, 1, 1},
 		{0, 0, 0, 0, 0}}
-	mark := NumIslandsBFS(grid)
+	mark, num := NumIslandsBFS(grid)
 	fmt.Println(mark)
+	fmt.Println(num)
 }
 
 func TestLadderLength(t *testing.T) {
