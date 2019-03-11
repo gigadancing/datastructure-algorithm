@@ -167,7 +167,7 @@ func BFS(mark *[][]int, grid [][]int, x, y int) {
 //    (2) 否则拓展该节点，将该节点相邻的且未在visit中的节点与步数同时添加至队列Q，并将所拓展的节点加入visit
 // 3. 做最终无法搜索到endWord返回0
 func LadderLength(beginWord, endWord string, wordList []string) int {
-	grap := constructGraph(beginWord, wordList)       // 构造无向图
+	graph := constructGraph(beginWord, wordList)      // 构造无向图
 	q := queue.New()                                  // 搜索队列
 	q.Add(NewGraphNodePair(beginWord, 1))             // 将起始节点加入搜索队列
 	visit := make(map[string]*GraphNodePair, 0)       // visit记录已经搜索过的节点
@@ -180,7 +180,7 @@ func LadderLength(beginWord, endWord string, wordList []string) int {
 		if head.Word == endWord {
 			return steps
 		}
-		for _, w := range grap[head.Word] {
+		for _, w := range graph[head.Word] {
 			if _, ok := visit[w]; !ok {
 				q.Add(NewGraphNodePair(w, steps+1))
 				visit[w] = NewGraphNodePair(w, steps+1)
