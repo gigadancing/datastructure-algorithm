@@ -158,3 +158,10 @@ func AddList(head1, head2 *ListNode) *ListNode {
 
 	return Reverse(head1)
 }
+
+// 有一组不同高度的台阶，由一个整数数组表示，数组中每个数是台阶的高度。当开始下雨了，台阶之间能积多少水。
+// 如数组为[0,1,0,2,1,0,1,3,2,1,2,1]
+func AccumulatedWater(nums []int) int {
+
+	return 0
+}

@@ -396,7 +396,8 @@ func (p IntSlice) Less(i, j int) bool { return p[i] > p[j] }
 func (p IntSlice) Swap(i, j int)      { p[i], p[j] = p[j], p[i] }
 
 // 例4. 收集雨水
-// 已知一个m*n的二维数组，数组存储正整数，代表一个个单元的高度（立方体），将这些立方体想象成水槽，问如果下雨这些立方体会有多少积水。
+// 已知一个m*n的二维数组，数组存储正整数，代表一个个单元的高度（立方体），将这些立方体想象成水槽，问如果下雨这些立方体会有多少
+// 积水。
 // 分析：
 // 1. 能积水的地面一定不在四周，积水多少与周围最矮的立方体相关。
 // 2. 围住中间积水的边界位置不一定在四周，所以“找出四周（边界）上最低的点”求差不可行。
@@ -405,8 +406,8 @@ func (p IntSlice) Swap(i, j int)      { p[i], p[j] = p[j], p[i] }
 // 2. 以矩形四周的点作为起始点进行广度优先搜索（这些点要最初加入队列）。
 // 3. 使用一个二维数组对进入队列的点进行标记，之后搜索到该点时，不再加入队列。
 // 4. 只要队列不空，取出队头元素进行搜索，按四个方向进行拓展，拓展过程中忽略超出边界和已加入队列的点。
-// 5. 当对某点(x,y)进行拓展时（h为(x,y)位置的高度，即heightMap[x][y]）得到的新点为(newx,newy)，高度为heightMap[newx][newy]，如果
-//    h > heightMap[newx][newy]：
+// 5. 当对某点(x,y)进行拓展时（h为(x,y)位置的高度，即heightMap[x][y]）得到的新点为(newx,newy)，高度为heightMap[newx][newy]，
+//    如果h > heightMap[newx][newy]：
 //        结果 += h - heightMap[newx][newy]
 //        将heightMap[newx][newy]赋值为h，即升高该位置的水面
 //        将(newx,newy)和heightMap[newx][newy]加入队列
