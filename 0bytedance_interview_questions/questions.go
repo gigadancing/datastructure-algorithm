@@ -1,5 +1,7 @@
 package biq
 
+import "fmt"
+
 // 有一个n边形，顶点为(P0 P1 ... Pn-1)，每一边都是垂直或水平线段，现给定数值K，以P0为起点将n边形分成k段，每段长度相同，请打印出所有
 // 的k等分点(K0 K1 ... Kn-1)的坐标。
 const (
@@ -92,4 +94,67 @@ func FindAllEquivalentPoints(nums []Point, k int) []Point {
 	}
 
 	return eqPoints
+}
+
+// 用单向链表表示十进制整数，求两个整数的和。如下图：1234+34=1268，请注意单向链表的方向，不允许使用其他数据结构。
+// 1 --> 2 --> 3 --> 4
+// +           3 --> 4
+// --------------------
+// 1 --> 2 --> 6 --> 8
+type ListNode struct {
+	val  int
+	next *ListNode
+}
+
+func NewListNode(val int) *ListNode {
+	return &ListNode{
+		val: val,
+	}
+}
+
+func Reverse(head *ListNode) *ListNode {
+	if head == nil {
+		return nil
+	}
+	var newHead, ptr *ListNode
+	ptr = head
+	for head != nil {
+		head = head.next
+		ptr.next = newHead
+		newHead = ptr
+		ptr = head
+	}
+	return newHead
+}
+
+func PrintList(head *ListNode) {
+	for head != nil {
+		fmt.Printf("%d ", head.val)
+		head = head.next
+	}
+	fmt.Println()
+}
+
+func AddList(head1, head2 *ListNode) *ListNode {
+	head1 = Reverse(head1)
+	head2 = Reverse(head2)
+	ptr1 := head1
+	ptr2 := head2
+
+	for ptr1 != nil && ptr2 != nil {
+		ptr1.val += ptr2.val
+		if ptr1.val >= 10 {
+			ptr1.val -= 10
+			if ptr1.next != nil {
+				ptr1.next.val += 1
+			} else {
+				node := NewListNode(1)
+				ptr1.next = node
+			}
+		}
+		ptr1 = ptr1.next
+		ptr2 = ptr2.next
+	}
+
+	return Reverse(head1)
 }
