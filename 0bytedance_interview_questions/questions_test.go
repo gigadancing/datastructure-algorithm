@@ -48,6 +48,6 @@ func TestAddList(t *testing.T) {
 }
 
 func TestAccumulatedWater(t *testing.T) {
-	nums := []int{0, 1, 0, 2, 1, 0, 1, 3, 2, 1, 2, 1}
+	nums := []int{0, 1, 0, 2, 1, 0, 1, 3, 2, 1, 2, 1, 4, 0, 4}
 	fmt.Println(AccumulatedWater(nums))
 }
