@@ -162,7 +162,7 @@ func AddList(head1, head2 *ListNode) *ListNode {
 // 有一组不同高度的台阶，由一个整数数组表示，数组中每个数是台阶的高度。当开始下雨了，台阶之间能积多少水。
 // 如数组为[0,1,0,2,1,0,1,3,2,1,2,1]
 func AccumulatedWater(nums []int) int {
-	begin := 1 // 两端不可能积水，从第2个开始
+	begin := 0 // 两端不可能积水，从第2个开始
 	n := len(nums)
 	sum := 0
 	for begin < n-1 {
