@@ -1,4 +1,4 @@
-package linkedList
+package linkedlist
 
 import (
 	"fmt"
@@ -41,4 +41,32 @@ func TestMergeTwoLists2(t *testing.T) {
 		h = h.Next
 	}
 	fmt.Println()
+}
+
+func TestHasCycle(t *testing.T) {
+	n1 := ListNode{Val: 3}
+	n2 := ListNode{Val: 2}
+	n3 := ListNode{Val: 0}
+	n4 := ListNode{Val: 4}
+	n1.Next = &n2
+	n2.Next = &n3
+	n3.Next = &n4
+	n4.Next = &n2
+
+	head := HasCycle(&n1)
+	fmt.Println(head)
+}
+
+func TestHasCycle2(t *testing.T) {
+	n1 := ListNode{Val: 3}
+	n2 := ListNode{Val: 2}
+	n3 := ListNode{Val: 0}
+	n4 := ListNode{Val: 4}
+	n1.Next = &n2
+	n2.Next = &n3
+	n3.Next = &n4
+	n4.Next = &n2
+
+	head := HasCycle2(&n1)
+	fmt.Println(head)
 }
