@@ -99,7 +99,7 @@ func TestDetectCycle(t *testing.T) {
 	}
 
 	n7 := ListNode{Val: 1}
-	n8 := ListNode{Val:2}
+	n8 := ListNode{Val: 2}
 	n7.Next = &n8
 	meet = DetectCycle(&n7)
 	if meet != nil {
@@ -107,4 +107,22 @@ func TestDetectCycle(t *testing.T) {
 	} else {
 		fmt.Println("no cycle")
 	}
+}
+
+func TestLRUCache(t *testing.T) {
+	cache := Constructor(2)
+	cache.Put(1, 1)
+	cache.Put(2, 2)
+	n := cache.Get(1) // returns 1
+	fmt.Println(n)
+	cache.Put(3, 3)  // evicts key 2
+	n = cache.Get(2) // returns -1 (not found)
+	fmt.Println(n)
+	cache.Put(4, 4)  // evicts key 1
+	n = cache.Get(1) // returns -1 (not found)
+	fmt.Println(n)
+	n = cache.Get(3) // returns 3
+	fmt.Println(n)
+	n = cache.Get(4) // returns 4
+	fmt.Println(n)
 }
