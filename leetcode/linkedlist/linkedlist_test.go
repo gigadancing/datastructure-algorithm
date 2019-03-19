@@ -126,3 +126,21 @@ func TestLRUCache(t *testing.T) {
 	n = cache.Get(4) // returns 4
 	fmt.Println(n)
 }
+func TestSortList(t *testing.T) {
+	n1 := &ListNode{Val: 1}
+	n2 := &ListNode{Val: 2}
+	n3 := &ListNode{Val: 1}
+	n4 := &ListNode{Val: 3}
+	n5 := &ListNode{Val: 9}
+	n6 := &ListNode{Val: 7}
+	n1.Next = n2
+	n2.Next = n3
+	n3.Next = n4
+	n4.Next = n5
+	n5.Next = n6
+	ptr := SortList(n1)
+	for ptr != nil {
+		fmt.Printf("%d ", ptr.Val)
+	}
+	fmt.Println()
+}
