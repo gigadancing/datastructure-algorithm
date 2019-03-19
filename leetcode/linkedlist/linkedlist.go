@@ -282,18 +282,20 @@ func (lru *LRUCache) AddFront(node *LRUNode) {
 // Input: -1->5->3->4->0
 // Output: -1->0->3->4->5
 func SortList(head *ListNode) *ListNode {
-	if head == nil {
-		return nil
+	if head == nil || head.Next == nil {
+		return head
 	}
 	// 快慢指针
 	slow := head
 	fast := head.Next
+	// 找到链表的中点mid，将链表分成两部分
 	for fast != nil && fast.Next != nil {
 		fast = fast.Next.Next
 		slow = slow.Next
 	}
 	mid := slow.Next
 	slow.Next = nil
+
 	return merge(SortList(head), SortList(mid))
 }
 
@@ -311,11 +313,14 @@ func merge(l1, l2 *ListNode) *ListNode {
 	ptr := head
 	for l1 != nil && l2 != nil {
 		if l1.Val > l2.Val {
-			l1, l2 = l2, l1
+			ptr.Next = l2
+			l2 = l2.Next
+		} else {
+			ptr.Next = l1
+			l1 = l1.Next
 		}
-		ptr.Next = l1
-		l1 = l1.Next
 		ptr = ptr.Next
+
 	}
 
 	if l1 != nil {
