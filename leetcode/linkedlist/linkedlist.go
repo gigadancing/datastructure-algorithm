@@ -224,7 +224,7 @@ func (lru *LRUCache) Get(key int) int {
 		return -1
 	}
 	if v, ok := lru.Data[key]; ok {
-		lru.LeastRecentlyUsed(v)
+		lru.AddFront(v)
 		return v.Val
 	}
 
@@ -237,7 +237,7 @@ func (lru *LRUCache) Put(key int, value int) {
 		if lru.Head.Next == v { // key就是最近使用的
 			return
 		}
-		lru.LeastRecentlyUsed(v)
+		lru.AddFront(v)
 		return
 	}
 
@@ -259,7 +259,7 @@ func (lru *LRUCache) Put(key int, value int) {
 	}
 }
 
-func (lru *LRUCache) LeastRecentlyUsed(node *LRUNode) {
+func (lru *LRUCache) AddFront(node *LRUNode) {
 	prev := node.Prev
 	next := node.Next
 	prev.Next = next
