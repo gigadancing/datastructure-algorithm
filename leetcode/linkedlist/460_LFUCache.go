@@ -28,50 +28,40 @@ package linkedlist
 //
 // Least Frequently Used (LFU)，最不经常使用，即淘汰使用次数最少的
 //
+
+type LFUNodeList struct {
+	head *LFUNode
+}
+
 type LFUNode struct {
-	key, val, freq int
-	prev, next     *LFUNode
+	key  int      // 键
+	val  int      // 值
+	freq int      // 访问次数
+	prev *LFUNode // 前驱节点
+	next *LFUNode // 后继节点
 }
 
 type LFUCache struct {
-	store      map[int]*LFUNode
+	keyToNode  map[int]*LFUNode     // key -> node
+	freqToList map[int]*LFUNodeList // freq -> nodes with the freq
 	cap        int
-	head, tail *LFUNode
+	minFreq    int
 }
 
 func LFUConstructor(capacity int) LFUCache {
 	return LFUCache{
-		store: make(map[int]*LFUNode, capacity),
-		cap:   capacity,
+		keyToNode:  make(map[int]*LFUNode, capacity),
+		freqToList: make(map[int]*LFUNodeList, 0),
+		cap:        capacity,
 	}
 }
 
 func (lfu *LFUCache) Get(key int) int {
-	if _, ok := lfu.store[key]; ok {
-
-	}
-
 	return -1
 }
 
 func (lfu *LFUCache) Put(key int, value int) {
-	node, ok := lfu.store[key]
-	if ok { // key存在
-		node.freq++
 
-	} else {
-		newNode := &LFUNode{key: key, val: value, freq: 1}
-		lfu.store[key] = newNode
-		lfu.add(newNode)
-	}
-
-	if len(lfu.store) > lfu.cap { // 超出容量
-		node = lfu.tail
-		lfu.remove(node) // 删除尾节点
-		if node != nil {
-			delete(lfu.store, node.key)
-		}
-	}
 }
 
 func (lfu *LFUCache) remove(node *LFUNode) {
