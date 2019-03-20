@@ -110,20 +110,20 @@ func TestDetectCycle(t *testing.T) {
 }
 
 func TestLRUCache(t *testing.T) {
-	cache := Constructor(2)
+	cache := LRUConstructor(2)
 	cache.Put(1, 1)
 	cache.Put(2, 2)
-	n := cache.Get(1) // returns 1
+	n := cache.Get(1)
 	fmt.Println(n)
-	cache.Put(3, 3)  // evicts key 2
-	n = cache.Get(2) // returns -1 (not found)
+	cache.Put(3, 3)
+	n = cache.Get(2)
 	fmt.Println(n)
-	cache.Put(4, 4)  // evicts key 1
-	n = cache.Get(1) // returns -1 (not found)
+	cache.Put(4, 4)
+	n = cache.Get(1)
 	fmt.Println(n)
-	n = cache.Get(3) // returns 3
+	n = cache.Get(3)
 	fmt.Println(n)
-	n = cache.Get(4) // returns 4
+	n = cache.Get(4)
 	fmt.Println(n)
 }
 
@@ -165,4 +165,18 @@ func TestSortList2(t *testing.T) {
 		head = head.Next
 	}
 	fmt.Println()
+}
+
+func TestLFUCache(t *testing.T) {
+	cache := LFUConstructor(2)
+	cache.Put(1, 1)
+	cache.Put(2, 2)
+	cache.Get(1)
+	cache.Put(3, 3)
+	cache.Get(2)
+	cache.Get(3)
+	cache.Put(4, 4)
+	cache.Get(1)
+	cache.Get(3)
+	cache.Get(4)
 }

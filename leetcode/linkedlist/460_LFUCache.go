@@ -1,0 +1,83 @@
+package linkedlist
+
+// 460.LFU Cache
+// Design and implement a data structure for Least Frequently Used (LFU) cache. It should support the following
+// operations: get and put.
+//
+// get(key) - Get the value (will always be positive) of the key if the key exists in the cache, otherwise return -1.
+// put(key, value) - Set or insert the value if the key is not already present. When the cache reaches its capacity, it
+// should invalidate the least frequently used item before inserting a new item. For the purpose of this problem, when
+// there is a tie (i.e., two or more keys that have the same frequency), the least recently used key would be evicted.
+//
+// Follow up:
+// Could you do both operations in O(1) time complexity?
+//
+// Example:
+// LFUCache cache = new LFUCache( 2 /* capacity */ );
+//
+// cache.put(1, 1);
+// cache.put(2, 2);
+// cache.get(1);       // returns 1
+// cache.put(3, 3);    // evicts key 2
+// cache.get(2);       // returns -1 (not found)
+// cache.get(3);       // returns 3.
+// cache.put(4, 4);    // evicts key 1.
+// cache.get(1);       // returns -1 (not found)
+// cache.get(3);       // returns 3
+// cache.get(4);       // returns 4
+//
+// Least Frequently Used (LFU)，最不经常使用，即淘汰使用次数最少的
+//
+type LFUNode struct {
+	key, val, freq int
+	prev, next     *LFUNode
+}
+
+type LFUCache struct {
+	store      map[int]*LFUNode
+	cap        int
+	head, tail *LFUNode
+}
+
+func LFUConstructor(capacity int) LFUCache {
+	return LFUCache{
+		store: make(map[int]*LFUNode, capacity),
+		cap:   capacity,
+	}
+}
+
+func (lfu *LFUCache) Get(key int) int {
+	if _, ok := lfu.store[key]; ok {
+
+	}
+
+	return -1
+}
+
+func (lfu *LFUCache) Put(key int, value int) {
+	node, ok := lfu.store[key]
+	if ok { // key存在
+		node.freq++
+
+	} else {
+		newNode := &LFUNode{key: key, val: value, freq: 1}
+		lfu.store[key] = newNode
+		lfu.add(newNode)
+	}
+
+	if len(lfu.store) > lfu.cap { // 超出容量
+		node = lfu.tail
+		lfu.remove(node) // 删除尾节点
+		if node != nil {
+			delete(lfu.store, node.key)
+		}
+	}
+}
+
+func (lfu *LFUCache) remove(node *LFUNode) {
+
+}
+
+func (lfu *LFUCache) add(node *LFUNode) {
+
+}

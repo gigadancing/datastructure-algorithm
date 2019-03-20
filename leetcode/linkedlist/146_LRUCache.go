@@ -28,77 +28,79 @@ package linkedlist
 // param_1 := obj.Get(key)
 // obj.Put(key,value)
 //
+// Least Recently Used (LRU)，最近最少使用，即淘汰最近不使用的
 type LRUNode struct {
 	Key, Val   int
 	Prev, Next *LRUNode
 }
 
 type LRUCache struct {
-	Data       map[int]*LRUNode
+	Store      map[int]*LRUNode
 	Head, Tail *LRUNode // 双向链表的头尾节点
 	Cap        int      // cache的容量
 }
 
-func Constructor(capacity int) LRUCache {
-	lru := LRUCache{
-		Data: make(map[int]*LRUNode, capacity),
-		Head: &LRUNode{Key: -1, Val: -1, Prev: nil, Next: nil},
-		Tail: &LRUNode{Key: -1, Val: -1, Prev: nil, Next: nil},
-		Cap:  capacity,
+func LRUConstructor(capacity int) LRUCache {
+	return LRUCache{
+		Store: make(map[int]*LRUNode, capacity),
+		Cap:   capacity,
 	}
-	lru.Head.Next = lru.Tail
-	lru.Tail.Prev = lru.Head
-	return lru
 }
 
 func (lru *LRUCache) Get(key int) int {
-	if key <= 0 {
-		return -1
+	if node, ok := lru.Store[key]; ok { // key存在
+		lru.Remove(node)
+		lru.AddFront(node)
+		return node.Val
 	}
-	if v, ok := lru.Data[key]; ok {
-		lru.AddFront(v)
-		return v.Val
-	}
-
 	return -1
 }
 
 func (lru *LRUCache) Put(key int, value int) {
-	if v, ok := lru.Data[key]; ok { // key已存在
-		v.Val = value
-		if lru.Head.Next == v { // key就是最近使用的
-			return
-		}
-		lru.AddFront(v)
-		return
+	node, ok := lru.Store[key]
+	if ok {
+		node.Val = value
+		lru.Remove(node)
+		lru.AddFront(node)
+	} else {
+		node = &LRUNode{Key: key, Val: value}
+		lru.Store[key] = node
+		lru.AddFront(node)
 	}
-
-	if len(lru.Data) == lru.Cap { // cache已满
-		prev := lru.Tail.Prev
-		pprev := lru.Tail.Prev.Prev
-		pprev.Next = lru.Tail
-		lru.Tail.Prev = pprev
-		delete(lru.Data, prev.Key) // 删除key-value
-		lru.Put(key, value)        // 加入key-value
-	} else { // cache未满
-		node := &LRUNode{Key: key, Val: value}
-		next := lru.Head.Next
-		lru.Head.Next = node
-		node.Prev = lru.Head
-		node.Next = next
-		next.Prev = node
-		lru.Data[key] = node
+	if len(lru.Store) > lru.Cap {
+		node = lru.Tail
+		lru.Remove(node)
+		if node != nil {
+			delete(lru.Store, node.Key)
+		}
 	}
 }
 
+// 从链表中删除节点
+func (lru *LRUCache) Remove(node *LRUNode) {
+	if node == lru.Head {
+		lru.Head = node.Next
+	}
+	if node == lru.Tail {
+		lru.Tail = node.Prev
+	}
+	if node.Next != nil {
+		node.Next.Prev = node.Prev
+	}
+	if node.Prev != nil {
+		node.Prev.Next = node.Next
+	}
+}
+
+// 将节点插入到最前面
 func (lru *LRUCache) AddFront(node *LRUNode) {
-	prev := node.Prev
-	next := node.Next
-	prev.Next = next
-	next.Prev = prev
-	headNext := lru.Head.Next
-	lru.Head.Next = node
-	node.Prev = lru.Head
-	node.Next = headNext
-	headNext.Prev = node
+	node.Prev = nil
+	if lru.Head == nil { // 当前还没有节点
+		lru.Head = node
+		lru.Tail = node
+		return
+	}
+	node.Next = lru.Head
+	lru.Head.Prev = node
+	lru.Head = node
 }

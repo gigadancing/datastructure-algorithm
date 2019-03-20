@@ -14,7 +14,7 @@ type AllOne struct {
 }
 
 // Initialize your data structure here.
-func Constructor() AllOne {
+func AllOneConstructor() AllOne {
 	return AllOne{}
 }
 
