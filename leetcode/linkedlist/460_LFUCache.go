@@ -30,44 +30,32 @@ package linkedlist
 //
 
 type LFUNodeList struct {
-	head *LFUNode
 }
 
 type LFUNode struct {
-	key  int      // 键
-	val  int      // 值
-	freq int      // 访问次数
-	prev *LFUNode // 前驱节点
-	next *LFUNode // 后继节点
 }
 
 type LFUCache struct {
-	keyToNode  map[int]*LFUNode     // key -> node
-	freqToList map[int]*LFUNodeList // freq -> nodes with the freq
-	cap        int
-	minFreq    int
+	store        map[int]*LFUNode
+	freqListHead *LFUNodeList
+	freqListTail *LFUNodeList
+	cap          int
 }
 
-func LFUConstructor(capacity int) LFUCache {
+func Constructor(capacity int) LFUCache {
 	return LFUCache{
-		keyToNode:  make(map[int]*LFUNode, capacity),
-		freqToList: make(map[int]*LFUNodeList, 0),
-		cap:        capacity,
+		store:        make(map[int]*LFUNode, capacity),
+		freqListHead: &LFUNodeList{},
+		freqListTail: &LFUNodeList{},
+		cap:          capacity,
 	}
 }
 
 func (lfu *LFUCache) Get(key int) int {
+
 	return -1
 }
 
 func (lfu *LFUCache) Put(key int, value int) {
-
-}
-
-func (lfu *LFUCache) remove(node *LFUNode) {
-
-}
-
-func (lfu *LFUCache) add(node *LFUNode) {
 
 }

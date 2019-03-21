@@ -168,15 +168,39 @@ func TestSortList2(t *testing.T) {
 }
 
 func TestLFUCache(t *testing.T) {
-	cache := LFUConstructor(2)
+	cache := Constructor(2)
 	cache.Put(1, 1)
 	cache.Put(2, 2)
-	cache.Get(1)
+	n := cache.Get(1)
+	for k, v := range cache.keyToNode {
+		fmt.Printf("[%d,%d,%d]\n", k, v.val, v.freq)
+	}
+	fmt.Println("--------------------------")
+	//fmt.Println(n)
 	cache.Put(3, 3)
-	cache.Get(2)
-	cache.Get(3)
+	n = cache.Get(2)
+	for k, v := range cache.keyToNode {
+		fmt.Printf("[%d,%d,%d]\n", k, v.val, v.freq)
+	}
+	fmt.Println("--------------------------")
+	//fmt.Println(n)
+	n = cache.Get(3)
+	for k, v := range cache.keyToNode {
+		fmt.Printf("[%d,%d,%d]\n", k, v.val, v.freq)
+	}
+	fmt.Println(cache.minFreq)
+	fmt.Println("--------------------------")
+	//fmt.Println(n)
 	cache.Put(4, 4)
-	cache.Get(1)
-	cache.Get(3)
-	cache.Get(4)
+	n = cache.Get(1)
+	//fmt.Println(n)
+
+	for k, v := range cache.keyToNode {
+		fmt.Printf("[%d,%d,%d]\n", k, v.val, v.freq)
+	}
+
+	n = cache.Get(3)
+	fmt.Println(n)
+	n = cache.Get(4)
+	fmt.Println(n)
 }
