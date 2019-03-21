@@ -168,39 +168,41 @@ func TestSortList2(t *testing.T) {
 }
 
 func TestLFUCache(t *testing.T) {
-	cache := Constructor(2)
-	cache.Put(1, 1)
-	cache.Put(2, 2)
-	n := cache.Get(1)
-	for k, v := range cache.keyToNode {
-		fmt.Printf("[%d,%d,%d]\n", k, v.val, v.freq)
-	}
-	fmt.Println("--------------------------")
-	//fmt.Println(n)
-	cache.Put(3, 3)
-	n = cache.Get(2)
-	for k, v := range cache.keyToNode {
-		fmt.Printf("[%d,%d,%d]\n", k, v.val, v.freq)
-	}
-	fmt.Println("--------------------------")
-	//fmt.Println(n)
-	n = cache.Get(3)
-	for k, v := range cache.keyToNode {
-		fmt.Printf("[%d,%d,%d]\n", k, v.val, v.freq)
-	}
-	fmt.Println(cache.minFreq)
-	fmt.Println("--------------------------")
-	//fmt.Println(n)
-	cache.Put(4, 4)
-	n = cache.Get(1)
-	//fmt.Println(n)
 
-	for k, v := range cache.keyToNode {
-		fmt.Printf("[%d,%d,%d]\n", k, v.val, v.freq)
-	}
+}
 
-	n = cache.Get(3)
-	fmt.Println(n)
-	n = cache.Get(4)
-	fmt.Println(n)
+func PrintList(head *ListNode) {
+
+	for head != nil {
+		fmt.Printf("%d ", head.Val)
+		head = head.Next
+	}
+	fmt.Println()
+}
+
+func TestMyLinkedList(t *testing.T) {
+	linkedList := Constructor()
+	//linkedList.AddAtHead(1)
+	//linkedList.AddAtTail(3)
+	////fmt.Println(linkedList.head.Val, linkedList.head.Next)
+	//PrintList(linkedList.head)
+	//
+	//linkedList.AddAtIndex(1, 2)  // linked list becomes 1->2->3
+	//PrintList(linkedList.head)
+	//
+	//linkedList.Get(1)            // returns 2
+	//linkedList.DeleteAtIndex(1)  // now the linked list is 1->3
+	//PrintList(linkedList.head)
+	//
+	//n := linkedList.Get(1)            // returns 3
+	//fmt.Println(n)
+	linkedList.Get(0)
+	linkedList.AddAtIndex(1, 2)
+	linkedList.Get(0)
+	linkedList.Get(1)
+	PrintList(linkedList.head)
+	linkedList.AddAtIndex(0, 1)
+	linkedList.Get(0)
+	linkedList.Get(1)
+	PrintList(linkedList.head)
 }

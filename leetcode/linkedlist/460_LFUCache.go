@@ -42,7 +42,7 @@ type LFUCache struct {
 	cap          int
 }
 
-func Constructor(capacity int) LFUCache {
+func LFUConstructor(capacity int) LFUCache {
 	return LFUCache{
 		store:        make(map[int]*LFUNode, capacity),
 		freqListHead: &LFUNodeList{},
