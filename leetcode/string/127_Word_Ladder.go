@@ -1,4 +1,4 @@
-package linkedlist
+package string
 
 // 127.Word Ladder
 // Given two words (beginWord and endWord), and a dictionary's word list, find the length of shortest transformation
@@ -29,5 +29,5 @@ package linkedlist
 // wordList = ["hot","dot","dog","lot","log"]
 // Output: 0
 func ladderLength(beginWord string, endWord string, wordList []string) int {
-
+	return 0
 }
