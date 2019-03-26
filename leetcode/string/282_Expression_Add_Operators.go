@@ -24,5 +24,5 @@ package string
 // Input: num = "3456237490", target = 9191
 // Output: []
 func addOperators(num string, target int) []string {
-
+	return nil
 }
