@@ -23,3 +23,12 @@ func TestWordBreak(t *testing.T) {
 	wordDict = []string{"cats", "dog", "sand", "and", "cat"}
 	fmt.Println(wordBreak(s, wordDict))
 }
+
+func TestDifferentWaysToAddParentheses(t *testing.T) {
+	input := "2-1-1"
+	res := diffWaysToCompute(input)
+	fmt.Println(res)
+	input = "2*3-4*5"
+	res = diffWaysToCompute(input)
+	fmt.Println(res)
+}
