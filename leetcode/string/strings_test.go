@@ -32,3 +32,15 @@ func TestDifferentWaysToAddParentheses(t *testing.T) {
 	res = diffWaysToCompute(input)
 	fmt.Println(res)
 }
+
+func TestShortestCompletingWord(t *testing.T) {
+	licensePlate := "1s3 PSt"
+	words := []string{"step", "steps", "stripe", "stepple"}
+	res := shortestCompletingWord2(licensePlate, words)
+	fmt.Println(res)
+
+	licensePlate = "1s3 456"
+	words = []string{"looks", "pest", "stew", "show"}
+	res = shortestCompletingWord2(licensePlate, words)
+	fmt.Println(res)
+}

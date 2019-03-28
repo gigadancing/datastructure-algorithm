@@ -44,7 +44,7 @@ func wordBreak(s string, wordDict []string) bool {
 	return f[n]
 }
 
-//
+// 下面是leetcode该题牛逼代码
 func wordBreak2(s string, wordDict []string) bool {
 	dict := make(map[string]bool)
 	dp := make([]bool, len(s)+1)
