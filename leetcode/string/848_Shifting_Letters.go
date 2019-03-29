@@ -20,10 +20,6 @@ package string
 // 1 <= S.length = shifts.length <= 20000
 // 0 <= shifts[i] <= 10 ^ 9
 func shiftingLetters(S string, shifts []int) string {
-	n := len(S)
-	if n < 1 || n > 20000 {
-		return ""
-	}
 	bytes := []byte(S)
 	sum := 0
 	for i := len(shifts) - 1; i >= 0; i-- {
@@ -33,4 +29,20 @@ func shiftingLetters(S string, shifts []int) string {
 	}
 
 	return string(bytes)
+}
+
+// leetcode牛逼代码
+func shiftingLetters2(S string, shifts []int) string {
+	n := len(S)
+	buf := make([]byte, n)
+	sum := 0
+	for i := n - 1; i >= 0; i-- {
+		sum += shifts[i] % 26
+		sum %= 26
+		shifts[i] = sum
+	}
+	for i, c := range S {
+		buf[i] = byte(int('a') + (int(c)+shifts[i]-int('a'))%26)
+	}
+	return string(buf)
 }
