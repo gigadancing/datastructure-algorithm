@@ -206,3 +206,28 @@ func TestMyLinkedList(t *testing.T) {
 	linkedList.Get(1)
 	PrintList(linkedList.head)
 }
+
+func TestNumComponents(t *testing.T) {
+	n0 := ListNode{Val: 0}
+	n1 := ListNode{Val: 1}
+	n2 := ListNode{Val: 2}
+	n3 := ListNode{Val: 3}
+	n4 := ListNode{Val: 4}
+	n0.Next = &n1
+	n1.Next = &n2
+	n2.Next = &n3
+	n3.Next = &n4
+	G := []int{0, 3, 1, 4}
+	count := numComponents2(&n0, G)
+	fmt.Println(count)
+	n00 := ListNode{Val: 0}
+	n01 := ListNode{Val: 1}
+	n02 := ListNode{Val: 2}
+	n03 := ListNode{Val: 3}
+	n00.Next = &n01
+	n01.Next = &n02
+	n02.Next = &n03
+	G = []int{0, 1, 3}
+	count = numComponents2(&n00, G)
+	fmt.Println(count)
+}
