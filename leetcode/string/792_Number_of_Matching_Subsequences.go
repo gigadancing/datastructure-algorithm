@@ -15,6 +15,29 @@ package string
 //      The length of words will be in the range of [1, 5000].
 //      The length of words[i] will be in the range of [1, 50].
 func numMatchingSubseq(S string, words []string) int {
+	count := 0
+	for _, w := range words {
+		if isMatch(S, w) {
+			count++
+		}
+	}
+	return count
+}
 
-	return -1
+func isMatch(S, word string) bool {
+	start := 0
+	for _, ch := range word {
+		found := false
+		for i := start; i < len(S); i++ {
+			if int32(S[i]) == ch {
+				found = true
+				start = i + 1
+				break
+			}
+			if !found {
+				return false
+			}
+		}
+	}
+	return true
 }

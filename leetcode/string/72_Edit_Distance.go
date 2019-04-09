@@ -23,11 +23,6 @@ package string
 //         exention -> exection (replace 'n' with 'c')
 //         exection -> execution (insert 'u')
 func minDistance(word1 string, word2 string) int {
-	l1 := len(word1)
-	l2 := len(word2)
 
-}
-
-func min() int {
-
+	return -1
 }
